@@ -2,18 +2,9 @@
 #include "transportista.h"
 
 // Constructor de la clase
-Transportista::Transportista(Persona persona, Vehiculo vehiculo)
+Transportista::Transportista(string nombre, string apellido, string cedula, string telefono, time_t fechaNacimiento, Vehiculo vehiculo) : Persona(nombre, apellido, cedula, telefono, fechaNacimiento)
 {
-    this->persona = persona;
     this->vehiculo = vehiculo;
-}
-
-// Establece los datos personales del transportista
-Transportista &Transportista::setPersona(Persona persona)
-{
-    this->persona = persona;
-
-    return *this; // Permite el proceso en cascada
 }
 
 // Establece los datos personales del transportista
@@ -23,9 +14,6 @@ Transportista &Transportista::setVehiculo(Vehiculo vehiculo)
 
     return *this; // Permite el proceso en cascada
 }
-
-// Devuelve los datos personales
-Persona Transportista::getPersona() const { return persona; }
 
 // Devuelve los datos del vehiculo
 Vehiculo Transportista::getVehiculo() const { return vehiculo; }
