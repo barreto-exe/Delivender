@@ -6,7 +6,7 @@
 #define CLIENTE_H
 
 #include <string>
-#include "cliente.h"
+#include "usuario.h"
 
 using std::string;
 
