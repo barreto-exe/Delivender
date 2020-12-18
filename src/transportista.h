@@ -6,7 +6,7 @@
 #define TRANSPORTISTA_H
 
 #include <string>
-#include "transportista.h"
+#include "vehiculo.h"
 
 using std::string;
 
@@ -14,7 +14,7 @@ class Transportista : public Persona
 {
 	public:
 		// Constructor
-		Transportista(Vehiculo vehiculo);
+		Transportista(string nombre, string apellido, string cedula, string telefono, time_t fechaNacimiento, Vehiculo vehiculo);
 
 		// Funciones set
         Transportista &setVehiculo(Vehiculo vehiculo);

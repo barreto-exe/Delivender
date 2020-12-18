@@ -2,12 +2,11 @@
 #include "usuario.h"
 
 // Constructor de la clase
-Usuario::Usuario(string usuario, string correo, string contrasena, Persona persona)
+Usuario::Usuario(string usuario, string correo, string contrasena)
 {
     this->usuario = usuario;
     this->correo = correo;
     this->contrasena = contrasena;
-    this->persona = persona;
 }
 
 // Establece el nombre de usuario
@@ -34,14 +33,6 @@ Usuario &Usuario::setContrasena(string contrasena)
     return *this; // Permite el proceso en cascada
 }
 
-// Establece los datos personales
-Usuario &Usuario::setPersona(Persona persona)
-{
-    this->persona = persona;
-
-    return *this; // Permite el proceso en cascada
-}
-
 // Devuelve el nombre de usuario
 string Usuario::getUsuario() const { return usuario; }
 
@@ -50,6 +41,3 @@ string Usuario::getCorreo() const { return correo; }
 
 // Devuelve la contraseña
 string Usuario::getContrasena() const { return contrasena; }
-
-// Devuelve los datos personales
-Persona Usuario::getPersona() const { return persona; }

@@ -7,7 +7,7 @@ Transportista::Transportista(string nombre, string apellido, string cedula, stri
     this->vehiculo = vehiculo;
 }
 
-// Establece los datos personales del transportista
+// Establece los datos del vehiculo
 Transportista &Transportista::setVehiculo(Vehiculo vehiculo)
 {
     this->vehiculo = vehiculo;
