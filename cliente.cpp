@@ -17,3 +17,5 @@ Cliente &Cliente::setUsuario(Usuario usuario)
 
 // Devuelve los datos de usuario del cliente
 Usuario Cliente::getUsuario() const { return usuario; }
+
+
