@@ -28,6 +28,7 @@ HEADERS += \
     mainwindow.h \
     persona.h \
     producto.h \
+    producto_cantidad.h \
     proveedor.h \
     solicitud.h \
     vehiculo.h
