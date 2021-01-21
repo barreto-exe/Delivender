@@ -16,7 +16,7 @@ using std::string;
 class Solicitud
 {
     private:
-        //Atributos
+        // Atributos
         Proveedor proveedor;
         Persona cliente;
         string tipoPago;
@@ -25,6 +25,7 @@ class Solicitud
         string fechaEntrega;
         string estatus;
         string direccion;
+        // falta declarar la estructura que relaciona el producto con su cantidad --- arreglo de struct para ver detalles de la solicitud
 
     public:
         // Constructor

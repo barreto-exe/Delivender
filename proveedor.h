@@ -19,6 +19,7 @@ class Proveedor {
         string telefono;
         string direccion;
         string tipoProveedor;
+        // falta declarar la estructura que relaciona el producto con su cantidad --- arreglo de struct para ver el almacén
 
     public:
         // Constructor

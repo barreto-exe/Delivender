@@ -21,14 +21,16 @@ SOURCES += \
     persona.cpp \
     producto.cpp \
     proveedor.cpp \
-    solicitud.cpp
+    solicitud.cpp \
+    vehiculo.cpp
 
 HEADERS += \
     mainwindow.h \
     persona.h \
     producto.h \
     proveedor.h \
-    solicitud.h
+    solicitud.h \
+    vehiculo.h
 
 FORMS += \
     mainwindow.ui
