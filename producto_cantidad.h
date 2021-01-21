@@ -20,7 +20,7 @@ private:
 
 public:
     // Cosntructor
-    ProductoCantidad(Producto producto, int cantidad);
+    ProductoCantidad(Producto producto, int cantidad = 0);
 
     // Funciones set
     ProductoCantidad &setProducto(Producto producto);

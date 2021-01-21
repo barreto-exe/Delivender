@@ -10,7 +10,7 @@
 using std::string;
 
 // Clase para productos que posee un proveedor
-class Producto{
+class Producto {
     private:
         // Atributos
         string nombre;

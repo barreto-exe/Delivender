@@ -29,7 +29,7 @@ class Solicitud
 
     public:
         // Constructor
-        Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion);
+        Solicitud(Proveedor proveedor, Persona cliente, string tipoPago = "", float monto = 0, time_t fechaPedido = 0, time_t fechaEntrega = 0, string direccion = "");
 
         //Funciones set
         Solicitud &setProveedor(Proveedor proveedor);

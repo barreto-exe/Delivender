@@ -19,7 +19,7 @@ class Vehiculo
         string tipo;
     public:
         // Constructor
-        Vehiculo(string modelo, string placa, string tipo);
+        Vehiculo(string modelo = "", string placa = "", string tipo = "");
 
         // Funciones set
         Vehiculo &setModelo(string modelo);
