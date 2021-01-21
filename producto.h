@@ -9,29 +9,27 @@
 
 using std::string;
 
+// Clase para productos que posee un proveedor
 class Producto{
-public:
-    // Constructor
-    Producto(string descripcion, float precio, float peso, float volumen);
+    private:
+        // Atributos
+        string nombre;
+        string descripcion;
+        float precio;
 
-    // Funciones set
-    Producto &setDescripcion(string descripcion);
-    Producto &setPrecio(float precio);
-    Producto &setPeso(float peso);
-    Producto &setVolumen(float volumen);
+    public:
+        // Constructor
+        Producto(string nombre, string descripcion, float precio);
 
-    // Funciones get
-    string getDescripcion() const;
-    float getPrecio() const;
-    float getPeso() const;
-    float getVolumen() const;
+        // Funciones set
+        Producto &setNombre(string nombre);
+        Producto &setDescripcion(string descripcion);
+        Producto &setPrecio(float precio);
 
-private:
-    string descripcion;
-    float precio;
-    float peso;
-    float volumen;
-
+        // Funciones get
+        string getNombre() const;
+        string getDescripcion() const;
+        float getPrecio() const;
 };
 
 #endif

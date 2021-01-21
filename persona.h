@@ -10,32 +10,36 @@
 
 using std::string;
 
+// Clase para clientes y transportistas
 class Persona {
-public:
-    // Constructor
-    Persona(string nombre = "", string apellido = "", string cedula = "", string telefono = "", time_t fechaNacimiento = 0);
-
-    // Funciones set
-    Persona &setNombre(string nombre);
-    Persona &setApellido(string apellido);
-    Persona &setCedula(string cedula);
-    Persona &setTelefono(string telefono);
-    Persona &setFechaNacimiento(time_t fechaNacimiento);
-
-    // Funciones get
-    string getNombre() const;
-    string getApellido() const;
-    string getCedula() const;
-    string getTelefono() const;
-    time_t getFechaNacimiento() const;
-
-private:
-    string nombre;
-    string apellido;
-    string cedula;
-    string telefono;
-    time_t fechaNacimiento;
-
+    private:
+        // Atributos
+        string nombre;
+        string apellido;
+        string cedula;
+        string telefono;
+        string direccion;
+        time_t fechaNacimiento;
+        
+    public:
+        // Constructor
+        Persona(string nombre = "", string apellido = "", string cedula = "", string telefono = "", string direccion = "", time_t fechaNacimiento = 0);
+    
+        // Funciones set
+        Persona &setNombre(string nombre);
+        Persona &setApellido(string apellido);
+        Persona &setCedula(string cedula);
+        Persona &setTelefono(string telefono);
+        Persona &setDireccion(string direccion);
+        Persona &setFechaNacimiento(time_t fechaNacimiento);
+    
+        // Funciones get
+        string getNombre() const;
+        string getApellido() const;
+        string getCedula() const;
+        string getTelefono() const;
+        string getDireccion() const;
+        time_t getFechaNacimiento() const;
 };
 
 #endif

@@ -2,12 +2,13 @@
 #include "persona.h"
 
 // Constructor de la clase
-Persona::Persona(string nombre, string apellido, string cedula, string telefono, time_t fechaNacimiento)
+Persona::Persona(string nombre, string apellido, string cedula, string telefono, string direccion, time_t fechaNacimiento)
 {
     this->nombre = nombre;
     this->apellido = apellido;
     this->cedula = cedula;
     this->telefono = telefono;
+    this->direccion = direccion;
     this->fechaNacimiento = fechaNacimiento;
 }
 
@@ -43,6 +44,14 @@ Persona &Persona::setTelefono(string telefono)
     return *this; // Permite el proceso en cascada
 }
 
+// Establece la dirección
+Persona &Persona::setDireccion(string direccion)
+{
+    this->direccion = direccion;
+
+    return *this; // Permite el proceso en cascada
+}
+
 // Establece la fecha de nacimiento
 Persona &Persona::setFechaNacimiento(time_t fechaNacimiento)
 {
@@ -62,6 +71,9 @@ string Persona::getCedula() const { return cedula; }
 
 // Devuelve el teléfono
 string Persona::getTelefono() const { return telefono; }
+
+// Devuelve la direccion
+string Persona::getDireccion() const { return direccion; }
 
 // Devuelve la fecha de nacimiento
 time_t Persona::getFechaNacimiento() const { return fechaNacimiento; }

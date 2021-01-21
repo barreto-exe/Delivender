@@ -16,27 +16,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    cliente.cpp \
-    empresa.cpp \
     main.cpp \
     mainwindow.cpp \
     persona.cpp \
     producto.cpp \
     proveedor.cpp \
-    transportista.cpp \
-    usuario.cpp \
-    vehiculo.cpp
+    solicitud.cpp
 
 HEADERS += \
-    cliente.h \
-    empresa.h \
     mainwindow.h \
     persona.h \
     producto.h \
     proveedor.h \
-    transportista.h \
-    usuario.h \
-    vehiculo.h
+    solicitud.h
 
 FORMS += \
     mainwindow.ui

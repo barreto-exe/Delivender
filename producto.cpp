@@ -2,12 +2,19 @@
 #include "producto.h"
 
 // Constructor de la clase
-Producto::Producto(string descripcion, float precio, float peso, float volumen)
+Producto::Producto(string nombre, string descripcion, float precio)
 {
+    this->nombre = nombre;
     this->descripcion = descripcion;
     this->precio = precio;
-    this->peso = peso;
-    this->volumen = volumen;
+}
+
+// Establece el nombre del producto
+Producto &Producto::setNombre(string nombre)
+{
+    this->nombre = nombre;
+
+    return *this; // Permite el proceso en cascada
 }
 
 // Establece la descripción del producto
@@ -26,30 +33,11 @@ Producto &Producto::setPrecio(float precio)
     return *this; // Permite el proceso en cascada
 }
 
-// Establece el peso del producto
-Producto &Producto::setPeso(float peso)
-{
-    this->peso = peso;
-
-    return *this; // Permite el proceso en cascada
-}
-
-// Establece el volumen del producto
-Producto &Producto::setPeso(float volumen)
-{
-    this->volumen = volumen;
-
-    return *this; // Permite el proceso en cascada
-}
+// Devuelve el nombre
+string Producto::getNombre() const { return nombre; }
 
 // Devuelve la descripción
 string Producto::getDescripcion() const { return descripcion; }
 
 // Devuelve el precio
 float Producto::getPrecio() const { return precio; }
-
-// Devuelve el peso
-float Producto::getPeso() const { return peso; }
-
-// Devuelve el volumen
-float Producto::getVolumen() const { return volumen; }
