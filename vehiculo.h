@@ -5,7 +5,6 @@
 #ifndef VEHICULO_H
 #define VEHICULO_H
 
-#include <ctime>
 #include <string>
 
 using std::string;

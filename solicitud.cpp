@@ -1,7 +1,7 @@
 // Impplementación de la clase Solicitud
 #include "solicitud.h"
 
-Solicitud::Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, float monto, string fechaPedido, string fechaEntrega, string direccion)
+Solicitud::Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion)
 {
     this->proveedor = proveedor;
     this->cliente = cliente;
@@ -45,7 +45,7 @@ Solicitud &Solicitud::setMonto(float monto)
 }
 
 // Establece la fecha de realizacion de pedido
-Solicitud &Solicitud::setFechaPedido(string fechaPedido)
+Solicitud &Solicitud::setFechaPedido(time_t fechaPedido)
 {
     this->fechaPedido = fechaPedido;
     
@@ -53,7 +53,7 @@ Solicitud &Solicitud::setFechaPedido(string fechaPedido)
 }
 
 // Establece la fecha de realizacion de entrega
-Solicitud &Solicitud::setFechaEntrega(string fechaEntrega)
+Solicitud &Solicitud::setFechaEntrega(time_t fechaEntrega)
 {
     this->fechaEntrega = fechaEntrega;
     
@@ -89,10 +89,10 @@ string Solicitud::getTipoPago() const { return tipoPago; }
 float Solicitud::getMonto() const { return monto; }
 
 // Devuelve la fecha de realización del pedido
-string Solicitud::getFechaPedido() const { return fechaPedido; }
+time_t Solicitud::getFechaPedido() const { return fechaPedido; }
 
 // Devuelve la fecha de realización de la entrega
-string Solicitud::getFechaEntrega() const { return fechaEntrega; }
+time_t Solicitud::getFechaEntrega() const { return fechaEntrega; }
 
 // Devuelve el estatus
 string Solicitud::getEstatus() const { return estatus; }

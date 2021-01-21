@@ -5,7 +5,6 @@
 #ifndef PROVEEDOR_H
 #define PROVEEDOR_H
 
-#include <ctime>
 #include <string>
 
 using std::string;
