@@ -19,7 +19,7 @@ class Producto{
 
     public:
         // Constructor
-        Producto(string nombre, string descripcion, float precio);
+        Producto(string nombre = "", string descripcion = "", float precio = 0);
 
         // Funciones set
         Producto &setNombre(string nombre);

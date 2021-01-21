@@ -9,6 +9,7 @@
 #include <string>
 #include <proveedor.h>
 #include <persona.h>
+#include "producto_cantidad.h"
 
 using std::string;
 
