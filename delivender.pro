@@ -18,6 +18,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    pantalla_principal.cpp \
+    pantalla_registro.cpp \
     persona.cpp \
     producto.cpp \
     proveedor.cpp \
@@ -26,6 +28,8 @@ SOURCES += \
 
 HEADERS += \
     mainwindow.h \
+    pantalla_principal.h \
+    pantalla_registro.h \
     persona.h \
     producto.h \
     proveedor.h \
@@ -33,7 +37,9 @@ HEADERS += \
     vehiculo.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    pantalla_principal.ui \
+    pantalla_registro.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

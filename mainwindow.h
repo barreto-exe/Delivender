@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <pantalla_principal.h>
+#include <pantalla_registro.h>
+#include <qstackedwidget.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,7 +18,16 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_btnInicioSesion_clicked();
+
+    void on_btnRegistrarse_clicked();
+    void IrAInicio();
+
 private:
     Ui::MainWindow *ui;
+    pantalla_principal menu;
+    pantalla_registro registro;
+    QStackedWidget *stackedwidget;
 };
 #endif // MAINWINDOW_H
