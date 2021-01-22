@@ -2,13 +2,14 @@
 #include "proveedor.h"
 
 // Constructor de la clase
-Proveedor::Proveedor(string nombre, string descripcion, string telefono, string direccion, string tipoProveedor)
+Proveedor::Proveedor(string nombre, string descripcion, string telefono, string direccion, string tipoProveedor, producto_cantidad *almacen)
 {
     this->nombre = nombre;
     this->descripcion = descripcion;
     this->telefono = telefono;
     this->direccion = direccion;
     this->tipoProveedor = tipoProveedor;
+    this->almacen = almacen;
 }
 
 // Establece el nombre
@@ -51,6 +52,14 @@ Proveedor &Proveedor::setTipoProveedor(string tipoProveedor)
     return *this; // Permite el proceso en cascada
 }
 
+// Establece el almacén
+Proveedor &Proveedor::setAlmacen(producto_cantidad *almacen)
+{
+    this->almacen = almacen;
+
+    return *this; // Permite el proceso en cascada
+}
+
 // Devuelve el nombre
 string Proveedor::getNombre() const { return nombre; }
 
@@ -65,3 +74,6 @@ string Proveedor::getDireccion() const { return direccion; }
 
 // Devuelve el tipo de proveedor
 string Proveedor::getTipoProveedor() const { return tipoProveedor; }
+
+// Devuelve el almacen
+producto_cantidad *Proveedor::getAlmacen() const { return almacen; }

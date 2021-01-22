@@ -26,12 +26,11 @@ class Solicitud
         time_t fechaEntrega;
         string estatus;
         string direccion;
-        ProductoCantidad funcionaaaaaa; // Hay que ponerlo en el constructor también y todo esop
-        // falta declarar la estructura que relaciona el producto con su cantidad --- arreglo de struct para ver detalles de la solicitud
+        producto_cantidad *pedido;
 
     public:
         // Constructor
-        Solicitud(Proveedor proveedor, Persona cliente, string tipoPago = "", float monto = 0, time_t fechaPedido = 0, time_t fechaEntrega = 0, string direccion = "");
+        Solicitud(Proveedor proveedor = Proveedor(), Persona cliente = Persona(), string tipoPago = "", float monto = 0, time_t fechaPedido = 0, time_t fechaEntrega = 0, string direccion = "", producto_cantidad *pedido = nullptr);
 
         //Funciones set
         Solicitud &setProveedor(Proveedor proveedor);
@@ -42,6 +41,7 @@ class Solicitud
         Solicitud &setFechaEntrega(time_t fechaEntrega);
         Solicitud &setEstatus(string estatus);
         Solicitud &setDireccion(string direccion);
+        Solicitud &setPedido(producto_cantidad *pedido);
 
         //Funciones get
         Proveedor getProveedor() const;
@@ -52,6 +52,7 @@ class Solicitud
         time_t getFechaEntrega() const;
         string getEstatus() const;
         string getDireccion() const;
+        producto_cantidad *getPedido() const;
 };
 
 #endif // SOLICITUD_H

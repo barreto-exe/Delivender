@@ -6,6 +6,7 @@
 #define PROVEEDOR_H
 
 #include <string>
+#include "producto_cantidad.h"
 
 using std::string;
 
@@ -18,11 +19,11 @@ class Proveedor {
         string telefono;
         string direccion;
         string tipoProveedor;
-        // falta declarar la estructura que relaciona el producto con su cantidad --- arreglo de struct para ver el almacén
+        producto_cantidad *almacen;
 
     public:
         // Constructor
-        Proveedor(string nombre = "", string descripcion = "", string telefono = "", string direccion = "", string tipoProveedor = "");
+        Proveedor(string nombre = "", string descripcion = "", string telefono = "", string direccion = "", string tipoProveedor = "", producto_cantidad *almacen = nullptr);
 
         // Funciones set
         Proveedor &setNombre(string nombre);
@@ -30,6 +31,7 @@ class Proveedor {
         Proveedor &setTelefono(string telefono);
         Proveedor &setDireccion(string direccion);
         Proveedor &setTipoProveedor(string tipoProveedor);
+        Proveedor &setAlmacen(producto_cantidad *almacen);
 
         // Funciones get
         string getNombre() const;
@@ -37,6 +39,7 @@ class Proveedor {
         string getTelefono() const;
         string getDireccion() const;
         string getTipoProveedor() const;
+        producto_cantidad *getAlmacen() const;
 };
 
 #endif

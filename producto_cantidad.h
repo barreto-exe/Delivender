@@ -1,34 +1,15 @@
-// Declaración de la clase ProductoCantidad
-// Implementación en producto_cantidad.cpp
+// Declaración de la estructura que relaciona un producto con su cantidad
 
 // Evita más de una inclusión del archivo de encabezado
-#ifndef PRODUCTOCANTIDAD_H
-#define PRODUCTOCANTIDAD_H
+#ifndef PRODUCTO_CANTIDAD_H
+#define PRODUCTO_CANTIDAD_H
 
-#include <string>
 #include "producto.h"
 
-using std::string;
-
-// Clase que relaciona la cantidad de un producto dentro de un almacén o pedido
-class ProductoCantidad
+struct producto_cantidad
 {
-private:
-    // Atributos
     Producto producto;
     int cantidad;
-
-public:
-    // Constructor
-    ProductoCantidad(Producto producto = Producto(), int cantidad = 0);
-
-    // Funciones set
-    ProductoCantidad &setProducto(Producto producto);
-    ProductoCantidad &setCantidad(int cantidad);
-
-    // Funciones get
-    Producto getProducto() const;
-    int getCantidad() const;
 };
 
-#endif // PRODUCTOCANTIDAD_H
+#endif // PRODUCTO_CANTIDAD_H

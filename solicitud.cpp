@@ -1,7 +1,7 @@
 // Impplementación de la clase Solicitud
 #include "solicitud.h"
 
-Solicitud::Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion)
+Solicitud::Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion, producto_cantidad *pedido)
 {
     this->proveedor = proveedor;
     this->cliente = cliente;
@@ -10,6 +10,7 @@ Solicitud::Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, floa
     this->fechaPedido = fechaPedido;
     this->fechaEntrega = fechaEntrega;
     this->direccion = direccion;
+    this->pedido = pedido;
 }
 
 // Establece el proveedor
@@ -76,6 +77,14 @@ Solicitud &Solicitud::setDireccion(string direccion)
     return *this; // Permite el proceso en cascada
 }
 
+// Establece el pedido
+Solicitud &Solicitud::setPedido(producto_cantidad *pedido)
+{
+    this->pedido = pedido;
+
+    return *this; // Permite el proceso en cascada
+}
+
 // Devuelve el proveedor
 Proveedor Solicitud::getProveedor() const { return proveedor; }
 
@@ -99,3 +108,6 @@ string Solicitud::getEstatus() const { return estatus; }
 
 // Devuelve la direccion
 string Solicitud::getDireccion() const { return direccion; }
+
+// Devuelve el pedido
+producto_cantidad *Solicitud::getPedido() const { return pedido; }

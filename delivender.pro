@@ -20,7 +20,6 @@ SOURCES += \
     mainwindow.cpp \
     persona.cpp \
     producto.cpp \
-    producto_cantidad.cpp \
     proveedor.cpp \
     solicitud.cpp \
     vehiculo.cpp
