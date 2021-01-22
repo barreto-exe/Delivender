@@ -16,7 +16,7 @@ public:
     ~pantalla_registro();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_btnAceptar_clicked();
 
     void on_atrasAdmin_clicked();
 
