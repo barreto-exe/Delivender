@@ -5,34 +5,41 @@
 #ifndef PROVEEDOR_H
 #define PROVEEDOR_H
 
-#include <ctime>
 #include <string>
+#include "producto_cantidad.h"
 
 using std::string;
 
+// Clase para empresas afilidadas a Delivender
 class Proveedor {
-public:
-    // Constructor
-    Proveedor(string nombre = "", string descripcion = "", string rif = "", string telefono = "");
+    private:
+        // Atributos
+        string nombre;
+        string descripcion;
+        string telefono;
+        string direccion;
+        string tipoProveedor;
+        producto_cantidad *almacen;
 
-    // Funciones set
-    Proveedor &setNombre(string nombre);
-    Proveedor &setDescripcion(string descripcion);
-    Proveedor &setRif(string rif);
-    Proveedor &setTelefono(string telefono);
+    public:
+        // Constructor
+        Proveedor(string nombre = "", string descripcion = "", string telefono = "", string direccion = "", string tipoProveedor = "", producto_cantidad *almacen = nullptr);
 
-    // Funciones get
-    string getNombre() const;
-    string getDescripcion() const;
-    string getRif() const;
-    string getTelefono() const;
+        // Funciones set
+        Proveedor &setNombre(string nombre);
+        Proveedor &setDescripcion(string descripcion);
+        Proveedor &setTelefono(string telefono);
+        Proveedor &setDireccion(string direccion);
+        Proveedor &setTipoProveedor(string tipoProveedor);
+        Proveedor &setAlmacen(producto_cantidad *almacen);
 
-private:
-    string nombre;
-    string descripcion;
-    string rif;
-    string telefono;
-
+        // Funciones get
+        string getNombre() const;
+        string getDescripcion() const;
+        string getTelefono() const;
+        string getDireccion() const;
+        string getTipoProveedor() const;
+        producto_cantidad *getAlmacen() const;
 };
 
 #endif
