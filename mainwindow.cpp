@@ -2,9 +2,6 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QMessageBox>
-#include <pthread.h>
-#include <stdio.h>
-#include <string>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -75,9 +72,3 @@ MainWindow::~MainWindow()
     delete con;
 }
 
-
-void MainWindow::on_pushButton_clicked()
-{
-
-
-}
