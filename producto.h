@@ -2,8 +2,8 @@
 // Implementación en producto.cpp
 
 // Evita más de una inclusión del archivo de encabezado
-#ifndef PERSONA_H
-#define PERSONA_H
+#ifndef PRODUCTO_H
+#define PRODUCTO_H
 
 #include <string>
 

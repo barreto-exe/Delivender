@@ -9,6 +9,7 @@
 #include <string>
 #include "proveedor.h"
 #include "persona.h"
+#include "producto_cantidad.h"
 
 using std::string;
 
@@ -25,6 +26,7 @@ class Solicitud
         time_t fechaEntrega;
         string estatus;
         string direccion;
+        ProductoCantidad funcionaaaaaa; // Hay que ponerlo en el constructor también y todo esop
         // falta declarar la estructura que relaciona el producto con su cantidad --- arreglo de struct para ver detalles de la solicitud
 
     public:

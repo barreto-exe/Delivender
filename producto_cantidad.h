@@ -19,8 +19,8 @@ private:
     int cantidad;
 
 public:
-    // Cosntructor
-    ProductoCantidad(Producto producto, int cantidad = 0);
+    // Constructor
+    ProductoCantidad(Producto producto = Producto(), int cantidad = 0);
 
     // Funciones set
     ProductoCantidad &setProducto(Producto producto);
