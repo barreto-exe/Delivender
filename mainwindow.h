@@ -2,13 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-// MySQL connection
+// Backend
 #include "mysql_connection.h"
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/resultset.h>
-#include <cppconn/statement.h>
-
 // Frontend
 #include <pantalla_principal.h>
 #include <pantalla_registro.h>
@@ -35,8 +30,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     // MySQL
-    sql::Driver *driver;
-    sql::Connection *con;
+    MySQLConnection conector;
+    //sql::Driver *driver;
+    //sql::Connection *con;
     // Frontend
     pantalla_principal menu;
     pantalla_registro registro;

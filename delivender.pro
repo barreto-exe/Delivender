@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    mysql_connection.cpp \
     pantalla_principal.cpp \
     pantalla_registro.cpp \
     persona.cpp \
@@ -28,6 +29,7 @@ SOURCES += \
 
 HEADERS += \
     mainwindow.h \
+    mysql_connection.h \
     pantalla_principal.h \
     pantalla_registro.h \
     persona.h \
