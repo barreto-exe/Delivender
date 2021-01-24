@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete conector.con;
+    delete conector.getConnection();
 }
 
 void MainWindow::on_btnInicioSesion_clicked() //cambia a pantalla del menu principal

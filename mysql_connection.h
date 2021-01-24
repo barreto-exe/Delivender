@@ -19,13 +19,17 @@ class MySQLConnection
     private:
         // Atributos
         sql::Driver *driver;
+        sql::Connection *con;
+
+        // Funciones
+        char *encriptar(char *password);
 
     public:
         // Constructor
         MySQLConnection();
-        sql::Connection *con;
 
-        // Funciones get (RECUERDA ENCAPSULAR *CON)
+        // Funciones get
+        sql::Connection *getConnection() const;
 
         // Funciones
         int iniciarSesion(char *correo, char *password);
