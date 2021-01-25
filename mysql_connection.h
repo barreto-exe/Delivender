@@ -40,7 +40,6 @@ class MySQLConnection
         sql::Connection *getConnection() const;
 
         // Funciones
-        bool huboConexionInicial();
         int iniciarSesion(const char *correo, const char *password);
         int registrarCliente(Persona cliente, const char *correo, const char *password);
         int registrarProveedor(Proveedor proveedor, const char *correo, const char *password);

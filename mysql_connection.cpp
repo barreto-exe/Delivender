@@ -38,12 +38,6 @@ MySQLConnection::MySQLConnection()
 // Devuelve connection SQL
 sql::Connection *MySQLConnection::getConnection() const { return con; }
 
-// El conector solamente es 0 (null) si hubo un fallo en la conexión inicial (al inicio de la ejecución del programa)
-bool MySQLConnection::huboConexionInicial()
-{
-    return con != 0;
-}
-
 // Retorna el parámetro encriptado
 char *MySQLConnection::encriptar(const char *password)
 {
