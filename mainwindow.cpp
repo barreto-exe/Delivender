@@ -19,14 +19,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(&registro, SIGNAL(AtrasCLick()),this,SLOT(IrAInicio())); //Signal para volver al inicio de sesion desde el registro
     
-    char correo[30] = "karen@gmail.com", password[16] = "test";
-    char nombre[20] = "karen", apellido[20] = "moran", cedula[10] = "28161659", telefono[15] = "04121924525", direccion[20] = "Curagua";
+    char correo[30] = "karenale@gmail.com", password[16] = "test";
+    char nombre[20] = "karen", apellido[20] = "moran", cedula[10] = "28161658", telefono[15] = "04121924525", direccion[20] = "Curagua";
     time_t *fecha = new time_t();
 
-    Persona *cliente = new Persona(nombre, apellido, cedula, telefono, direccion, fecha);
+    Persona *transportista = new Persona(nombre, apellido, cedula, telefono, direccion, fecha);
+
+    char placa[10] = "karen19", modelo[15] = "Corolla", tipo[10] = "carro";
+
+    Vehiculo *vehiculo = new Vehiculo(modelo,placa,tipo);
 
     conector = MySQLConnection();
-    conector.registrarCliente(*cliente, correo, password);
+    conector.registrarTransportista(*transportista, *vehiculo, correo, password);
 
 }
 

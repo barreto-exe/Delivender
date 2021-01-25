@@ -302,6 +302,57 @@ int MySQLConnection::registrarTransportista(Persona transportista, Vehiculo vehi
         return 0;
     }
 
-    // FALTA REGISTAR VEHICULO
-    return 1;
+    return registrarVehiculo(vehiculo, transportista.getCedula().c_str());
+}
+
+int MySQLConnection::registrarVehiculo(Vehiculo vehiculo, char const *cedula_transportista)
+{
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    // Verifico si la placa corresponde a un vehiculo registrado
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM vehiculos WHERE placa = ?");
+        pstmt->setString(1, vehiculo.getPLaca().c_str());
+        res = pstmt->executeQuery();
+
+        while (res->next())
+        {
+            delete pstmt;
+            delete res;
+            return 0;
+        }
+        delete pstmt;
+        delete res;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+        return 0;
+    }
+
+    // Registro los datos del vehiculo en la tabla vehiculos
+    try
+    {
+        pstmt = con->prepareStatement("INSERT INTO vehiculos(placa,cedula_transportista,modelo,tipo_de_vehiculo) VALUES (?, ?, ?, ?)");
+        pstmt->setString(1, vehiculo.getPLaca().c_str());
+        pstmt->setString(2, cedula_transportista);
+        pstmt->setString(3, vehiculo.getModelo().c_str());
+        pstmt->setString(4, vehiculo.getTipo().c_str());
+        pstmt->executeQuery();
+        delete pstmt;
+        qDebug() << "El vehiculo se registró con éxito uwu";
+        return 1;
+
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+    return 0;
 }

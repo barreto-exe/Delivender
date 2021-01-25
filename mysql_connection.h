@@ -45,6 +45,7 @@ class MySQLConnection
         int registrarCliente(Persona cliente, char *correo, char *password);
         int registrarProveedor(Proveedor proveedor, char *correo, char *password);
         int registrarTransportista(Persona transportista, Vehiculo vehiculo, char *correo, char *password);
+        int registrarVehiculo(Vehiculo vehiculo, char const *cedula_transportista);
 };
 
 #endif // MYSQLCONNECTION_H
