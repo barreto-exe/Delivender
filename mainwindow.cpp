@@ -2,73 +2,93 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QMessageBox>
+#include <ctime>
+#include "persona.h"
+#include "global.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    try
-    {
-        sql::ConnectOptionsMap connection_properties;
+    
+    //añade las pantallas de manera dinamica al stackWidget
+    stackedWidget = ui->centralwidget->findChild<QStackedWidget *>();
+    stackedWidget->insertWidget(1,&registro);
+    stackedWidget->insertWidget(2,&menu);
 
-        // Opciones de conexión
-        connection_properties["hostName"] = "remotemysql.com";
-        connection_properties["userName"] = "yIcFv8vCet";
-        connection_properties["password"] = "2ZauAV6dye";
-        connection_properties["schema"] = "yIcFv8vCet";
-        connection_properties["port"] = 3306;
-        connection_properties["OPT_RECONNECT"] = true;
-        connection_properties["OPT_CONNECT_TIMEOUT"] = 4;
-        connection_properties["OPT_READ_TIMEOUT"] = 2;
-        connection_properties["OPT_WRITE_TIMEOUT"] = 2;
+    connect(&registro, SIGNAL(AtrasCLick()),this,SLOT(IrAInicio())); //Signal para volver al inicio de sesion desde el registro
+    
+    char correo[30] = "karenale@gmail.com", password[16] = "test";
+    char nombre[20] = "karen", apellido[20] = "moran", cedula[10] = "28161658", telefono[15] = "04121924525", direccion[20] = "Curagua";
+    time_t *fecha = new time_t();
 
-        // Establece la conexión a la base de datos
-        driver = get_driver_instance();
-        con = driver->connect(connection_properties);
+    Persona *transportista = new Persona(nombre, apellido, cedula, telefono, direccion, fecha);
 
-    }
-    catch (sql::SQLException &e)
-    {
-        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
-        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-    }
+    char placa[10] = "karen19", modelo[15] = "Corolla", tipo[10] = "carro";
 
-    // Esto es simplemente una prueba del funcionamiento del conector
-    sql::Statement *stmt;
-    sql::ResultSet *res;
-    const char *correo;
+    Vehiculo *vehiculo = new Vehiculo(modelo,placa,tipo);
 
-    try
-    {
-        stmt = con->createStatement();
-        res = stmt->executeQuery("SELECT * FROM usuarios WHERE id_usuario=1");
+    Global::db.registrarTransportista(*transportista, *vehiculo, correo, password);
 
-        // En este caso como solo se recibe un registro no es necesario el while pero igual lo coloqué para ilustrarlo
-        while (res->next())
-        {
-            correo = res->getString("correo").c_str(); // Se debe convertir a const char *
-        }
-
-        delete res; // Siempre es necesario liberar la memoria de res y stmt luego de una consulta
-        delete stmt;
-
-        QMessageBox msgBox;
-        msgBox.setText(correo);
-        msgBox.exec();
-
-        qDebug() << "Hola"; // Nótese que hasta que no se cierra el MessageBox, no se ejecuta esta línea
-    }
-    catch (sql::SQLException &e)
-    {
-        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
-        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-    }
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete con;
+    delete Global::db.getConnection();
 }
 
+void MainWindow::on_btnInicioSesion_clicked() //cambia a pantalla del menu principal e inicia sesión
+{
+    // Convierte a string los input y borra los espacios
+    string correo = ui->correo->text().trimmed().toStdString();
+    string password = ui->contrasenia->text().trimmed().toStdString();
+
+    QMessageBox msgBox;
+
+    // Si no están llenos los campos
+    if (correo.empty() || password.empty())
+    {
+        msgBox.setText("Llena todos los campos, por favor");
+        msgBox.exec();
+        return;
+    }
+
+    // Intenta iniciar sesión
+    int inicioSesion = Global::db.iniciarSesion(correo.c_str(), password.c_str());
+
+    if (inicioSesion == 1) // Si lo logró
+    {
+        msgBox.setText("Inicio de sesión exitoso");
+        msgBox.exec();
+        stackedWidget->setCurrentIndex(2);
+    }
+    else if (!inicioSesion) // Siel correo es inválido
+    {
+        msgBox.setText("No hay ningún usuario registrado con este correo");
+        msgBox.exec();
+    }
+    else if (inicioSesion == -1) // Si la contraseña es inválida
+    {
+        msgBox.setText("Contraseña inválida, vuelve a intentarlo");
+        msgBox.exec();
+    }
+    else if (inicioSesion == -2) // Si hubo otro error (desconexión)
+    {
+        msgBox.setText("Error desconocido, revisa tu conexión");
+        msgBox.exec();
+    }
+
+}
+
+void MainWindow::on_btnRegistrarse_clicked() //cambia a pantalla del registro
+{
+    stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::IrAInicio() //slot para volver al inicio (conectado a AtrasClick())
+{
+    stackedWidget->setCurrentIndex(0);
+}

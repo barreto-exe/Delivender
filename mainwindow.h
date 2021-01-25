@@ -2,11 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "mysql_connection.h"
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/resultset.h>
-#include <cppconn/statement.h>
+
+// Frontend
+#include <pantalla_principal.h>
+#include <pantalla_registro.h>
+#include <qstackedwidget.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,9 +20,18 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_btnInicioSesion_clicked();
+
+    void on_btnRegistrarse_clicked();
+    void IrAInicio();
+
 private:
     Ui::MainWindow *ui;
-    sql::Driver *driver;
-    sql::Connection *con;
+
+    // Frontend
+    pantalla_principal menu;
+    pantalla_registro registro;
+    QStackedWidget *stackedWidget;
 };
 #endif // MAINWINDOW_H

@@ -16,8 +16,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    global.cpp \
     main.cpp \
     mainwindow.cpp \
+    mysql_connection.cpp \
+    pantalla_principal.cpp \
+    pantalla_registro.cpp \
     persona.cpp \
     producto.cpp \
     proveedor.cpp \
@@ -25,7 +29,11 @@ SOURCES += \
     vehiculo.cpp
 
 HEADERS += \
+    global.h \
     mainwindow.h \
+    mysql_connection.h \
+    pantalla_principal.h \
+    pantalla_registro.h \
     persona.h \
     producto.h \
     producto_cantidad.h \
@@ -34,9 +42,14 @@ HEADERS += \
     vehiculo.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    pantalla_principal.ui \
+    pantalla_registro.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    res.qrc
