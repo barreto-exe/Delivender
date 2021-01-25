@@ -27,9 +27,9 @@ class MySQLConnection
         sql::Connection *con;
 
         // Funciones
-        char *encriptar(char *password);
-        int registrarUsuario(char *correo, char *password, char *tipo);
-        int obtenerIdUsuario(char *correo);
+        char *encriptar(const char *password);
+        int registrarUsuario(const char *correo, const char *password, const char *tipo);
+        int obtenerIdUsuario(const char *correo);
         char *timeToString(time_t *fecha);
 
     public:
@@ -40,10 +40,10 @@ class MySQLConnection
         sql::Connection *getConnection() const;
 
         // Funciones
-        int iniciarSesion(char *correo, char *password);
-        int registrarCliente(Persona cliente, char *correo, char *password);
-        int registrarProveedor(Proveedor proveedor, char *correo, char *password);
-        int registrarTransportista(Persona transportista, Vehiculo vehiculo, char *correo, char *password);
+        int iniciarSesion(const char *correo, const char *password);
+        int registrarCliente(Persona cliente, const char *correo, const char *password);
+        int registrarProveedor(Proveedor proveedor, const char *correo, const char *password);
+        int registrarTransportista(Persona transportista, Vehiculo vehiculo, const char *correo, const char *password);
 };
 
 #endif // MYSQLCONNECTION_H

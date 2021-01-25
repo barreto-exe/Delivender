@@ -28,6 +28,7 @@ SOURCES += \
     vehiculo.cpp
 
 HEADERS += \
+    global.h \
     mainwindow.h \
     mysql_connection.h \
     pantalla_principal.h \

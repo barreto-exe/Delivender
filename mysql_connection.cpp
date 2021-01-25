@@ -39,7 +39,7 @@ sql::Connection *MySQLConnection::getConnection() const { return con; }
 
 
 // Retorna el parámetro encriptado
-char *MySQLConnection::encriptar(char *password)
+char *MySQLConnection::encriptar(const char *password)
 {
     if (!password)
         return nullptr;
@@ -74,7 +74,7 @@ char *MySQLConnection::timeToString(time_t *fecha)
 *  Retorna 0: cuando el correo no está registrado en la BDD
 *  Retorna -2: cuando no se pudo conectar a la BDD
 */
-int MySQLConnection::iniciarSesion(char *correo, char *password)
+int MySQLConnection::iniciarSesion(const char *correo, const char *password)
 {
     sql::PreparedStatement *pstmt;
     sql::ResultSet *res;
@@ -120,7 +120,7 @@ int MySQLConnection::iniciarSesion(char *correo, char *password)
     }
 }
 
-int MySQLConnection::obtenerIdUsuario(char *correo)
+int MySQLConnection::obtenerIdUsuario(const char *correo)
 {
     sql::PreparedStatement *pstmt;
     sql::ResultSet *res;
@@ -151,7 +151,7 @@ int MySQLConnection::obtenerIdUsuario(char *correo)
     }
 }
 
-int MySQLConnection::registrarUsuario(char *correo, char *password, char *tipo)
+int MySQLConnection::registrarUsuario(const char *correo, const char *password, const char *tipo)
 {
     sql::PreparedStatement *pstmt;
     try
@@ -183,7 +183,7 @@ int MySQLConnection::registrarUsuario(char *correo, char *password, char *tipo)
 }
 
 
-int MySQLConnection::registrarCliente(Persona cliente, char *correo, char *password)
+int MySQLConnection::registrarCliente(Persona cliente, const char *correo, const char *password)
 {
     char tipo[8] = "cliente";
     if (!registrarUsuario(correo, password, tipo))
