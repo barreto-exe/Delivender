@@ -30,8 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     Vehiculo *vehiculo = new Vehiculo(modelo,placa,tipo);
 
-    conector = MySQLConnection();
-    conector.registrarTransportista(*transportista, *vehiculo, correo, password);
+    Global::db.registrarTransportista(*transportista, *vehiculo, correo, password);
 
 }
 

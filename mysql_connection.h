@@ -30,9 +30,9 @@ class MySQLConnection
         char *encriptar(const char *password);
         char *timeToString(time_t *fecha);
         int obtenerIdUsuario(const char *correo);
-        int verificarCedula(const char const *cedula);
-        int verificarPlaca(const char const *placa);
-        int registrarUsuario(const char *correo, char *password, char *tipo);
+        int verificarCedula(const char *cedula);
+        int verificarPlaca(const char *placa);
+        int registrarUsuario(const char *correo, const char *password, const char *tipo);
         int registrarPersona(const Persona cliente, int id_usuario);
 
     public:
