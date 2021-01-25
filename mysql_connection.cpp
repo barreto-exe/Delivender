@@ -1,6 +1,7 @@
 #include "mysql_connection.h"
 #include <QDebug>
 #include <QMessageBox>
+#include<ctime>
 
 // Constructor
 MySQLConnection::MySQLConnection()
@@ -48,9 +49,21 @@ char *MySQLConnection::encriptar(char *password)
     char *str = new char[size + 1]();
 
     for (; password[i] != '\0'; i++)
-        str[i] = password[i] + i + 11;
+        str[i] = password[i] + i + 3;
     str[i] = '\0';
 
+    return str;
+}
+
+char *MySQLConnection::timeToString(time_t *fecha)
+{
+    struct tm * timeinfo;
+    char *str = new char[11] ();
+
+    time(fecha);
+    timeinfo = localtime(fecha);
+
+    strftime(str, 11, "%d/%m/%Y", timeinfo);
     return str;
 }
 
@@ -105,5 +118,128 @@ int MySQLConnection::iniciarSesion(char *correo, char *password)
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
         return -2;
     }
+}
+
+int MySQLConnection::obtenerIdUsuario(char *correo)
+{
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM usuarios WHERE correo = ?");
+        pstmt->setString(1, correo);
+        res = pstmt->executeQuery();
+
+        while (res->next())
+        {
+            int id = res->getInt("id_usuario");
+            delete pstmt;
+            delete res;
+            return id;
+        }
+
+        delete pstmt;
+        delete res;
+        return 0;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+        return -1;
+    }
+}
+
+int MySQLConnection::registrarUsuario(char *correo, char *password, char *tipo)
+{
+    sql::PreparedStatement *pstmt;
+    try
+    {
+        int id = obtenerIdUsuario(correo);
+        if (id)
+        {
+            qDebug() << "Este correo ya fue registrado";
+            return 0;
+        }
+
+        pstmt = con->prepareStatement("INSERT INTO usuarios(correo,password,tipo_de_usuario) VALUES (?, ?, ?)");
+
+        pstmt->setString(1, correo);
+        pstmt->setString(2, encriptar(password));
+        pstmt->setString(3, tipo);
+        pstmt->execute();
+        delete pstmt;
+        qDebug() << "El usuario se registró con éxito uwu";
+        return 1;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+        return 0;
+    }
+}
+
+
+int MySQLConnection::registrarCliente(Persona cliente, char *correo, char *password)
+{
+    char tipo[8] = "cliente";
+    if (!registrarUsuario(correo, password, tipo))
+        return 0;
+
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    // Verifico si la cédula corresponde a un usuario registrado
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM personas WHERE cedula = ?");
+        pstmt->setString(1, cliente.getCedula().c_str());
+        res = pstmt->executeQuery();
+
+        while (res->next())
+        {
+            qDebug() << "Esta cédula ya fue registrada";
+            delete pstmt;
+            delete res;
+            return 0;
+        }
+        delete pstmt;
+        delete res;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+        return 0;
+    }
+
+    // Registro los datos del cliente en la tabla personas
+    try
+    {
+        pstmt = con->prepareStatement("INSERT INTO personas(cedula,id_usuario,nombre,apellido,telefono,direccion,fecha_nacimiento) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        pstmt->setString(1, cliente.getCedula().c_str());
+        pstmt->setInt(2, obtenerIdUsuario(correo));
+        pstmt->setString(3, cliente.getNombre().c_str());
+        pstmt->setString(4, cliente.getApellido().c_str());
+        pstmt->setString(5, cliente.getTelefono().c_str());
+        pstmt->setString(6, cliente.getDireccion().c_str());
+        pstmt->setString(7, timeToString(cliente.getFechaNacimiento()));
+        pstmt->executeQuery();
+        delete pstmt;
+        qDebug() << "El cliente se registró con éxito uwu";
+        return 1;
+
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+    return 0;
 }
 

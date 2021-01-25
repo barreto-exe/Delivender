@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QMessageBox>
+#include <ctime>
+#include "persona.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -17,10 +19,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(&registro, SIGNAL(AtrasCLick()),this,SLOT(IrAInicio())); //Signal para volver al inicio de sesion desde el registro
     
-    char correo[20] = "karenamg@gmail.com";
-    char password[5] = "1603";
+    char correo[30] = "karen@gmail.com", password[16] = "test";
+    char nombre[20] = "karen", apellido[20] = "moran", cedula[10] = "28161659", telefono[15] = "04121924525", direccion[20] = "Curagua";
+    time_t *fecha = new time_t();
+
+    Persona *cliente = new Persona(nombre, apellido, cedula, telefono, direccion, fecha);
+
     conector = MySQLConnection();
-    conector.iniciarSesion(correo, password);
+    conector.registrarCliente(*cliente, correo, password);
 
 }
 

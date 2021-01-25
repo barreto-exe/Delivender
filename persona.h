@@ -19,11 +19,11 @@ class Persona {
         string cedula;
         string telefono;
         string direccion;
-        time_t fechaNacimiento;
+        time_t *fechaNacimiento;
         
     public:
         // Constructor
-        Persona(string nombre = "", string apellido = "", string cedula = "", string telefono = "", string direccion = "", time_t fechaNacimiento = 0);
+        Persona(string nombre = "", string apellido = "", string cedula = "", string telefono = "", string direccion = "", time_t *fechaNacimiento = 0);
     
         // Funciones set
         Persona &setNombre(string nombre);
@@ -31,7 +31,7 @@ class Persona {
         Persona &setCedula(string cedula);
         Persona &setTelefono(string telefono);
         Persona &setDireccion(string direccion);
-        Persona &setFechaNacimiento(time_t fechaNacimiento);
+        Persona &setFechaNacimiento(time_t *fechaNacimiento);
     
         // Funciones get
         string getNombre() const;
@@ -39,7 +39,7 @@ class Persona {
         string getCedula() const;
         string getTelefono() const;
         string getDireccion() const;
-        time_t getFechaNacimiento() const;
+        time_t *getFechaNacimiento() const;
 };
 
 #endif

@@ -31,8 +31,7 @@ private:
     Ui::MainWindow *ui;
     // MySQL
     MySQLConnection conector;
-    //sql::Driver *driver;
-    //sql::Connection *con;
+
     // Frontend
     pantalla_principal menu;
     pantalla_registro registro;

@@ -5,11 +5,16 @@
 #ifndef MYSQLCONNECTION_H
 #define MYSQLCONNECTION_H
 
+// MySQL
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
 #include <cppconn/prepared_statement.h>
+// Clases
+#include "persona.h"
+#include "proveedor.h"
+#include "vehiculo.h"
 
 using std::string;
 
@@ -23,6 +28,9 @@ class MySQLConnection
 
         // Funciones
         char *encriptar(char *password);
+        int registrarUsuario(char *correo, char *password, char *tipo);
+        int obtenerIdUsuario(char *correo);
+        char *timeToString(time_t *fecha);
 
     public:
         // Constructor
@@ -33,6 +41,9 @@ class MySQLConnection
 
         // Funciones
         int iniciarSesion(char *correo, char *password);
+        int registrarCliente(Persona cliente, char *correo, char *password);
+        int registrarProveedor(Proveedor proveedor, char *correo, char *password);
+        int registrarTransportista(Persona transportista, Vehiculo vehiculo, char *correo, char *password);
 };
 
 #endif // MYSQLCONNECTION_H
