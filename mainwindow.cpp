@@ -14,9 +14,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     
     //añade las pantallas de manera dinamica al stackWidget
-    stackedwidget = ui->centralwidget->findChild<QStackedWidget *>();
-    stackedwidget->insertWidget(1,&registro);
-    stackedwidget->insertWidget(2,&menu);
+    stackedWidget = ui->centralwidget->findChild<QStackedWidget *>();
+    stackedWidget->insertWidget(1,&registro);
+    stackedWidget->insertWidget(2,&menu);
 
     connect(&registro, SIGNAL(AtrasCLick()),this,SLOT(IrAInicio())); //Signal para volver al inicio de sesion desde el registro
     
@@ -85,10 +85,10 @@ void MainWindow::on_btnInicioSesion_clicked() //cambia a pantalla del menu princ
 
 void MainWindow::on_btnRegistrarse_clicked() //cambia a pantalla del registro
 {
-    stackedwidget->setCurrentIndex(1);
+    stackedWidget->setCurrentIndex(1);
 }
 
 void MainWindow::IrAInicio() //slot para volver al inicio (conectado a AtrasClick())
 {
-    stackedwidget->setCurrentIndex(0);
+    stackedWidget->setCurrentIndex(0);
 }
