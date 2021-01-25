@@ -29,7 +29,114 @@
     <number>0</number>
    </property>
    <widget class="QWidget" name="seleccion_usuario">
-    <widget class="QPushButton" name="btnAceptar">
+    <widget class="QLabel" name="cliente_foto">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>150</y>
+       <width>191</width>
+       <height>291</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/resources/imagenes/cliente.jpg</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>false</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="prov_foto">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>220</y>
+       <width>196</width>
+       <height>221</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/resources/imagenes/proveedor.jpg</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="transp_foto">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>220</y>
+       <width>196</width>
+       <height>211</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/resources/imagenes/transportista.jpg</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignHCenter|Qt::AlignTop</set>
+     </property>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>460</y>
+       <width>661</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="spacing">
+       <number>70</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="btnCliente">
+        <property name="text">
+         <string>Cliente</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnProveedor">
+        <property name="text">
+         <string>Proveedor</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnTransp">
+        <property name="text">
+         <string>Transportista</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="registro_persona">
+    <widget class="QPushButton" name="btnAceptarPersona">
      <property name="geometry">
       <rect>
        <x>660</x>
@@ -42,7 +149,7 @@
       <string>Aceptar</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="atrasRegistro">
+    <widget class="QPushButton" name="atrasRegistroPersona">
      <property name="geometry">
       <rect>
        <x>420</x>
@@ -55,16 +162,19 @@
       <string>Atras</string>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>420</x>
-       <y>28</y>
+       <y>60</y>
        <width>321</width>
-       <height>469</height>
+       <height>451</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>6</number>
+      </property>
       <item>
        <widget class="QLabel" name="label_4">
         <property name="text">
@@ -88,7 +198,7 @@
       <item>
        <widget class="QLabel" name="label_6">
         <property name="text">
-         <string>Cedula</string>
+         <string>Cédula</string>
         </property>
        </widget>
       </item>
@@ -98,7 +208,7 @@
       <item>
        <widget class="QLabel" name="label_7">
         <property name="text">
-         <string>Telefono</string>
+         <string>Teléfono</string>
         </property>
        </widget>
       </item>
@@ -113,32 +223,28 @@
        </widget>
       </item>
       <item>
-       <widget class="QDateEdit" name="dateEdit"/>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QCheckBox" name="checkCliente">
-          <property name="text">
-           <string>Cliente</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="checkAdmin">
-          <property name="text">
-           <string>Administrador</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="checkTransp">
-          <property name="text">
-           <string>Transportista</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QDateEdit" name="fechaNac">
+        <property name="maximumDate">
+         <date>
+          <year>2021</year>
+          <month>12</month>
+          <day>31</day>
+         </date>
+        </property>
+        <property name="minimumDate">
+         <date>
+          <year>1940</year>
+          <month>9</month>
+          <day>14</day>
+         </date>
+        </property>
+        <property name="displayFormat">
+         <string>dd / MM / yyyy</string>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="Line" name="line">
@@ -180,7 +286,7 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="admin">
+   <widget class="QWidget" name="registo_proveedor">
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
@@ -191,10 +297,10 @@
       </rect>
      </property>
      <property name="text">
-      <string>Registro con datos del admin uwu</string>
+      <string>Registro con datos del proveedor</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="atrasAdmin">
+    <widget class="QPushButton" name="atrasProv">
      <property name="geometry">
       <rect>
        <x>320</x>
@@ -238,6 +344,8 @@
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

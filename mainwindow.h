@@ -36,6 +36,6 @@ private:
     // Frontend
     pantalla_principal menu;
     pantalla_registro registro;
-    QStackedWidget *stackedwidget;
+    QStackedWidget *stackedWidget;
 };
 #endif // MAINWINDOW_H

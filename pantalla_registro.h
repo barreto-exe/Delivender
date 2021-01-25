@@ -16,13 +16,19 @@ public:
     ~pantalla_registro();
 
 private slots:
-    void on_btnAceptar_clicked();
+    void on_btnAceptarPersona_clicked();
 
-    void on_atrasAdmin_clicked();
+    void on_atrasProv_clicked();
 
     void on_atrasTransp_clicked();
 
-    void on_atrasRegistro_clicked();
+    void on_atrasRegistroPersona_clicked();
+
+    void on_btnCliente_clicked();
+
+    void on_btnProveedor_clicked();
+
+    void on_btnTransp_clicked();
 
 private:
     Ui::pantalla_registro *ui;
