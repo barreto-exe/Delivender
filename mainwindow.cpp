@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <ctime>
 #include "persona.h"
+#include "global.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -19,21 +20,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(&registro, SIGNAL(AtrasCLick()),this,SLOT(IrAInicio())); //Signal para volver al inicio de sesion desde el registro
     
-//    char correo[30] = "karen@gmail.com", password[16] = "test";
-//    char nombre[20] = "karen", apellido[20] = "moran", cedula[10] = "28161659", telefono[15] = "04121924525", direccion[20] = "Curagua";
-//    time_t *fecha = new time_t();
-
-//    Persona *cliente = new Persona(nombre, apellido, cedula, telefono, direccion, fecha);
-
-    conector = MySQLConnection();
-//    conector.registrarCliente(*cliente, correo, password);
-
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete conector.getConnection();
+    delete Global::db.getConnection();
 }
 
 void MainWindow::on_btnInicioSesion_clicked() //cambia a pantalla del menu principal
@@ -51,7 +43,7 @@ void MainWindow::on_btnInicioSesion_clicked() //cambia a pantalla del menu princ
         return;
     }
 
-    int inicioSesion = conector.iniciarSesion(correo.c_str(), password.c_str());
+    int inicioSesion = Global::db.iniciarSesion(correo.c_str(), password.c_str());
 
     if (inicioSesion == 1)
     {

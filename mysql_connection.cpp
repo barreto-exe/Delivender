@@ -30,6 +30,7 @@ MySQLConnection::MySQLConnection()
     {
         qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+        con = 0;
     }
 }
 
@@ -37,6 +38,11 @@ MySQLConnection::MySQLConnection()
 // Devuelve connection SQL
 sql::Connection *MySQLConnection::getConnection() const { return con; }
 
+// El conector solamente es 0 (null) si hubo un fallo en la conexión inicial (al inicio de la ejecución del programa)
+bool MySQLConnection::huboConexionInicial()
+{
+    return con != 0;
+}
 
 // Retorna el parámetro encriptado
 char *MySQLConnection::encriptar(const char *password)

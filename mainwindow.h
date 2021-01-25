@@ -2,8 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-// Backend
-#include "mysql_connection.h"
+
 // Frontend
 #include <pantalla_principal.h>
 #include <pantalla_registro.h>
@@ -29,8 +28,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    // MySQL
-    MySQLConnection conector;
 
     // Frontend
     pantalla_principal menu;
