@@ -63,7 +63,7 @@ void MainWindow::on_btnInicioSesion_clicked() //cambia a pantalla del menu princ
     {
         msgBox.setText("Inicio de sesión exitoso");
         msgBox.exec();
-        stackedwidget->setCurrentIndex(2);
+        stackedWidget->setCurrentIndex(2);
     }
     else if (!inicioSesion) // Siel correo es inválido
     {
