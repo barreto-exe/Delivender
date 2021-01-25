@@ -28,9 +28,10 @@ class MySQLConnection
 
         // Funciones
         char *encriptar(char *password);
-        int registrarUsuario(char *correo, char *password, char *tipo);
-        int obtenerIdUsuario(char *correo);
         char *timeToString(time_t *fecha);
+        int obtenerIdUsuario(char *correo);
+        int registrarUsuario(char *correo, char *password, char *tipo);
+        int registrarPersona(Persona cliente, int id_usuario);
 
     public:
         // Constructor
