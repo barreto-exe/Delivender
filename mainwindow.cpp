@@ -28,7 +28,7 @@ MainWindow::~MainWindow()
     delete Global::db.getConnection();
 }
 
-void MainWindow::on_btnInicioSesion_clicked() //cambia a pantalla del menu principal
+void MainWindow::on_btnInicioSesion_clicked() //cambia a pantalla del menu principal e inicia sesión
 {
     // Convierte a string los input y borra los espacios
     string correo = ui->correo->text().trimmed().toStdString();
@@ -36,6 +36,7 @@ void MainWindow::on_btnInicioSesion_clicked() //cambia a pantalla del menu princ
 
     QMessageBox msgBox;
 
+    // Si no están llenos los campos
     if (correo.empty() || password.empty())
     {
         msgBox.setText("Llena todos los campos, por favor");
@@ -43,25 +44,26 @@ void MainWindow::on_btnInicioSesion_clicked() //cambia a pantalla del menu princ
         return;
     }
 
+    // Intenta iniciar sesión
     int inicioSesion = Global::db.iniciarSesion(correo.c_str(), password.c_str());
 
-    if (inicioSesion == 1)
+    if (inicioSesion == 1) // Si lo logró
     {
         msgBox.setText("Inicio de sesión exitoso");
         msgBox.exec();
         stackedwidget->setCurrentIndex(2);
     }
-    else if (!inicioSesion)
+    else if (!inicioSesion) // Siel correo es inválido
     {
         msgBox.setText("No hay ningún usuario registrado con este correo");
         msgBox.exec();
     }
-    else if (inicioSesion == -1)
+    else if (inicioSesion == -1) // Si la contraseña es inválida
     {
         msgBox.setText("Contraseña inválida, vuelve a intentarlo");
         msgBox.exec();
     }
-    else if (inicioSesion == -2)
+    else if (inicioSesion == -2) // Si hubo otro error (desconexión)
     {
         msgBox.setText("Error desconocido, revisa tu conexión");
         msgBox.exec();
