@@ -28,6 +28,7 @@ MySQLConnection::MySQLConnection()
     }
     catch (sql::SQLException &e)
     {
+        con = 0;
         qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
     }
@@ -99,18 +100,73 @@ int MySQLConnection::obtenerIdUsuario(char *correo)
     }
 }
 
+// Verifica si la cédula corresponde a una persona registrada
+int MySQLConnection::verificarCedula(const char *cedula)
+{
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM personas WHERE cedula = ?");
+        pstmt->setString(1, cedula);
+        res = pstmt->executeQuery();
+
+        while (res->next())
+        {
+            delete pstmt;
+            delete res;
+            return 1;
+        }
+        delete pstmt;
+        delete res;
+        return 0;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+        return 0;
+    }
+}
+
+// Verifica si la placa corresponde a un vehiculo registrado
+int MySQLConnection::verificarPlaca(const char *placa)
+{
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM vehiculos WHERE placa = ?");
+        pstmt->setString(1, placa);
+        res = pstmt->executeQuery();
+
+        while (res->next())
+        {
+            delete pstmt;
+            delete res;
+            return 1;
+        }
+        delete pstmt;
+        delete res;
+        return 0;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+        return 0;
+    }
+}
+
 int MySQLConnection::registrarUsuario(char *correo, char *password, char *tipo)
 {
     sql::PreparedStatement *pstmt;
     try
     {
-        int id = obtenerIdUsuario(correo);
-        if (id)
-        {
-            qDebug() << "Este correo ya fue registrado";
-            return 0;
-        }
-
         pstmt = con->prepareStatement("INSERT INTO usuarios(correo,password,tipo_de_usuario) VALUES (?, ?, ?)");
 
         pstmt->setString(1, correo);
@@ -133,31 +189,6 @@ int MySQLConnection::registrarUsuario(char *correo, char *password, char *tipo)
 int MySQLConnection::registrarPersona(Persona persona, int id_usuario)
 {
     sql::PreparedStatement *pstmt;
-    sql::ResultSet *res;
-
-    // Verifico si la cédula corresponde a un usuario registrado
-    try
-    {
-        pstmt = con->prepareStatement("SELECT * FROM personas WHERE cedula = ?");
-        pstmt->setString(1, persona.getCedula().c_str());
-        res = pstmt->executeQuery();
-
-        while (res->next())
-        {
-            delete pstmt;
-            delete res;
-            return 0;
-        }
-        delete pstmt;
-        delete res;
-    }
-    catch (sql::SQLException &e)
-    {
-        // Error de conexión
-        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
-        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-        return 0;
-    }
 
     // Registro los datos de la persona en la tabla personas
     try
@@ -195,6 +226,9 @@ int MySQLConnection::registrarPersona(Persona persona, int id_usuario)
 */
 int MySQLConnection::iniciarSesion(char *correo, char *password)
 {
+    if (con == 0)
+        return -2;
+
     sql::PreparedStatement *pstmt;
     sql::ResultSet *res;
 
@@ -235,30 +269,47 @@ int MySQLConnection::iniciarSesion(char *correo, char *password)
         // Error de conexión
         qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-        return -2;
     }
+    return -2;
 }
 
 int MySQLConnection::registrarCliente(Persona cliente, char *correo, char *password)
 {
-    char tipo[8] = "cliente";
-    if (!registrarUsuario(correo, password, tipo))
+    if (con == 0)
+        return 0;
+
+    if (obtenerIdUsuario(correo))
     {
-        qDebug() << "Ya existe un usuario registrado con este correo";
+        qDebug() << "Este correo ya fue registrado";
         return 0;
     }
 
-    return registrarPersona(cliente, obtenerIdUsuario(correo));
+    if (verificarCedula(cliente.getCedula().c_str()))
+    {
+        qDebug() << "Esta cédula ya fue registrada";
+        return 0;
+    }
+
+    char tipo[8] = "cliente";
+    registrarUsuario(correo, password, tipo);
+    registrarPersona(cliente, obtenerIdUsuario(correo));
+
+    return 1;
 }
 
 int MySQLConnection::registrarProveedor(Proveedor proveedor, char *correo, char *password)
 {
-    char tipo[10] = "proveedor";
-    if (!registrarUsuario(correo, password, tipo))
+    if (con == 0)
+        return 0;
+
+    if (obtenerIdUsuario(correo))
     {
-        qDebug() << "Ya existe un usuario registrado con este correo";
+        qDebug() << "Este correo ya fue registrado";
         return 0;
     }
+
+    char tipo[10] = "proveedor";
+    registrarUsuario(correo, password, tipo);
 
     sql::PreparedStatement *pstmt;
 
@@ -289,50 +340,42 @@ int MySQLConnection::registrarProveedor(Proveedor proveedor, char *correo, char 
 
 int MySQLConnection::registrarTransportista(Persona transportista, Vehiculo vehiculo, char *correo, char *password)
 {
+    if (con == 0)
+        return 0;
+
+    if (obtenerIdUsuario(correo))
+    {
+        qDebug() << "Este correo ya fue registrado";
+        return 0;
+    }
+
+    if (verificarCedula(transportista.getCedula().c_str()))
+    {
+        qDebug() << "Esta cédula ya fue registrada";
+        return 0;
+    }
+
+    if (verificarPlaca(vehiculo.getPLaca().c_str()))
+    {
+        qDebug() << "Esta placa ya fue registrada";
+        return 0;
+    }
+
+
     char tipo[15] = "transportista";
-    if (!registrarUsuario(correo, password, tipo))
-    {
-        qDebug() << "Ya existe un usuario registrado con este correo. Inicie sesión para registrar un vehículo";
-        return 0;
-    }
+    registrarUsuario(correo, password, tipo);
+    registrarPersona(transportista, obtenerIdUsuario(correo));
+    registrarVehiculo(vehiculo, transportista.getCedula().c_str());
 
-    if (!registrarPersona(transportista, obtenerIdUsuario(correo)))
-    {
-        qDebug() << "Ya existe una persona registrada con esta cédula";
-        return 0;
-    }
-
-    return registrarVehiculo(vehiculo, transportista.getCedula().c_str());
+    return 1;
 }
 
 int MySQLConnection::registrarVehiculo(Vehiculo vehiculo, char const *cedula_transportista)
 {
-    sql::PreparedStatement *pstmt;
-    sql::ResultSet *res;
-
-    // Verifico si la placa corresponde a un vehiculo registrado
-    try
-    {
-        pstmt = con->prepareStatement("SELECT * FROM vehiculos WHERE placa = ?");
-        pstmt->setString(1, vehiculo.getPLaca().c_str());
-        res = pstmt->executeQuery();
-
-        while (res->next())
-        {
-            delete pstmt;
-            delete res;
-            return 0;
-        }
-        delete pstmt;
-        delete res;
-    }
-    catch (sql::SQLException &e)
-    {
-        // Error de conexión
-        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
-        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    if (con == 0)
         return 0;
-    }
+
+    sql::PreparedStatement *pstmt;
 
     // Registro los datos del vehiculo en la tabla vehiculos
     try
