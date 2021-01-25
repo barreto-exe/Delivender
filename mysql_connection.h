@@ -28,9 +28,12 @@ class MySQLConnection
 
         // Funciones
         char *encriptar(const char *password);
-        int registrarUsuario(const char *correo, const char *password, const char *tipo);
-        int obtenerIdUsuario(const char *correo);
         char *timeToString(time_t *fecha);
+        int obtenerIdUsuario(const char *correo);
+        int verificarCedula(const char const *cedula);
+        int verificarPlaca(const char const *placa);
+        int registrarUsuario(const char *correo, char *password, char *tipo);
+        int registrarPersona(const Persona cliente, int id_usuario);
 
     public:
         // Constructor
@@ -44,6 +47,7 @@ class MySQLConnection
         int registrarCliente(Persona cliente, const char *correo, const char *password);
         int registrarProveedor(Proveedor proveedor, const char *correo, const char *password);
         int registrarTransportista(Persona transportista, Vehiculo vehiculo, const char *correo, const char *password);
+        int registrarVehiculo(Vehiculo vehiculo, const char *cedula_transportista);
 };
 
 #endif // MYSQLCONNECTION_H
