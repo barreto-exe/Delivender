@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     stackedWidget->insertWidget(1,&registro);
     stackedWidget->insertWidget(2,&menu);
 
-    connect(&registro, SIGNAL(AtrasCLick()),this,SLOT(IrAInicio())); //Signal para volver al inicio de sesion desde el registro
+    connect(&registro, SIGNAL(inicioSignal()),this,SLOT(IrAInicio())); //Signal para volver al inicio de sesion desde el registro
     
     char correo[30] = "karenale@gmail.com", password[16] = "test";
     char nombre[20] = "karen", apellido[20] = "moran", cedula[10] = "28161658", telefono[15] = "04121924525", direccion[20] = "Curagua";
@@ -88,7 +88,7 @@ void MainWindow::on_btnRegistrarse_clicked() //cambia a pantalla del registro
     stackedWidget->setCurrentIndex(1);
 }
 
-void MainWindow::IrAInicio() //slot para volver al inicio (conectado a AtrasClick())
+void MainWindow::IrAInicio() //slot para volver al inicio (conectado a inicioSignal())
 {
     stackedWidget->setCurrentIndex(0);
 }

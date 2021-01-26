@@ -98,7 +98,7 @@
       <set>Qt::AlignHCenter|Qt::AlignTop</set>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -134,13 +134,26 @@
       </item>
      </layout>
     </widget>
+    <widget class="QPushButton" name="atrasSeleccion">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>550</y>
+       <width>83</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Atras</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="registro_persona">
     <widget class="QPushButton" name="btnAceptarPersona">
      <property name="geometry">
       <rect>
        <x>660</x>
-       <y>520</y>
+       <y>540</y>
        <width>83</width>
        <height>25</height>
       </rect>
@@ -152,8 +165,8 @@
     <widget class="QPushButton" name="atrasRegistroPersona">
      <property name="geometry">
       <rect>
-       <x>420</x>
-       <y>520</y>
+       <x>50</x>
+       <y>540</y>
        <width>83</width>
        <height>25</height>
       </rect>
@@ -166,17 +179,17 @@
      <property name="geometry">
       <rect>
        <x>420</x>
-       <y>60</y>
+       <y>40</y>
        <width>321</width>
-       <height>451</height>
+       <height>491</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <property name="spacing">
-       <number>6</number>
+       <number>5</number>
       </property>
       <item>
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="label_nomb">
         <property name="text">
          <string>Nombre</string>
         </property>
@@ -186,7 +199,7 @@
        <widget class="QLineEdit" name="nombre"/>
       </item>
       <item>
-       <widget class="QLabel" name="label_5">
+       <widget class="QLabel" name="label_apellido">
         <property name="text">
          <string>Apellido</string>
         </property>
@@ -196,7 +209,7 @@
        <widget class="QLineEdit" name="apellido"/>
       </item>
       <item>
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="label_ci">
         <property name="text">
          <string>Cédula</string>
         </property>
@@ -206,7 +219,7 @@
        <widget class="QLineEdit" name="cedula"/>
       </item>
       <item>
-       <widget class="QLabel" name="label_7">
+       <widget class="QLabel" name="label_telf">
         <property name="text">
          <string>Teléfono</string>
         </property>
@@ -216,7 +229,7 @@
        <widget class="QLineEdit" name="telefono"/>
       </item>
       <item>
-       <widget class="QLabel" name="label_8">
+       <widget class="QLabel" name="label_fecha">
         <property name="text">
          <string>Fecha de Nacimiento</string>
         </property>
@@ -247,6 +260,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QLabel" name="label_dir">
+        <property name="text">
+         <string>DIrección</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="direccion"/>
+      </item>
+      <item>
        <widget class="Line" name="line">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -254,7 +277,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_9">
+       <widget class="QLabel" name="label_correo">
         <property name="text">
          <string>Correo</string>
         </property>
@@ -264,24 +287,24 @@
        <widget class="QLineEdit" name="correo"/>
       </item>
       <item>
-       <widget class="QLabel" name="label_10">
+       <widget class="QLabel" name="label_contra">
         <property name="text">
          <string>Contraseña</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="contrasenia"/>
+       <widget class="QLineEdit" name="password"/>
       </item>
       <item>
-       <widget class="QLabel" name="label_11">
+       <widget class="QLabel" name="label_repCon">
         <property name="text">
          <string>Repetir Contraseña</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="repContrasenia"/>
+       <widget class="QLineEdit" name="repPassword"/>
       </item>
      </layout>
     </widget>
@@ -318,28 +341,121 @@
     <widget class="QLabel" name="label_3">
      <property name="geometry">
       <rect>
-       <x>130</x>
-       <y>200</y>
-       <width>311</width>
+       <x>330</x>
+       <y>70</y>
+       <width>121</width>
        <height>41</height>
       </rect>
      </property>
      <property name="text">
-      <string>Registro con datos del transportista uwu</string>
+      <string>Datos del vehículo</string>
      </property>
     </widget>
     <widget class="QPushButton" name="atrasTransp">
      <property name="geometry">
       <rect>
-       <x>220</x>
-       <y>260</y>
+       <x>90</x>
+       <y>480</y>
        <width>83</width>
        <height>25</height>
       </rect>
      </property>
      <property name="text">
-      <string>atras</string>
+      <string>Atras</string>
      </property>
+    </widget>
+    <widget class="QPushButton" name="btnAceptarTransp">
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>280</y>
+       <width>83</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Aceptar</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>130</y>
+       <width>341</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="spacing">
+         <number>10</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Modelo</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Placa</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Tipo</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>18</number>
+        </property>
+        <item>
+         <widget class="QLineEdit" name="modelo"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="placa"/>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBoxTipo">
+          <property name="currentText">
+           <string>Seleccione un vehículo</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>Seleccione un vehículo</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Camión</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Carro</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Moto</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </widget>
    </widget>
   </widget>
