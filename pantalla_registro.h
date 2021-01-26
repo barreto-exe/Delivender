@@ -30,11 +30,15 @@ private slots:
 
     void on_btnTransp_clicked();
 
+    void on_btnAceptarTransp_clicked();
+
+    void on_atrasSeleccion_clicked();
+
 private:
     Ui::pantalla_registro *ui;
 
 signals:
-    void AtrasCLick();
+    void inicioSignal();
 };
 
 #endif // PANTALLA_REGISTRO_H
