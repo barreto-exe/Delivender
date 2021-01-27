@@ -33,7 +33,9 @@ class MySQLConnection
         int verificarCedula(const char *cedula);
         int verificarPlaca(const char *placa);
         int registrarUsuario(const char *correo, const char *password, const char *tipo);
-        int registrarPersona(const Persona cliente, int id_usuario);
+        int registrarPersona(const Persona cliente, const int id_usuario);
+        Proveedor *instanciarProveedor(const int id_proveedor);
+        Producto *instanciarProducto(const int id_producto);
 
     public:
         // Constructor

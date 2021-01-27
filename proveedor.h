@@ -9,6 +9,7 @@
 #include "producto_cantidad.h"
 
 using std::string;
+using std::vector;
 
 // Clase para empresas afilidadas a Delivender
 class Proveedor {
@@ -19,12 +20,12 @@ class Proveedor {
         string telefono;
         string direccion;
         string tipoProveedor;
-        producto_cantidad *almacen;
+        vector <producto_cantidad> almacen;
 
     public:
         // Constructor
         Proveedor();
-        Proveedor(string nombre, string descripcion, string telefono, string direccion, string tipoProveedor, producto_cantidad *almacen);
+        Proveedor(string nombre, string descripcion, string telefono, string direccion, string tipoProveedor, vector <producto_cantidad> almacen);
         Proveedor(string nombre, string descripcion, string telefono, string direccion, string tipoProveedor );
 
         // Funciones set
@@ -33,7 +34,7 @@ class Proveedor {
         Proveedor &setTelefono(string telefono);
         Proveedor &setDireccion(string direccion);
         Proveedor &setTipoProveedor(string tipoProveedor);
-        Proveedor &setAlmacen(producto_cantidad *almacen);
+        Proveedor &setAlmacen(vector <producto_cantidad> almacen);
 
         // Funciones get
         string getNombre() const;
@@ -41,7 +42,7 @@ class Proveedor {
         string getTelefono() const;
         string getDireccion() const;
         string getTipoProveedor() const;
-        producto_cantidad *getAlmacen() const;
+        vector <producto_cantidad> getAlmacen() const;
 
         // Funciones
         int agregarProductoAlmacen(Producto producto, int cantidad);

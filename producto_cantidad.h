@@ -4,11 +4,12 @@
 #ifndef PRODUCTO_CANTIDAD_H
 #define PRODUCTO_CANTIDAD_H
 
+#include<vector>
 #include "producto.h"
 
 struct producto_cantidad
 {
-    Producto producto;
+    Producto *producto;
     int cantidad;
 };
 

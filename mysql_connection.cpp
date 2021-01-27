@@ -188,7 +188,7 @@ int MySQLConnection::registrarUsuario(const char *correo, const char *password, 
     }
 }
 
-int MySQLConnection::registrarPersona(Persona persona, int id_usuario)
+int MySQLConnection::registrarPersona(Persona persona, const int id_usuario)
 {
     sql::PreparedStatement *pstmt;
 
@@ -218,6 +218,103 @@ int MySQLConnection::registrarPersona(Persona persona, int id_usuario)
     return 0;
 }
 
+Proveedor *MySQLConnection::instanciarProveedor(const int id_proveedor)
+{
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    Proveedor *proveedor = 0;
+
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM proveedores WHERE id_proveedor = ?");
+        pstmt->setInt(1, id_proveedor);
+        res = pstmt->executeQuery();
+
+        if (res->next())
+        {
+            proveedor = new Proveedor();
+            proveedor->setNombre(res->getString("nombre"));
+            proveedor->setDescripcion(res->getString("descripcion"));
+            proveedor->setTelefono(res->getString("telefono"));
+            proveedor->setDireccion(res->getString("direccion"));
+            proveedor->setTipoProveedor(res->getString("tipo_de_proveedor"));
+        }
+        else
+        {
+            return 0;
+        }
+
+        const int idProveedor = res->getInt("id_proveedor");
+        delete res;
+        delete pstmt;
+
+        pstmt = con->prepareStatement("SELECT * FROM almacenes WHERE id_proveedor = ?");
+        pstmt->setInt(1, idProveedor);
+        res = pstmt->executeQuery();
+
+        proveedor->getAlmacen().clear();
+
+        while (res->next())
+        {
+            Producto *producto = instanciarProducto(res->getInt("id_producto"));
+            int cantidad = res->getInt("cantidad");
+            producto_cantidad *pxq = new producto_cantidad;
+            pxq->cantidad = cantidad;
+            pxq->producto = producto;
+            proveedor->getAlmacen().push_back(*pxq);
+        }
+
+        delete res;
+        delete pstmt;
+
+        return proveedor;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+    return 0;
+}
+
+Producto *MySQLConnection::instanciarProducto(const int id_producto)
+{
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM productos WHERE id_producto = ?");
+        pstmt->setInt(1, id_producto);
+        res = pstmt->executeQuery();
+
+        if (res->next())
+        {
+            Producto *producto = new Producto();
+            producto->setNombre(res->getString("nombre"));
+            producto->setDescripcion(res->getString("descripcion"));
+            producto->setPrecio(res->getDouble("precio"));
+
+            delete res;
+            delete pstmt;
+
+            return producto;
+        }
+
+        delete res;
+        delete pstmt;
+
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+    return 0;
+}
 
 /*********************************************************** FUNCIONES PÚBLICAS ****************************************************************/
 /* Entra a la BDD y comprueba el inicio de sesión
@@ -243,12 +340,44 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
         while (res->next())
         {
             if (!strcmp(encriptar(password), res->getString("password").c_str()))
-            {
-                // Entonces el correo está registrado y la contraseña coincide
-                // Se debería instanciar una persona o un proveedor, de acuerdo al tipo de usuario
-                qDebug() << "Ha iniciado sesión como " << res->getString("tipo_de_usuario").c_str();
+            {  // Entonces el correo está registrado y la contraseña coincide
+                const string tipo = res->getString("tipo_de_usuario");
+                const int id_usuario = res->getUInt("id_usuario");
                 delete res;
                 delete pstmt;
+
+                qDebug() << "Ha iniciado sesión como " << tipo.c_str();
+
+                if (!strcmp(tipo.c_str(), "proveedor"))
+                {
+                    pstmt = con->prepareStatement("SELECT * FROM proveedores WHERE id_usuario = ?");
+                    pstmt->setInt(1, id_usuario);
+                    res = pstmt->executeQuery();
+
+                    int id_proveedor = -1;
+
+                    if (res->next())
+                        id_proveedor = res->getInt("id_proveedor");
+
+                    Global::proveedor = instanciarProveedor(id_proveedor);
+
+                    delete res;
+                    delete pstmt;
+
+                }
+                else
+                {
+                    pstmt = con->prepareStatement("SELECT * FROM personas WHERE id_usuario = ?");
+                    pstmt->setInt(1, id_usuario);
+                    res = pstmt->executeQuery();
+
+                    while (res->next())
+                    {
+
+                    }
+                }
+
+
                 return 1;
             }
             // Entonces se encontró el correo, pero la contraseña no coincide

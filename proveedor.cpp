@@ -10,10 +10,10 @@ Proveedor::Proveedor()
     telefono = "";
     direccion = "";
     tipoProveedor = "";
-    almacen = 0;
+    almacen.clear();
 }
 
-Proveedor::Proveedor(string nombre, string descripcion, string telefono, string direccion, string tipoProveedor, producto_cantidad *almacen)
+Proveedor::Proveedor(string nombre, string descripcion, string telefono, string direccion, string tipoProveedor, vector <producto_cantidad> almacen)
 {
     this->nombre = nombre;
     this->descripcion = descripcion;
@@ -30,7 +30,7 @@ Proveedor::Proveedor(string nombre, string descripcion, string telefono, string 
     this->telefono = telefono;
     this->direccion = direccion;
     this->tipoProveedor = tipoProveedor;
-    almacen = 0;
+    almacen.clear();
 }
 
 // Establece el nombre
@@ -74,7 +74,7 @@ Proveedor &Proveedor::setTipoProveedor(string tipoProveedor)
 }
 
 // Establece el almacén
-Proveedor &Proveedor::setAlmacen(producto_cantidad *almacen)
+Proveedor &Proveedor::setAlmacen(vector <producto_cantidad> almacen)
 {
     this->almacen = almacen;
 
@@ -97,7 +97,7 @@ string Proveedor::getDireccion() const { return direccion; }
 string Proveedor::getTipoProveedor() const { return tipoProveedor; }
 
 // Devuelve el almacen
-producto_cantidad *Proveedor::getAlmacen() const { return almacen; }
+vector <producto_cantidad> Proveedor::getAlmacen() const { return almacen; }
 
 
 int Proveedor::agregarProductoAlmacen(Producto producto, int cantidad)
