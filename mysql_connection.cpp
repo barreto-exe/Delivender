@@ -246,9 +246,9 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
             {
                 // Entonces el correo está registrado y la contraseña coincide
                 // Se debería instanciar una persona o un proveedor, de acuerdo al tipo de usuario
+                qDebug() << "Ha iniciado sesión como " << res->getString("tipo_de_usuario").c_str();
                 delete res;
                 delete pstmt;
-                qDebug() << "Ha iniciado sesión como " << res->getString("tipo_de_usuario").c_str();
                 return 1;
             }
             // Entonces se encontró el correo, pero la contraseña no coincide
