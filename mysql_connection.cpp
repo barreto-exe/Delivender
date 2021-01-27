@@ -1,4 +1,5 @@
 #include "mysql_connection.h"
+#include"global.h"
 #include <QDebug>
 #include <QMessageBox>
 #include<ctime>
@@ -247,7 +248,7 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
                 // Se debería instanciar una persona o un proveedor, de acuerdo al tipo de usuario
                 delete res;
                 delete pstmt;
-                qDebug() << "Ha iniciado sesión";
+                qDebug() << "Ha iniciado sesión como " << res->getString("tipo_de_usuario").c_str();
                 return 1;
             }
             // Entonces se encontró el correo, pero la contraseña no coincide
@@ -294,7 +295,7 @@ int MySQLConnection::registrarCliente(Persona cliente, const char *correo, const
     char tipo[8] = "cliente";
     registrarUsuario(correo, password, tipo);
     registrarPersona(cliente, obtenerIdUsuario(correo));
-
+    Global::cliente = &cliente;
     return 1;
 }
 
@@ -327,6 +328,7 @@ int MySQLConnection::registrarProveedor(Proveedor proveedor, const char *correo,
         pstmt->executeQuery();
         delete pstmt;
         qDebug() << "El proveedor se registró con éxito uwu";
+        Global::proveedor = &proveedor;
         return 1;
 
     }
@@ -367,7 +369,7 @@ int MySQLConnection::registrarTransportista(Persona transportista, Vehiculo vehi
     registrarUsuario(correo, password, tipo);
     registrarPersona(transportista, obtenerIdUsuario(correo));
     registrarVehiculo(vehiculo, transportista.getCedula().c_str());
-
+    Global::transportista = &transportista;
     return 1;
 }
 

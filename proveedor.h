@@ -23,7 +23,9 @@ class Proveedor {
 
     public:
         // Constructor
+        Proveedor();
         Proveedor(string nombre = "", string descripcion = "", string telefono = "", string direccion = "", string tipoProveedor = "", producto_cantidad *almacen = nullptr);
+        Proveedor(string nombre = "", string descripcion = "", string telefono = "", string direccion = "", string tipoProveedor = "");
 
         // Funciones set
         Proveedor &setNombre(string nombre);
@@ -40,6 +42,9 @@ class Proveedor {
         string getDireccion() const;
         string getTipoProveedor() const;
         producto_cantidad *getAlmacen() const;
+
+        // Funciones
+        int agregarProductoAlmacen(Producto producto, int cantidad);
 };
 
 #endif

@@ -1,7 +1,18 @@
 // Implementación de la clase Proveedor
 #include "proveedor.h"
+#include"mysql_connection.h"
 
 // Constructor de la clase
+Proveedor::Proveedor()
+{
+    nombre = "";
+    descripcion = "";
+    telefono = "";
+    direccion = "";
+    tipoProveedor = "";
+    almacen = 0;
+}
+
 Proveedor::Proveedor(string nombre, string descripcion, string telefono, string direccion, string tipoProveedor, producto_cantidad *almacen)
 {
     this->nombre = nombre;
@@ -10,6 +21,16 @@ Proveedor::Proveedor(string nombre, string descripcion, string telefono, string 
     this->direccion = direccion;
     this->tipoProveedor = tipoProveedor;
     this->almacen = almacen;
+}
+
+Proveedor::Proveedor(string nombre, string descripcion, string telefono, string direccion, string tipoProveedor)
+{
+    this->nombre = nombre;
+    this->descripcion = descripcion;
+    this->telefono = telefono;
+    this->direccion = direccion;
+    this->tipoProveedor = tipoProveedor;
+    almacen = 0;
 }
 
 // Establece el nombre
@@ -77,3 +98,10 @@ string Proveedor::getTipoProveedor() const { return tipoProveedor; }
 
 // Devuelve el almacen
 producto_cantidad *Proveedor::getAlmacen() const { return almacen; }
+
+
+int Proveedor::agregarProductoAlmacen(Producto producto, int cantidad)
+{
+
+    return 0;
+}
