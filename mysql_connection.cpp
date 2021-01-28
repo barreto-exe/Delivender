@@ -346,7 +346,7 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
                 delete res;
                 delete pstmt;
 
-                qDebug() << "Ha iniciado sesión como " << tipo.c_str();
+                qDebug() << "Ha iniciado sesión como" << tipo.c_str();
 
                 if (!strcmp(tipo.c_str(), "proveedor"))
                 {
@@ -530,4 +530,40 @@ int MySQLConnection::registrarVehiculo(Vehiculo vehiculo, const char *cedula_tra
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
     }
     return 0;
+}
+
+vector <Proveedor> MySQLConnection::listarProveedores()
+{
+    vector <Proveedor> lista;
+
+    sql::Statement *stmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        stmt = con->createStatement();
+        res = stmt->executeQuery("SELECT * FROM proveedores");
+
+        while (res->next())
+        {
+            Proveedor *proveedor = instanciarProveedor(res->getInt("id_proveedor"));
+
+            delete res;
+            delete stmt;
+
+            lista.push_back(*proveedor);
+        }
+
+        delete res;
+        delete stmt;
+
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    return lista;
 }

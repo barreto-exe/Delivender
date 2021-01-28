@@ -50,6 +50,7 @@ class MySQLConnection
         int registrarProveedor(Proveedor proveedor, const char *correo, const char *password);
         int registrarTransportista(Persona transportista, Vehiculo vehiculo, const char *correo, const char *password);
         int registrarVehiculo(Vehiculo vehiculo, const char *cedula_transportista);
-};
+        vector <Proveedor> listarProveedores();
 
+};
 #endif // MYSQLCONNECTION_H
