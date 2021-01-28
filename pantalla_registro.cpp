@@ -9,6 +9,7 @@
 
 bool cliente;
 Persona *datosPersona;
+
 pantalla_registro::pantalla_registro(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::pantalla_registro)
@@ -25,28 +26,35 @@ pantalla_registro::~pantalla_registro()
 void pantalla_registro::on_btnAceptarPersona_clicked() //Boton aceptar al introducir los datos del registro
 {
     QMessageBox msgBox;
-    time_t fechaNac = ui->fechaNac->dateTime().toTime_t();
-    datosPersona = new Persona(ui->nombre->text().toStdString(),
-                                        ui->apellido->text().toStdString(),
-                                        ui->cedula->text().toStdString(),
-                                        ui->telefono->text().toStdString(),
-                                        ui->direccion->text().toStdString(),&fechaNac);
     //Si las contraseñas son iguales
     if(ui->password->text() == ui->repPassword->text())  {
-        if(cliente){
-            //Lo registra si es un cliente
-            int reg = Global::db.registrarCliente(*datosPersona, ui->correo->text().toStdString().c_str(), ui->password->text().toStdString().c_str());
-            if (reg==1){
-                msgBox.setText("Se ha registrado con éxito!");
-                msgBox.exec();
-                emit inicioSignal();
+        //Y ningun campo esta vacio, procede a registrar/guardar los datos
+        if(!ui->nombre->text().isEmpty() && !ui->apellido->text().isEmpty() && !ui->cedula->text().isEmpty() && !ui->telefono->text().isEmpty() && !ui->direccion->text().isEmpty() && !ui->fechaNac->text().isEmpty() && !ui->password->text().isEmpty()){
+            time_t fechaNac = ui->fechaNac->dateTime().toTime_t();
+            datosPersona = new Persona(ui->nombre->text().toStdString(),
+                                                ui->apellido->text().toStdString(),
+                                                ui->cedula->text().toStdString(),
+                                                ui->telefono->text().toStdString(),
+                                                ui->direccion->text().toStdString(),&fechaNac);
+            if(cliente){
+                //Lo registra si es un cliente
+                int reg = Global::db.registrarCliente(*datosPersona, ui->correo->text().toStdString().c_str(), ui->password->text().toStdString().c_str());
+                if (reg==1){
+                    msgBox.setText("Se ha registrado con éxito!");
+                    msgBox.exec();
+                    emit inicioSignal();
+                }
+            } else {
+                //Si es un transportista, pasa a la ventana con los dados adicionales
+                ui->stackedWidget->setCurrentIndex(3);
             }
         } else {
-            //Si es un transportista, pasa a la ventana con los dados adicionales
-            ui->stackedWidget->setCurrentIndex(3);
+            //Si hay algun campo vacio
+            msgBox.setText("Por favor rellene todos los campos");
+            msgBox.exec();
         }
      } else {
-
+        //Si las contraseñas son distintas
         msgBox.setText("Las contraseñas no coinciden, intentelo nuevamente");
         msgBox.exec();
     }
@@ -90,8 +98,8 @@ void pantalla_registro::on_btnTransp_clicked()//va al registro de persona
 void pantalla_registro::on_btnAceptarTransp_clicked()
 {
     QMessageBox msgBox;
-    if (ui->comboBoxTipo->currentIndex() != 0){ //si el combobox no esta en la primera opcion (seleccione un vehiculo)
-        //registra al transportista
+    if (ui->comboBoxTipo->currentIndex()!= 0 && !ui->modelo->text().isEmpty() && !ui->placa->text().isEmpty()){
+        //Si ningun campo esta vacio, registra al transportista
         Vehiculo *vehiculo = new Vehiculo(ui->modelo->text().toStdString(), ui->placa->text().toStdString(), ui->comboBoxTipo->currentText().toStdString());
 
         int reg = Global::db.registrarTransportista(*datosPersona, *vehiculo, ui->correo->text().toStdString().c_str(), ui->password->text().toStdString().c_str());
@@ -101,7 +109,7 @@ void pantalla_registro::on_btnAceptarTransp_clicked()
             emit inicioSignal();
         }
     } else {
-        msgBox.setText("Elija un tipo de veíhculo, por favor");
+        msgBox.setText("Por favor rellene todos los campos");
         msgBox.exec();
     }
 }
@@ -109,4 +117,37 @@ void pantalla_registro::on_btnAceptarTransp_clicked()
 void pantalla_registro::on_atrasSeleccion_clicked()
 {
     emit inicioSignal();
+}
+
+
+void pantalla_registro::on_btnAceptarProv_clicked()
+{
+    QMessageBox msgBox;
+    //Si las contraseñas coinciden
+    if(ui->passwordProv->text() == ui->repPasswordProv->text()){
+        //Y ningun campo esta sin llenar, procede a registrar al proveedor
+        if (!ui->passwordProv->text().isEmpty() && !ui->nombreProv->text().isEmpty() && !ui->descripcion->text().isEmpty() && !ui->telefonoProv->text().isEmpty() && !ui->direccionProv->text().isEmpty() && !ui->tipoProv->text().isEmpty() && !ui->correoProv->text().isEmpty()){
+
+            Proveedor *proveedor = new Proveedor(ui->nombreProv->text().toStdString(),
+                                                 ui->descripcion->text().toStdString(),
+                                                 ui->telefonoProv->text().toStdString(),
+                                                 ui->direccionProv->text().toStdString(),
+                                                 ui->tipoProv->text().toStdString(),
+                                                 0);
+            int reg = Global::db.registrarProveedor(*proveedor,ui->correoProv->text().toStdString().c_str(),ui->passwordProv->text().toStdString().c_str());
+            if (reg==1){
+                msgBox.setText("Se ha registrado con éxito!");
+                msgBox.exec();
+                emit inicioSignal();
+            }
+        } else {
+            //Existe algun campo vacio
+            msgBox.setText("Por favor rellene todos los campos");
+            msgBox.exec();
+        }
+    } else {
+        //Si las contraseñas son distintas
+        msgBox.setText("Las contraseñas no coinciden, intentelo nuevamente");
+        msgBox.exec();
+    }
 }
