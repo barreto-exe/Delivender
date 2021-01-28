@@ -36,6 +36,7 @@ class MySQLConnection
         int registrarPersona(const Persona cliente, const int id_usuario);
         Proveedor *instanciarProveedor(const int id_proveedor);
         Producto *instanciarProducto(const int id_producto);
+        Persona *instanciarPersona(const int id_usuario);
 
     public:
         // Constructor

@@ -81,7 +81,7 @@ int MySQLConnection::obtenerIdUsuario(const char *correo)
         pstmt->setString(1, correo);
         res = pstmt->executeQuery();
 
-        while (res->next())
+        if (res->next())
         {
             int id = res->getInt("id_usuario");
             delete pstmt;
@@ -98,8 +98,10 @@ int MySQLConnection::obtenerIdUsuario(const char *correo)
         // Error de conexión
         qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-        return -1;
     }
+    delete pstmt;
+    delete res;
+    return -1;
 }
 
 // Verifica si la cédula corresponde a una persona registrada
@@ -114,23 +116,22 @@ int MySQLConnection::verificarCedula(const char *cedula)
         pstmt->setString(1, cedula);
         res = pstmt->executeQuery();
 
-        while (res->next())
+        if (res->next())
         {
             delete pstmt;
             delete res;
             return 1;
         }
-        delete pstmt;
-        delete res;
-        return 0;
     }
     catch (sql::SQLException &e)
     {
         // Error de conexión
         qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-        return 0;
     }
+    delete pstmt;
+    delete res;
+    return 0;
 }
 
 // Verifica si la placa corresponde a un vehiculo registrado
@@ -145,23 +146,22 @@ int MySQLConnection::verificarPlaca(const char *placa)
         pstmt->setString(1, placa);
         res = pstmt->executeQuery();
 
-        while (res->next())
+        if (res->next())
         {
             delete pstmt;
             delete res;
             return 1;
         }
-        delete pstmt;
-        delete res;
-        return 0;
     }
     catch (sql::SQLException &e)
     {
         // Error de conexión
         qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-        return 0;
     }
+    delete pstmt;
+    delete res;
+    return 0;
 }
 
 int MySQLConnection::registrarUsuario(const char *correo, const char *password, const char *tipo)
@@ -175,17 +175,18 @@ int MySQLConnection::registrarUsuario(const char *correo, const char *password, 
         pstmt->setString(2, encriptar(password));
         pstmt->setString(3, tipo);
         pstmt->execute();
-        delete pstmt;
         qDebug() << "El usuario se registró con éxito uwu";
+        delete pstmt;
         return 1;
     }
     catch (sql::SQLException &e)
     {
         // Error de conexión
         qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
-        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-        return 0;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";        
     }
+    delete pstmt;
+    return 0;
 }
 
 int MySQLConnection::registrarPersona(Persona persona, const int id_usuario)
@@ -204,8 +205,8 @@ int MySQLConnection::registrarPersona(Persona persona, const int id_usuario)
         pstmt->setString(6, persona.getDireccion().c_str());
         pstmt->setString(7, timeToString(persona.getFechaNacimiento()));
         pstmt->executeQuery();
-        delete pstmt;
         qDebug() << "La persona se registró con éxito uwu";
+        delete pstmt;
         return 1;
 
     }
@@ -215,6 +216,7 @@ int MySQLConnection::registrarPersona(Persona persona, const int id_usuario)
         qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
     }
+    delete pstmt;
     return 0;
 }
 
@@ -242,6 +244,8 @@ Proveedor *MySQLConnection::instanciarProveedor(const int id_proveedor)
         }
         else
         {
+            delete res;
+            delete pstmt;
             return 0;
         }
 
@@ -267,7 +271,6 @@ Proveedor *MySQLConnection::instanciarProveedor(const int id_proveedor)
 
         delete res;
         delete pstmt;
-
         return proveedor;
     }
     catch (sql::SQLException &e)
@@ -276,6 +279,8 @@ Proveedor *MySQLConnection::instanciarProveedor(const int id_proveedor)
         qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
     }
+    delete res;
+    delete pstmt;
     return 0;
 }
 
@@ -299,13 +304,8 @@ Producto *MySQLConnection::instanciarProducto(const int id_producto)
 
             delete res;
             delete pstmt;
-
             return producto;
         }
-
-        delete res;
-        delete pstmt;
-
     }
     catch (sql::SQLException &e)
     {
@@ -313,6 +313,45 @@ Producto *MySQLConnection::instanciarProducto(const int id_producto)
         qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
     }
+    delete res;
+    delete pstmt;
+    return 0;
+}
+
+Persona *MySQLConnection::instanciarPersona(const int id_usuario)
+{
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM personas WHERE id_usuario = ?");
+        pstmt->setInt(1, id_usuario);
+        res = pstmt->executeQuery();
+
+        if (res->next())
+        {
+            Persona *persona = new Persona();
+            persona->setNombre(res->getString("nombre"));
+            persona->setApellido(res->getString("apellido"));
+            persona->setTelefono(res->getString("telefono"));
+            persona->setDireccion(res->getString("direccion"));
+            persona->setFechaNacimiento(new time_t());
+
+            delete res;
+            delete pstmt;
+            return persona;
+        }
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete res;
+    delete pstmt;
     return 0;
 }
 
@@ -337,7 +376,7 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
         pstmt->setString(1, correo);
         res = pstmt->executeQuery();
 
-        while (res->next())
+        if (res->next())
         {
             if (!strcmp(encriptar(password), res->getString("password").c_str()))
             {  // Entonces el correo está registrado y la contraseña coincide
@@ -348,6 +387,7 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
 
                 qDebug() << "Ha iniciado sesión como" << tipo.c_str();
 
+                // Instanciando proveedor global con los atributos de la BDD
                 if (!strcmp(tipo.c_str(), "proveedor"))
                 {
                     pstmt = con->prepareStatement("SELECT * FROM proveedores WHERE id_usuario = ?");
@@ -360,10 +400,6 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
                         id_proveedor = res->getInt("id_proveedor");
 
                     Global::proveedor = instanciarProveedor(id_proveedor);
-
-                    delete res;
-                    delete pstmt;
-
                 }
                 else
                 {
@@ -371,13 +407,32 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
                     pstmt->setInt(1, id_usuario);
                     res = pstmt->executeQuery();
 
-                    while (res->next())
-                    {
+                    Persona *persona;
 
+                    if (res->next())
+                    {
+                        persona = instanciarPersona(id_usuario);
+
+                        // Instanciando cliente global con los atributos de la BDD
+                        if (!strcmp(tipo.c_str(), "cliente"))
+                        {
+                            Global::cliente = persona;
+                        }
+                        // Instanciando transportista global con los atributos de la BDD
+                        else if (!strcmp(tipo.c_str(), "transportista"))
+                        {
+                            Global::transportista = persona;
+                        }
+                        else
+                        {
+                            delete res;
+                            delete pstmt;
+                            return -2;
+                        }
                     }
                 }
-
-
+                delete res;
+                delete pstmt;
                 return 1;
             }
             // Entonces se encontró el correo, pero la contraseña no coincide
@@ -401,6 +456,8 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
         qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
     }
+    delete res;
+    delete pstmt;
     return -2;
 }
 
