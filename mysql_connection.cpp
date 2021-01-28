@@ -71,19 +71,20 @@ char *MySQLConnection::timeToString(time_t *fecha)
     return str;
 }
 
-int MySQLConnection::obtenerIdUsuario(const char *correo)
+int MySQLConnection::obtenerIdProducto(Producto *producto)
 {
     sql::PreparedStatement *pstmt;
     sql::ResultSet *res;
     try
     {
-        pstmt = con->prepareStatement("SELECT * FROM usuarios WHERE correo = ?");
-        pstmt->setString(1, correo);
+        pstmt = con->prepareStatement("SELECT * FROM productos WHERE nombre = ? AND precio = ?");
+        pstmt->setString(1, producto->getNombre());
+        pstmt->setDouble(2, producto->getPrecio());
         res = pstmt->executeQuery();
 
         if (res->next())
         {
-            int id = res->getInt("id_usuario");
+            int id = res->getInt("id_producto");
             delete pstmt;
             delete res;
             return id;
@@ -102,6 +103,35 @@ int MySQLConnection::obtenerIdUsuario(const char *correo)
     delete pstmt;
     delete res;
     return -1;
+}
+
+int MySQLConnection::verificarCorreo(const char *correo)
+{
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM usuarios WHERE correo = ?");
+        pstmt->setString(1, correo);
+        res = pstmt->executeQuery();
+
+        if (res->next())
+        {
+            delete pstmt;
+            delete res;
+            return 1;
+        }
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+    delete pstmt;
+    delete res;
+    return 0;
 }
 
 // Verifica si la cédula corresponde a una persona registrada
@@ -189,18 +219,18 @@ int MySQLConnection::registrarUsuario(const char *correo, const char *password, 
     return 0;
 }
 
-int MySQLConnection::registrarPersona(Persona persona, const int id_usuario)
+int MySQLConnection::registrarPersona(Persona persona)
 {
     sql::PreparedStatement *pstmt;
 
     // Registro los datos de la persona en la tabla personas
     try
     {
-        pstmt = con->prepareStatement("INSERT INTO personas(cedula,id_usuario,nombre,apellido,telefono,direccion,fecha_nacimiento) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        pstmt->setString(1, persona.getCedula().c_str());
-        pstmt->setInt(2, id_usuario);
-        pstmt->setString(3, persona.getNombre().c_str());
-        pstmt->setString(4, persona.getApellido().c_str());
+        pstmt = con->prepareStatement("INSERT INTO personas(correo,nombre,apellido,cedula,telefono,direccion,fecha_nacimiento) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        pstmt->setString(1, persona.getCorreo().c_str());
+        pstmt->setString(2, persona.getNombre().c_str());
+        pstmt->setString(3, persona.getApellido().c_str());
+        pstmt->setString(4, persona.getCedula().c_str());
         pstmt->setString(5, persona.getTelefono().c_str());
         pstmt->setString(6, persona.getDireccion().c_str());
         pstmt->setString(7, timeToString(persona.getFechaNacimiento()));
@@ -220,7 +250,7 @@ int MySQLConnection::registrarPersona(Persona persona, const int id_usuario)
     return 0;
 }
 
-Proveedor *MySQLConnection::instanciarProveedor(const int id_proveedor)
+Proveedor *MySQLConnection::instanciarProveedor(const char *correo)
 {
     sql::PreparedStatement *pstmt;
     sql::ResultSet *res;
@@ -229,8 +259,8 @@ Proveedor *MySQLConnection::instanciarProveedor(const int id_proveedor)
 
     try
     {
-        pstmt = con->prepareStatement("SELECT * FROM proveedores WHERE id_proveedor = ?");
-        pstmt->setInt(1, id_proveedor);
+        pstmt = con->prepareStatement("SELECT * FROM proveedores WHERE correo = ?");
+        pstmt->setString(1, correo);
         res = pstmt->executeQuery();
 
         if (res->next())
@@ -241,6 +271,7 @@ Proveedor *MySQLConnection::instanciarProveedor(const int id_proveedor)
             proveedor->setTelefono(res->getString("telefono"));
             proveedor->setDireccion(res->getString("direccion"));
             proveedor->setTipoProveedor(res->getString("tipo_de_proveedor"));
+            proveedor->setCorreo(correo);
         }
         else
         {
@@ -249,12 +280,11 @@ Proveedor *MySQLConnection::instanciarProveedor(const int id_proveedor)
             return 0;
         }
 
-        const int idProveedor = res->getInt("id_proveedor");
         delete res;
         delete pstmt;
 
-        pstmt = con->prepareStatement("SELECT * FROM almacenes WHERE id_proveedor = ?");
-        pstmt->setInt(1, idProveedor);
+        pstmt = con->prepareStatement("SELECT * FROM almacenes WHERE correo_proveedor = ?");
+        pstmt->setString(1, correo);
         res = pstmt->executeQuery();
 
         proveedor->getAlmacen().clear();
@@ -318,15 +348,15 @@ Producto *MySQLConnection::instanciarProducto(const int id_producto)
     return 0;
 }
 
-Persona *MySQLConnection::instanciarPersona(const int id_usuario)
+Persona *MySQLConnection::instanciarPersona(const char *correo)
 {
     sql::PreparedStatement *pstmt;
     sql::ResultSet *res;
 
     try
     {
-        pstmt = con->prepareStatement("SELECT * FROM personas WHERE id_usuario = ?");
-        pstmt->setInt(1, id_usuario);
+        pstmt = con->prepareStatement("SELECT * FROM personas WHERE correo = ?");
+        pstmt->setString(1, correo);
         res = pstmt->executeQuery();
 
         if (res->next())
@@ -337,6 +367,7 @@ Persona *MySQLConnection::instanciarPersona(const int id_usuario)
             persona->setTelefono(res->getString("telefono"));
             persona->setDireccion(res->getString("direccion"));
             persona->setFechaNacimiento(new time_t());
+            persona->setCorreo(correo);
 
             delete res;
             delete pstmt;
@@ -381,7 +412,6 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
             if (!strcmp(encriptar(password), res->getString("password").c_str()))
             {  // Entonces el correo está registrado y la contraseña coincide
                 const string tipo = res->getString("tipo_de_usuario");
-                const int id_usuario = res->getUInt("id_usuario");
                 delete res;
                 delete pstmt;
 
@@ -390,28 +420,19 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
                 // Instanciando proveedor global con los atributos de la BDD
                 if (!strcmp(tipo.c_str(), "proveedor"))
                 {
-                    pstmt = con->prepareStatement("SELECT * FROM proveedores WHERE id_usuario = ?");
-                    pstmt->setInt(1, id_usuario);
-                    res = pstmt->executeQuery();
-
-                    int id_proveedor = -1;
-
-                    if (res->next())
-                        id_proveedor = res->getInt("id_proveedor");
-
-                    Global::proveedor = instanciarProveedor(id_proveedor);
+                    Global::proveedor = instanciarProveedor(correo);
                 }
                 else
                 {
-                    pstmt = con->prepareStatement("SELECT * FROM personas WHERE id_usuario = ?");
-                    pstmt->setInt(1, id_usuario);
+                    pstmt = con->prepareStatement("SELECT * FROM personas WHERE correo = ?");
+                    pstmt->setString(1, correo);
                     res = pstmt->executeQuery();
 
                     Persona *persona;
 
                     if (res->next())
                     {
-                        persona = instanciarPersona(id_usuario);
+                        persona = instanciarPersona(correo);
 
                         // Instanciando cliente global con los atributos de la BDD
                         if (!strcmp(tipo.c_str(), "cliente"))
@@ -466,7 +487,7 @@ int MySQLConnection::registrarCliente(Persona cliente, const char *correo, const
     if (con == 0)
         return 0;
 
-    if (obtenerIdUsuario(correo))
+    if (verificarCorreo(correo))
     {
         qDebug() << "Este correo ya fue registrado";
         return 0;
@@ -480,7 +501,7 @@ int MySQLConnection::registrarCliente(Persona cliente, const char *correo, const
 
     char tipo[8] = "cliente";
     registrarUsuario(correo, password, tipo);
-    registrarPersona(cliente, obtenerIdUsuario(correo));
+    registrarPersona(cliente);
     Global::cliente = &cliente;
     return 1;
 }
@@ -490,7 +511,7 @@ int MySQLConnection::registrarProveedor(Proveedor proveedor, const char *correo,
     if (con == 0)
         return 0;
 
-    if (obtenerIdUsuario(correo))
+    if (verificarCorreo(correo))
     {
         qDebug() << "Este correo ya fue registrado";
         return 0;
@@ -504,8 +525,8 @@ int MySQLConnection::registrarProveedor(Proveedor proveedor, const char *correo,
     // Registro los datos de la empresa en la tabla proovedores
     try
     {
-        pstmt = con->prepareStatement("INSERT INTO proveedores(id_usuario,nombre,descripcion,tipo_de_proveedor,telefono,direccion) VALUES (?, ?, ?, ?, ?, ?)");
-        pstmt->setInt(1, obtenerIdUsuario(correo));
+        pstmt = con->prepareStatement("INSERT INTO proveedores(correo,nombre,descripcion,tipo_de_proveedor,telefono,direccion) VALUES (?, ?, ?, ?, ?, ?)");
+        pstmt->setString(1, correo);
         pstmt->setString(2, proveedor.getNombre().c_str());
         pstmt->setString(3, proveedor.getDescripcion().c_str());
         pstmt->setString(4, proveedor.getTipoProveedor().c_str());
@@ -532,7 +553,7 @@ int MySQLConnection::registrarTransportista(Persona transportista, Vehiculo vehi
     if (con == 0)
         return 0;
 
-    if (obtenerIdUsuario(correo))
+    if (verificarCorreo(correo))
     {
         qDebug() << "Este correo ya fue registrado";
         return 0;
@@ -553,13 +574,13 @@ int MySQLConnection::registrarTransportista(Persona transportista, Vehiculo vehi
 
     char tipo[15] = "transportista";
     registrarUsuario(correo, password, tipo);
-    registrarPersona(transportista, obtenerIdUsuario(correo));
+    registrarPersona(transportista);
     registrarVehiculo(vehiculo, transportista.getCedula().c_str());
     Global::transportista = &transportista;
     return 1;
 }
 
-int MySQLConnection::registrarVehiculo(Vehiculo vehiculo, const char *cedula_transportista)
+int MySQLConnection::registrarVehiculo(Vehiculo vehiculo, const char *correo_transportista)
 {
     if (con == 0)
         return 0;
@@ -569,9 +590,9 @@ int MySQLConnection::registrarVehiculo(Vehiculo vehiculo, const char *cedula_tra
     // Registro los datos del vehiculo en la tabla vehiculos
     try
     {
-        pstmt = con->prepareStatement("INSERT INTO vehiculos(placa,cedula_transportista,modelo,tipo_de_vehiculo) VALUES (?, ?, ?, ?)");
+        pstmt = con->prepareStatement("INSERT INTO vehiculos(placa,correo_transportista,modelo,tipo_de_vehiculo) VALUES (?, ?, ?, ?)");
         pstmt->setString(1, vehiculo.getPLaca().c_str());
-        pstmt->setString(2, cedula_transportista);
+        pstmt->setString(2, correo_transportista);
         pstmt->setString(3, vehiculo.getModelo().c_str());
         pstmt->setString(4, vehiculo.getTipo().c_str());
         pstmt->executeQuery();
@@ -603,7 +624,7 @@ vector <Proveedor> MySQLConnection::listarProveedores()
 
         while (res->next())
         {
-            Proveedor *proveedor = instanciarProveedor(res->getInt("id_proveedor"));
+            Proveedor *proveedor = instanciarProveedor(res->getString("correo").c_str());
 
             delete res;
             delete stmt;
@@ -623,4 +644,56 @@ vector <Proveedor> MySQLConnection::listarProveedores()
     }
 
     return lista;
+}
+
+/***************************************************** FUNCIONES "PROTEGIDAS" *****************************************************/
+
+int MySQLConnection::registrarProducto(Producto *producto)
+{
+    sql::PreparedStatement *pstmt;
+    try
+    {
+        pstmt = con->prepareStatement("INSERT INTO productos(nombre,descripcion,precio) VALUES (?, ?, ?)");
+
+        pstmt->setString(1, producto->getNombre());
+        pstmt->setString(2, producto->getDescripcion());
+        pstmt->setDouble(3, producto->getPrecio());
+        pstmt->execute();
+        qDebug() << "El producto se registró con éxito uwu";
+        delete pstmt;
+        return 1;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+    delete pstmt;
+    return 0;
+}
+
+int MySQLConnection::agregarProductoAlmacen(const char *correo_proveedor, producto_cantidad *pxq)
+{
+    sql::PreparedStatement *pstmt;
+    try
+    {
+        pstmt = con->prepareStatement("INSERT INTO almacenes(correo_proveedor,id_producto,cantidad) VALUES (?, ?, ?)");
+
+        pstmt->setString(1, correo_proveedor);
+        pstmt->setInt(2, obtenerIdProducto(pxq->producto));
+        pstmt->setInt(3, pxq->cantidad);
+        pstmt->execute();
+        qDebug() << "El producto se registró con éxito en el almacén uwu";
+        delete pstmt;
+        return 1;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+    delete pstmt;
+    return 0;
 }

@@ -18,6 +18,7 @@ class Proveedor {
         string nombre;
         string descripcion;
         string telefono;
+        string correo;
         string direccion;
         string tipoProveedor;
         vector <producto_cantidad> almacen;
@@ -25,13 +26,14 @@ class Proveedor {
     public:
         // Constructor
         Proveedor();
-        Proveedor(string nombre, string descripcion, string telefono, string direccion, string tipoProveedor, vector <producto_cantidad> almacen);
-        Proveedor(string nombre, string descripcion, string telefono, string direccion, string tipoProveedor );
+        Proveedor(string nombre, string descripcion, string telefono, string correo, string direccion, string tipoProveedor, vector <producto_cantidad> almacen);
+        Proveedor(string nombre, string descripcion, string telefono, string correo, string direccion, string tipoProveedor );
 
         // Funciones set
         Proveedor &setNombre(string nombre);
         Proveedor &setDescripcion(string descripcion);
         Proveedor &setTelefono(string telefono);
+        Proveedor &setCorreo(string correo);
         Proveedor &setDireccion(string direccion);
         Proveedor &setTipoProveedor(string tipoProveedor);
         Proveedor &setAlmacen(vector <producto_cantidad> almacen);
@@ -40,12 +42,14 @@ class Proveedor {
         string getNombre() const;
         string getDescripcion() const;
         string getTelefono() const;
+        string getCorreo() const;
         string getDireccion() const;
         string getTipoProveedor() const;
         vector <producto_cantidad> getAlmacen() const;
 
         // Funciones
-        int agregarProductoAlmacen(Producto producto, int cantidad);
+        int obtenerId();
+        int agregarProductoAlmacen(Producto *producto, int cantidad);
 };
 
 #endif
