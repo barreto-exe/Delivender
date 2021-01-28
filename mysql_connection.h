@@ -36,7 +36,7 @@ class MySQLConnection
         int registrarUsuario(const char *correo, const char *password, const char *tipo);
         int registrarPersona(const Persona persona);
         Proveedor *instanciarProveedor(const char *correo);
-        Producto *instanciarProducto(const int id_producto);
+        void instanciarAlmacen(Proveedor proveedor);
         Persona *instanciarPersona(const char *correo);
 
     public:
@@ -55,8 +55,7 @@ class MySQLConnection
         vector <Proveedor> listarProveedores();
 
         // Funciones que están son pública, pero NO deben usarse en FRONT. grasias ;)
-        int registrarProducto(Producto *producto);
-        int agregarProductoAlmacen(const char *correo_proveedor, producto_cantidad *pxq);
+        int registrarProducto(const char *correo_proveedor, producto_cantidad pxq);
 
 };
 #endif // MYSQLCONNECTION_H

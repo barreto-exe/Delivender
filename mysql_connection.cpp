@@ -283,24 +283,7 @@ Proveedor *MySQLConnection::instanciarProveedor(const char *correo)
         delete res;
         delete pstmt;
 
-        pstmt = con->prepareStatement("SELECT * FROM almacenes WHERE correo_proveedor = ?");
-        pstmt->setString(1, correo);
-        res = pstmt->executeQuery();
-
-        proveedor->getAlmacen().clear();
-
-        while (res->next())
-        {
-            Producto *producto = instanciarProducto(res->getInt("id_producto"));
-            int cantidad = res->getInt("cantidad");
-            producto_cantidad *pxq = new producto_cantidad;
-            pxq->cantidad = cantidad;
-            pxq->producto = producto;
-            proveedor->getAlmacen().push_back(*pxq);
-        }
-
-        delete res;
-        delete pstmt;
+        instanciarAlmacen(*proveedor);
         return proveedor;
     }
     catch (sql::SQLException &e)
@@ -314,28 +297,30 @@ Proveedor *MySQLConnection::instanciarProveedor(const char *correo)
     return 0;
 }
 
-Producto *MySQLConnection::instanciarProducto(const int id_producto)
+void MySQLConnection::instanciarAlmacen(Proveedor proveedor)
 {
     sql::PreparedStatement *pstmt;
     sql::ResultSet *res;
 
     try
     {
-        pstmt = con->prepareStatement("SELECT * FROM productos WHERE id_producto = ?");
-        pstmt->setInt(1, id_producto);
+        pstmt = con->prepareStatement("SELECT * FROM productos WHERE correo_proveedor = ?");
+        pstmt->setString(1, proveedor.getCorreo());
         res = pstmt->executeQuery();
 
-        if (res->next())
+        while (res->next())
         {
-            Producto *producto = new Producto();
-            producto->setNombre(res->getString("nombre"));
-            producto->setDescripcion(res->getString("descripcion"));
-            producto->setPrecio(res->getDouble("precio"));
-
-            delete res;
-            delete pstmt;
-            return producto;
+            Producto producto = Producto();
+            producto.setNombre(res->getString("nombre"));
+            producto.setDescripcion(res->getString("descripcion"));
+            producto.setPrecio(res->getDouble("precio"));
+            int cantidad = res->getInt("cantidad");
+            producto_cantidad pxq = producto_cantidad();
+            pxq.cantidad = cantidad;
+            pxq.producto = producto;
+            proveedor.getAlmacen().push_back(pxq);
         }
+
     }
     catch (sql::SQLException &e)
     {
@@ -345,7 +330,8 @@ Producto *MySQLConnection::instanciarProducto(const int id_producto)
     }
     delete res;
     delete pstmt;
-    return 0;
+    return;
+
 }
 
 Persona *MySQLConnection::instanciarPersona(const char *correo)
@@ -648,43 +634,20 @@ vector <Proveedor> MySQLConnection::listarProveedores()
 
 /***************************************************** FUNCIONES "PROTEGIDAS" *****************************************************/
 
-int MySQLConnection::registrarProducto(Producto *producto)
+int MySQLConnection::registrarProducto(const char *correo_proveedor, producto_cantidad pxq)
 {
     sql::PreparedStatement *pstmt;
     try
     {
-        pstmt = con->prepareStatement("INSERT INTO productos(nombre,descripcion,precio) VALUES (?, ?, ?)");
-
-        pstmt->setString(1, producto->getNombre());
-        pstmt->setString(2, producto->getDescripcion());
-        pstmt->setDouble(3, producto->getPrecio());
-        pstmt->execute();
-        qDebug() << "El producto se registró con éxito uwu";
-        delete pstmt;
-        return 1;
-    }
-    catch (sql::SQLException &e)
-    {
-        // Error de conexión
-        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
-        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-    }
-    delete pstmt;
-    return 0;
-}
-
-int MySQLConnection::agregarProductoAlmacen(const char *correo_proveedor, producto_cantidad *pxq)
-{
-    sql::PreparedStatement *pstmt;
-    try
-    {
-        pstmt = con->prepareStatement("INSERT INTO almacenes(correo_proveedor,id_producto,cantidad) VALUES (?, ?, ?)");
+        pstmt = con->prepareStatement("INSERT INTO productos(correo_proveedor,nombre,descripcion,precio,cantidad) VALUES (?, ?, ?, ?, ?)");
 
         pstmt->setString(1, correo_proveedor);
-        pstmt->setInt(2, obtenerIdProducto(pxq->producto));
-        pstmt->setInt(3, pxq->cantidad);
+        pstmt->setString(2, pxq.producto.getNombre());
+        pstmt->setString(3, pxq.producto.getDescripcion());
+        pstmt->setDouble(4, pxq.producto.getPrecio());
+        pstmt->setInt(5, pxq.cantidad);
         pstmt->execute();
-        qDebug() << "El producto se registró con éxito en el almacén uwu";
+        qDebug() << "El producto se registró con éxito uwu";
         delete pstmt;
         return 1;
     }

@@ -9,7 +9,7 @@
 
 struct producto_cantidad
 {
-    Producto *producto;
+    Producto producto;
     int cantidad;
 };
 

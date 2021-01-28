@@ -117,7 +117,7 @@ int Proveedor::agregarProductoAlmacen(Producto *producto, int cantidad)
 {
     MySQLConnection *db = new MySQLConnection();
 
-    db->registrarProducto(producto);
+    //db->registrarProducto(producto);
     //db->agregarProductoAlmacen();
 
     return 0;
