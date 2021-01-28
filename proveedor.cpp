@@ -113,12 +113,18 @@ string Proveedor::getTipoProveedor() const { return tipoProveedor; }
 // Devuelve el almacen
 vector <producto_cantidad> Proveedor::getAlmacen() const { return almacen; }
 
-int Proveedor::agregarProductoAlmacen(Producto *producto, int cantidad)
+int Proveedor::agregarProductoAlmacen(Producto producto, int cantidad)
 {
-    MySQLConnection *db = new MySQLConnection();
+    MySQLConnection db = MySQLConnection();
+    producto_cantidad pxq = producto_cantidad();
+    pxq.producto = producto;
+    pxq.cantidad = cantidad;
 
-    //db->registrarProducto(producto);
-    //db->agregarProductoAlmacen();
+    if (db.registrarProducto(correo.c_str(), pxq))
+    {
+        almacen.push_back(pxq);
+        return 1;
+    }
 
     return 0;
 }

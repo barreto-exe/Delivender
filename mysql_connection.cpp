@@ -318,7 +318,7 @@ void MySQLConnection::instanciarAlmacen(Proveedor proveedor)
             producto_cantidad pxq = producto_cantidad();
             pxq.cantidad = cantidad;
             pxq.producto = producto;
-            proveedor.getAlmacen().push_back(pxq);
+            (&proveedor)->getAlmacen().push_back(pxq);
         }
 
     }

@@ -20,7 +20,7 @@ class Persona {
         string telefono;
         string correo;
         string direccion;
-        time_t *fechaNacimiento;
+        time_t fechaNacimiento;
         
     public:
         // Constructor

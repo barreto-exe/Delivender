@@ -48,7 +48,7 @@ class Proveedor {
         vector <producto_cantidad> getAlmacen() const;
 
         // Funciones
-        int agregarProductoAlmacen(Producto *producto, int cantidad);
+        int agregarProductoAlmacen(Producto producto, int cantidad);
 };
 
 #endif
