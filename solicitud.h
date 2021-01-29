@@ -26,11 +26,14 @@ class Solicitud
         time_t fechaEntrega;
         string estatus;
         string direccion;
-        producto_cantidad *pedido;
+        vector <producto_cantidad> pedido;
 
     public:
         // Constructor
-        Solicitud(Proveedor proveedor = Proveedor(), Persona cliente = Persona(), string tipoPago = "", float monto = 0, time_t fechaPedido = 0, time_t fechaEntrega = 0, string direccion = "", producto_cantidad *pedido = nullptr);
+        Solicitud();
+        Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion, vector <producto_cantidad> pedido);
+        Solicitud(Persona cliente, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion, vector <producto_cantidad> pedido);
+        Solicitud(Proveedor proveedor, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion, vector <producto_cantidad> pedido);
 
         //Funciones set
         Solicitud &setProveedor(Proveedor proveedor);
@@ -41,7 +44,7 @@ class Solicitud
         Solicitud &setFechaEntrega(time_t fechaEntrega);
         Solicitud &setEstatus(string estatus);
         Solicitud &setDireccion(string direccion);
-        Solicitud &setPedido(producto_cantidad *pedido);
+        Solicitud &setPedido(vector <producto_cantidad> pedido);
 
         //Funciones get
         Proveedor getProveedor() const;
@@ -52,7 +55,7 @@ class Solicitud
         time_t getFechaEntrega() const;
         string getEstatus() const;
         string getDireccion() const;
-        producto_cantidad *getPedido() const;
+        vector <producto_cantidad> getPedido() const;
 };
 
 #endif // SOLICITUD_H

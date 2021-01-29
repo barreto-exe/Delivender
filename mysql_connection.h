@@ -37,6 +37,7 @@ class MySQLConnection
         Proveedor *instanciarProveedor(const char *correo);
         void instanciarAlmacen(Proveedor proveedor);
         Persona *instanciarPersona(const char *correo);
+        int obtenerIdTipoDePago(const char *correo_proveedor, const char *tipo);
 
     public:
         // Constructor
@@ -46,6 +47,7 @@ class MySQLConnection
         sql::Connection *getConnection() const;
 
         // Funciones
+        producto_cantidad structProductoCantidad(Producto producto, int cantidad);
         int iniciarSesion(const char *correo, const char *password);
         int registrarCliente(Persona cliente, const char *correo, const char *password);
         int registrarProveedor(Proveedor proveedor, const char *correo, const char *password);
@@ -54,9 +56,9 @@ class MySQLConnection
         vector <Proveedor> listarProveedores();
 
         // Funciones que están son pública, pero NO deben usarse en FRONT. grasias ;)
-        producto_cantidad structProductoCantidad(Producto producto, int cantidad);
         int registrarProducto(const char *correo_proveedor, producto_cantidad pxq);
         int registrarTipoDePago(const char *correo_proveedor, const char *descripcion);
+        int registrarSolicitud(Solicitud solicitud);
 
 };
 #endif // MYSQLCONNECTION_H
