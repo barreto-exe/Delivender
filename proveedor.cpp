@@ -1,6 +1,7 @@
 // Implementación de la clase Proveedor
 #include "proveedor.h"
 #include"mysql_connection.h"
+#include"global.h"
 
 // Constructor de la clase
 Proveedor::Proveedor()
@@ -115,16 +116,17 @@ vector <producto_cantidad> Proveedor::getAlmacen() const { return almacen; }
 
 int Proveedor::agregarProductoAlmacen(Producto producto, int cantidad)
 {
-    MySQLConnection db = MySQLConnection();
-    producto_cantidad pxq = producto_cantidad();
-    pxq.producto = producto;
-    pxq.cantidad = cantidad;
-
-    if (db.registrarProducto(correo.c_str(), pxq))
+    producto_cantidad pxq = Global::db.structProductoCantidad(producto,cantidad);
+    if (Global::db.registrarProducto(correo.c_str(), pxq))
     {
         almacen.push_back(pxq);
         return 1;
     }
 
     return 0;
+}
+
+int Proveedor::agregarTipoDePago(const char *descripcion)
+{
+    return Global::db.registrarTipoDePago(correo.c_str(), descripcion);
 }

@@ -28,8 +28,7 @@ class MySQLConnection
 
         // Funciones
         char *encriptar(const char *password);
-        char *timeToString(time_t *fecha);
-        int obtenerIdProducto(Producto *producto);
+        char *timeToString(time_t fecha);
         int verificarCorreo(const char *correo);
         int verificarCedula(const char *cedula);
         int verificarPlaca(const char *placa);
@@ -55,7 +54,9 @@ class MySQLConnection
         vector <Proveedor> listarProveedores();
 
         // Funciones que están son pública, pero NO deben usarse en FRONT. grasias ;)
+        producto_cantidad structProductoCantidad(Producto producto, int cantidad);
         int registrarProducto(const char *correo_proveedor, producto_cantidad pxq);
+        int registrarTipoDePago(const char *correo_proveedor, const char *descripcion);
 
 };
 #endif // MYSQLCONNECTION_H

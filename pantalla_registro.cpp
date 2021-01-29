@@ -31,7 +31,7 @@ void pantalla_registro::on_btnAceptarPersona_clicked() //Boton aceptar al introd
                                         ui->cedula->text().toStdString(),
                                         ui->telefono->text().toStdString(),
                                         ui->correo->text().toStdString().c_str(),
-                                        ui->direccion->text().toStdString(),&fechaNac);
+                                        ui->direccion->text().toStdString(),fechaNac);
     //Si las contraseñas son iguales
     if(ui->password->text() == ui->repPassword->text())  {
         if(cliente){

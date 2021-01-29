@@ -59,50 +59,24 @@ char *MySQLConnection::encriptar(const char *password)
     return str;
 }
 
-char *MySQLConnection::timeToString(time_t *fecha)
+char *MySQLConnection::timeToString(time_t fecha)
 {
     struct tm * timeinfo;
     char *str = new char[11] ();
 
-    time(fecha);
-    timeinfo = localtime(fecha);
+    time(&fecha);
+    timeinfo = localtime(&fecha);
 
     strftime(str, 11, "%d/%m/%Y", timeinfo);
     return str;
 }
 
-int MySQLConnection::obtenerIdProducto(Producto *producto)
+producto_cantidad MySQLConnection::structProductoCantidad(Producto producto, int cantidad)
 {
-    sql::PreparedStatement *pstmt;
-    sql::ResultSet *res;
-    try
-    {
-        pstmt = con->prepareStatement("SELECT * FROM productos WHERE nombre = ? AND precio = ?");
-        pstmt->setString(1, producto->getNombre());
-        pstmt->setDouble(2, producto->getPrecio());
-        res = pstmt->executeQuery();
-
-        if (res->next())
-        {
-            int id = res->getInt("id_producto");
-            delete pstmt;
-            delete res;
-            return id;
-        }
-
-        delete pstmt;
-        delete res;
-        return 0;
-    }
-    catch (sql::SQLException &e)
-    {
-        // Error de conexión
-        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
-        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-    }
-    delete pstmt;
-    delete res;
-    return -1;
+    producto_cantidad pxq = producto_cantidad();
+    pxq.producto = producto;
+    pxq.cantidad = cantidad;
+    return pxq;
 }
 
 int MySQLConnection::verificarCorreo(const char *correo)
@@ -315,10 +289,7 @@ void MySQLConnection::instanciarAlmacen(Proveedor proveedor)
             producto.setDescripcion(res->getString("descripcion"));
             producto.setPrecio(res->getDouble("precio"));
             int cantidad = res->getInt("cantidad");
-            producto_cantidad pxq = producto_cantidad();
-            pxq.cantidad = cantidad;
-            pxq.producto = producto;
-            (&proveedor)->getAlmacen().push_back(pxq);
+            proveedor.getAlmacen().push_back(structProductoCantidad(producto, cantidad));
         }
 
     }
@@ -352,7 +323,7 @@ Persona *MySQLConnection::instanciarPersona(const char *correo)
             persona->setApellido(res->getString("apellido"));
             persona->setTelefono(res->getString("telefono"));
             persona->setDireccion(res->getString("direccion"));
-            persona->setFechaNacimiento(new time_t());
+            persona->setFechaNacimiento(time_t());
             persona->setCorreo(correo);
 
             delete res;
@@ -648,6 +619,30 @@ int MySQLConnection::registrarProducto(const char *correo_proveedor, producto_ca
         pstmt->setInt(5, pxq.cantidad);
         pstmt->execute();
         qDebug() << "El producto se registró con éxito uwu";
+        delete pstmt;
+        return 1;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+    delete pstmt;
+    return 0;
+}
+
+int MySQLConnection::registrarTipoDePago(const char *correo_proveedor, const char *descripcion)
+{
+    sql::PreparedStatement *pstmt;
+    try
+    {
+        pstmt = con->prepareStatement("INSERT INTO tipos_de_pago(correo_proveedor,descripcion) VALUES (?, ?)");
+
+        pstmt->setString(1, correo_proveedor);
+        pstmt->setString(2, descripcion);
+        pstmt->execute();
+        qDebug() << "Se registró el tipo de pago";
         delete pstmt;
         return 1;
     }

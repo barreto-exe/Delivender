@@ -49,6 +49,7 @@ class Proveedor {
 
         // Funciones
         int agregarProductoAlmacen(Producto producto, int cantidad);
+        int agregarTipoDePago(const char *descripcion);
 };
 
 #endif

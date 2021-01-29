@@ -2,7 +2,7 @@
 #include "persona.h"
 
 // Constructor de la clase
-Persona::Persona(string nombre, string apellido, string cedula, string telefono, string correo, string direccion, time_t *fechaNacimiento)
+Persona::Persona(string nombre, string apellido, string cedula, string telefono, string correo, string direccion, time_t fechaNacimiento)
 {
     this->nombre = nombre;
     this->apellido = apellido;
@@ -62,7 +62,7 @@ Persona &Persona::setDireccion(string direccion)
 }
 
 // Establece la fecha de nacimiento
-Persona &Persona::setFechaNacimiento(time_t *fechaNacimiento)
+Persona &Persona::setFechaNacimiento(time_t fechaNacimiento)
 {
     this->fechaNacimiento = fechaNacimiento;
 
@@ -88,4 +88,4 @@ string Persona::getCorreo() const { return correo; }
 string Persona::getDireccion() const { return direccion; }
 
 // Devuelve la fecha de nacimiento
-time_t *Persona::getFechaNacimiento() const { return fechaNacimiento; }
+time_t Persona::getFechaNacimiento() const { return fechaNacimiento; }
