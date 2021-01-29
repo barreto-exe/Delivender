@@ -827,6 +827,34 @@ vector <Solicitud> MySQLConnection::listarSolicitudes(Proveedor proveedor)
     return lista;
 }
 
+vector <string> MySQLConnection::listarTiposDePago(Proveedor proveedor)
+{
+    vector <string> lista;
+
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM tipos_de_pago WHERE correo_proveedor = ?");
+        pstmt->setString(1, proveedor.getCorreo().c_str());
+        res = pstmt->executeQuery();
+
+        while (res->next())
+            lista.push_back(res->getString("descripcion"));
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete res;
+    delete pstmt;
+    return lista;
+}
+
 /***************************************************** FUNCIONES "PROTEGIDAS" *****************************************************/
 int MySQLConnection::registrarProducto(const char *correo_proveedor, producto_cantidad pxq)
 {

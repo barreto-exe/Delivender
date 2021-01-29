@@ -60,6 +60,7 @@ class MySQLConnection
         vector <Proveedor> listarProveedores();
         vector <Solicitud> listarSolicitudes(Persona cliente);
         vector <Solicitud> listarSolicitudes(Proveedor proveedor);
+        vector <string> listarTiposDePago(Proveedor proveedor);
 
         // Funciones que están son pública, pero NO deben usarse en FRONT. grasias ;)
         int registrarProducto(const char *correo_proveedor, producto_cantidad pxq);
