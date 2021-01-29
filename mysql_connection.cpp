@@ -335,6 +335,86 @@ Persona *MySQLConnection::instanciarPersona(const char *correo)
     return 0;
 }
 
+Solicitud *MySQLConnection::instanciarSolicitud(Persona cliente, const int id)
+{
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM solicitudes WHERE id_solicitud = ?");
+        pstmt->setInt(1, id);
+        res = pstmt->executeQuery();
+
+        if (res->next())
+        {
+            Solicitud *solicitud = new Solicitud();
+            solicitud->setCliente(cliente);
+            solicitud->setProveedor(*instanciarProveedor(res->getString("correo_proveedor").c_str()));
+            solicitud->setMonto(res->getDouble("monto"));
+            solicitud->setTipoPago(obtenerTipoDePago(res->getInt("id_tipo_de_pago")));
+            solicitud->setDireccion(res->getString("direccion"));
+            solicitud->setFechaPedido(time_t());
+            solicitud->setFechaEntrega(time_t());
+            solicitud->setEstatus(res->getString("estatus"));
+
+            delete res;
+            delete pstmt;
+            return solicitud;
+        }
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete res;
+    delete pstmt;
+    return 0;
+}
+
+Solicitud *MySQLConnection::instanciarSolicitud(Proveedor proveedor, const int id)
+{
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM solicitudes WHERE id_solicitud = ?");
+        pstmt->setInt(1, id);
+        res = pstmt->executeQuery();
+
+        if (res->next())
+        {
+            Solicitud *solicitud = new Solicitud();
+            solicitud->setCliente(*instanciarPersona(res->getString("correo_cliente").c_str()));
+            solicitud->setProveedor(proveedor);
+            solicitud->setMonto(res->getDouble("monto"));
+            solicitud->setTipoPago(obtenerTipoDePago(res->getInt("id_tipo_de_pago")));
+            solicitud->setDireccion(res->getString("direccion"));
+            solicitud->setFechaPedido(time_t());
+            solicitud->setFechaEntrega(time_t());
+            solicitud->setEstatus(res->getString("estatus"));
+
+            delete res;
+            delete pstmt;
+            return solicitud;
+        }
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete res;
+    delete pstmt;
+    return 0;
+}
+
 int MySQLConnection::obtenerIdTipoDePago(const char *correo_proveedor, const char *tipo)
 {
     sql::PreparedStatement *pstmt;
@@ -361,6 +441,38 @@ int MySQLConnection::obtenerIdTipoDePago(const char *correo_proveedor, const cha
     delete res;
     delete pstmt;
     return id;
+}
+
+const char *MySQLConnection::obtenerTipoDePago(const int id)
+{
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM tipos_de_pago WHERE id_tipo_de_pago = ?");
+        pstmt->setInt(1, id);
+        res = pstmt->executeQuery();
+
+        if (res->next())
+        {
+            const char *tipo= new char(30);
+            tipo = res->getString("descripcion").c_str();
+            delete res;
+            delete pstmt;
+            return tipo;
+        }
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete res;
+    delete pstmt;
+    return 0;
 }
 
 /*********************************************************** FUNCIONES PÚBLICAS ****************************************************************/
@@ -595,42 +707,6 @@ int MySQLConnection::registrarVehiculo(Vehiculo vehiculo, const char *correo_tra
     return 0;
 }
 
-vector <Proveedor> MySQLConnection::listarProveedores()
-{
-    vector <Proveedor> lista;
-
-    sql::Statement *stmt;
-    sql::ResultSet *res;
-
-    try
-    {
-        stmt = con->createStatement();
-        res = stmt->executeQuery("SELECT * FROM proveedores");
-
-        while (res->next())
-        {
-            Proveedor *proveedor = instanciarProveedor(res->getString("correo").c_str());
-
-            delete res;
-            delete stmt;
-
-            lista.push_back(*proveedor);
-        }
-
-        delete res;
-        delete stmt;
-
-    }
-    catch (sql::SQLException &e)
-    {
-        // Error de conexión
-        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
-        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-    }
-
-    return lista;
-}
-
 int MySQLConnection::registrarSolicitud(Solicitud solicitud)
 {
     if (obtenerIdTipoDePago(solicitud.getProveedor().getCorreo().c_str(), solicitud.getTipoPago().c_str()))
@@ -664,6 +740,91 @@ int MySQLConnection::registrarSolicitud(Solicitud solicitud)
     }
     delete pstmt;
     return 0;
+}
+
+vector <Proveedor> MySQLConnection::listarProveedores()
+{
+    vector <Proveedor> lista;
+
+    sql::Statement *stmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        stmt = con->createStatement();
+        res = stmt->executeQuery("SELECT * FROM proveedores");
+
+        while (res->next())
+            lista.push_back(*instanciarProveedor(res->getString("correo").c_str()));
+
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete res;
+    delete stmt;
+    return lista;
+}
+
+vector <Solicitud> MySQLConnection::listarSolicitudes(Persona cliente)
+{
+    vector <Solicitud> lista;
+
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM solicitudes WHERE correo_cliente = ?");
+        pstmt->setString(1, cliente.getCorreo().c_str());
+        res = pstmt->executeQuery();
+
+        while (res->next())
+            lista.push_back(*instanciarSolicitud(cliente,res->getInt("id_solicitud")));
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete res;
+    delete pstmt;
+    return lista;
+}
+
+
+vector <Solicitud> MySQLConnection::listarSolicitudes(Proveedor proveedor)
+{
+    vector <Solicitud> lista;
+
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM solicitudes WHERE correo_proveedor = ?");
+        pstmt->setString(1, proveedor.getCorreo().c_str());
+        res = pstmt->executeQuery();
+
+        while (res->next())
+            lista.push_back(*instanciarSolicitud(proveedor,res->getInt("id_solicitud")));
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete res;
+    delete pstmt;
+    return lista;
 }
 
 /***************************************************** FUNCIONES "PROTEGIDAS" *****************************************************/
