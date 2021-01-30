@@ -36,6 +36,7 @@ void pantalla_registro::on_btnAceptarPersona_clicked() //Boton aceptar al introd
                                                 ui->apellido->text().toStdString(),
                                                 ui->cedula->text().toStdString(),
                                                 ui->telefono->text().toStdString(),
+                                                ui->correo->text().toStdString().c_str(),
                                                 ui->direccion->text().toStdString(),fechaNac);
             if(cliente){
                 //Lo registra si es un cliente
