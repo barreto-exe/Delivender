@@ -6,6 +6,7 @@
 #define VEHICULO_H
 
 #include <string>
+#include "solicitud.h"
 
 using std::string;
 

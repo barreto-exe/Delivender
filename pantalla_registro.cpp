@@ -26,6 +26,7 @@ pantalla_registro::~pantalla_registro()
 void pantalla_registro::on_btnAceptarPersona_clicked() //Boton aceptar al introducir los datos del registro
 {
     QMessageBox msgBox;
+    
     //Si las contraseñas son iguales
     if(ui->password->text() == ui->repPassword->text())  {
         //Y ningun campo esta vacio, procede a registrar/guardar los datos
@@ -35,7 +36,7 @@ void pantalla_registro::on_btnAceptarPersona_clicked() //Boton aceptar al introd
                                                 ui->apellido->text().toStdString(),
                                                 ui->cedula->text().toStdString(),
                                                 ui->telefono->text().toStdString(),
-                                                ui->direccion->text().toStdString(),&fechaNac);
+                                                ui->direccion->text().toStdString(),fechaNac);
             if(cliente){
                 //Lo registra si es un cliente
                 int reg = Global::db.registrarCliente(*datosPersona, ui->correo->text().toStdString().c_str(), ui->password->text().toStdString().c_str());

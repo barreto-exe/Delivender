@@ -1,9 +1,45 @@
 // Impplementación de la clase Solicitud
 #include "solicitud.h"
 
-Solicitud::Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion, producto_cantidad *pedido)
+Solicitud::Solicitud()
+{
+    proveedor = Proveedor();
+    cliente = Persona();
+    tipoPago = "";
+    monto = 0;
+    fechaPedido = time_t();
+    fechaEntrega = time_t();
+    direccion = "";
+    pedido = vector <producto_cantidad>();
+}
+
+Solicitud::Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion, vector <producto_cantidad> pedido)
 {
     this->proveedor = proveedor;
+    this->cliente = cliente;
+    this->tipoPago = tipoPago;
+    this->monto = monto;
+    this->fechaPedido = fechaPedido;
+    this->fechaEntrega = fechaEntrega;
+    this->direccion = direccion;
+    this->pedido = pedido;
+}
+
+Solicitud::Solicitud(Proveedor proveedor, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion, vector <producto_cantidad> pedido)
+{
+    this->proveedor = proveedor;
+    cliente = Persona();
+    this->tipoPago = tipoPago;
+    this->monto = monto;
+    this->fechaPedido = fechaPedido;
+    this->fechaEntrega = fechaEntrega;
+    this->direccion = direccion;
+    this->pedido = pedido;
+}
+
+Solicitud::Solicitud(Persona cliente, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion, vector <producto_cantidad> pedido)
+{
+    proveedor = Proveedor();
     this->cliente = cliente;
     this->tipoPago = tipoPago;
     this->monto = monto;
@@ -78,7 +114,7 @@ Solicitud &Solicitud::setDireccion(string direccion)
 }
 
 // Establece el pedido
-Solicitud &Solicitud::setPedido(producto_cantidad *pedido)
+Solicitud &Solicitud::setPedido(vector <producto_cantidad> pedido)
 {
     this->pedido = pedido;
 
@@ -110,4 +146,4 @@ string Solicitud::getEstatus() const { return estatus; }
 string Solicitud::getDireccion() const { return direccion; }
 
 // Devuelve el pedido
-producto_cantidad *Solicitud::getPedido() const { return pedido; }
+vector <producto_cantidad> Solicitud::getPedido() const { return pedido; }
