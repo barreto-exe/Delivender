@@ -34,6 +34,8 @@ private slots:
 
     void on_atrasSeleccion_clicked();
 
+    void on_btnAceptarProv_clicked();
+
 private:
     Ui::pantalla_registro *ui;
 

@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(&registro, SIGNAL(inicioSignal()),this,SLOT(IrAInicio())); //Signal para volver al inicio de sesion desde el registro
     
-    char correo[30] = "karenale@gmail.com", password[16] = "test";
+    /*char correo[30] = "karenale@gmail.com", password[16] = "test";
     char nombre[20] = "karen", apellido[20] = "moran", cedula[10] = "28161658", telefono[15] = "04121924525", direccion[20] = "Curagua";
     time_t *fecha = new time_t();
 
@@ -30,7 +30,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     Vehiculo *vehiculo = new Vehiculo(modelo,placa,tipo);
 
-    Global::db.registrarTransportista(*transportista, *vehiculo, correo, password);
+    Global::db.registrarTransportista(*transportista, *vehiculo, correo, password);*/
+
+    vector <Proveedor> lista = Global::db.listarProveedores();
+
+    if (lista.empty())
+        qDebug() << "Todo bello";
 
 }
 

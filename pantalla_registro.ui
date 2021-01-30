@@ -26,7 +26,7 @@
     <string notr="true">background: white;</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="seleccion_usuario">
     <widget class="QLabel" name="cliente_foto">
@@ -138,7 +138,7 @@
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>550</y>
+       <y>540</y>
        <width>83</width>
        <height>25</height>
       </rect>
@@ -165,7 +165,7 @@
     <widget class="QPushButton" name="atrasRegistroPersona">
      <property name="geometry">
       <rect>
-       <x>50</x>
+       <x>40</x>
        <y>540</y>
        <width>83</width>
        <height>25</height>
@@ -179,7 +179,7 @@
      <property name="geometry">
       <rect>
        <x>420</x>
-       <y>40</y>
+       <y>30</y>
        <width>321</width>
        <height>491</height>
       </rect>
@@ -313,27 +313,142 @@
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>250</x>
-       <y>220</y>
-       <width>231</width>
+       <x>140</x>
+       <y>30</y>
+       <width>131</width>
        <height>17</height>
       </rect>
      </property>
      <property name="text">
-      <string>Registro con datos del proveedor</string>
+      <string>Registrar Proveedor</string>
      </property>
     </widget>
     <widget class="QPushButton" name="atrasProv">
      <property name="geometry">
       <rect>
-       <x>320</x>
-       <y>240</y>
+       <x>40</x>
+       <y>540</y>
        <width>83</width>
        <height>25</height>
       </rect>
      </property>
      <property name="text">
-      <string>atras</string>
+      <string>Atras</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="layoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>30</y>
+       <width>321</width>
+       <height>491</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <property name="spacing">
+       <number>5</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label_nomb_2">
+        <property name="text">
+         <string>Nombre</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="nombreProv"/>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_desc">
+        <property name="text">
+         <string>Descripcion</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="descripcion"/>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_tipo">
+        <property name="text">
+         <string>Tipo de proveedor</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="tipoProv"/>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_telf_2">
+        <property name="text">
+         <string>Teléfono</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="telefonoProv"/>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_dir_2">
+        <property name="text">
+         <string>DIrección</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="direccionProv"/>
+      </item>
+      <item>
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_correo_2">
+        <property name="text">
+         <string>Correo</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="correoProv"/>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_contra_2">
+        <property name="text">
+         <string>Contraseña</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="passwordProv"/>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_repCon_2">
+        <property name="text">
+         <string>Repetir Contraseña</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="repPasswordProv"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QPushButton" name="btnAceptarProv">
+     <property name="geometry">
+      <rect>
+       <x>660</x>
+       <y>540</y>
+       <width>83</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Aceptar</string>
      </property>
     </widget>
    </widget>
@@ -354,8 +469,8 @@
     <widget class="QPushButton" name="atrasTransp">
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>480</y>
+       <x>40</x>
+       <y>540</y>
        <width>83</width>
        <height>25</height>
       </rect>
@@ -377,7 +492,7 @@
       <string>Aceptar</string>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>220</x>

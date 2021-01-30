@@ -1,15 +1,40 @@
 // Implementación de la clase Proveedor
 #include "proveedor.h"
+#include"mysql_connection.h"
+#include"global.h"
 
 // Constructor de la clase
-Proveedor::Proveedor(string nombre, string descripcion, string telefono, string direccion, string tipoProveedor, producto_cantidad *almacen)
+Proveedor::Proveedor()
+{
+    nombre = "";
+    descripcion = "";
+    telefono = "";
+    correo = "";
+    direccion = "";
+    tipoProveedor = "";
+    almacen.clear();
+}
+
+Proveedor::Proveedor(string nombre, string descripcion, string telefono, string correo, string direccion, string tipoProveedor, vector <producto_cantidad> almacen)
 {
     this->nombre = nombre;
     this->descripcion = descripcion;
     this->telefono = telefono;
+    this->correo = correo;
     this->direccion = direccion;
     this->tipoProveedor = tipoProveedor;
     this->almacen = almacen;
+}
+
+Proveedor::Proveedor(string nombre, string descripcion, string telefono, string correo, string direccion, string tipoProveedor)
+{
+    this->nombre = nombre;
+    this->descripcion = descripcion;
+    this->telefono = telefono;
+    this->correo = correo;
+    this->direccion = direccion;
+    this->tipoProveedor = tipoProveedor;
+    almacen.clear();
 }
 
 // Establece el nombre
@@ -36,6 +61,14 @@ Proveedor &Proveedor::setTelefono(string telefono)
     return *this; // Permite el proceso en cascada
 }
 
+// Establece el correo
+Proveedor &Proveedor::setCorreo(string correo)
+{
+    this->correo = correo;
+
+    return *this; // Permite el proceso en cascada
+}
+
 // Establece la dirección
 Proveedor &Proveedor::setDireccion(string direccion)
 {
@@ -53,7 +86,7 @@ Proveedor &Proveedor::setTipoProveedor(string tipoProveedor)
 }
 
 // Establece el almacén
-Proveedor &Proveedor::setAlmacen(producto_cantidad *almacen)
+Proveedor &Proveedor::setAlmacen(vector <producto_cantidad> almacen)
 {
     this->almacen = almacen;
 
@@ -69,6 +102,9 @@ string Proveedor::getDescripcion() const { return descripcion; }
 // Devuelve el teléfono
 string Proveedor::getTelefono() const { return telefono; }
 
+// Devuelve el correo
+string Proveedor::getCorreo() const { return correo; }
+
 // Devuelve la direccion
 string Proveedor::getDireccion() const { return direccion; }
 
@@ -76,4 +112,21 @@ string Proveedor::getDireccion() const { return direccion; }
 string Proveedor::getTipoProveedor() const { return tipoProveedor; }
 
 // Devuelve el almacen
-producto_cantidad *Proveedor::getAlmacen() const { return almacen; }
+vector <producto_cantidad> Proveedor::getAlmacen() const { return almacen; }
+
+int Proveedor::agregarProductoAlmacen(Producto producto, int cantidad)
+{
+    producto_cantidad pxq = Global::db.structProductoCantidad(producto,cantidad);
+    if (Global::db.registrarProducto(correo.c_str(), pxq))
+    {
+        almacen.push_back(pxq);
+        return 1;
+    }
+
+    return 0;
+}
+
+int Proveedor::agregarTipoDePago(const char *descripcion)
+{
+    return Global::db.registrarTipoDePago(correo.c_str(), descripcion);
+}
