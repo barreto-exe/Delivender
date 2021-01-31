@@ -3,5 +3,9 @@
         <file>imagenes/cliente.jpg</file>
         <file>imagenes/proveedor.jpg</file>
         <file>imagenes/transportista.jpg</file>
+        <file>imagenes/inicioFondo.png</file>
+        <file>imagenes/registroFondo.png</file>
+        <file>imagenes/seleccionFondo.png</file>
+        <file>imagenes/transpFondo.png</file>
     </qresource>
 </RCC>

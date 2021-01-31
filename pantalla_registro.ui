@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>900</width>
+    <height>680</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,31 +18,31 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>600</height>
+     <width>900</width>
+     <height>680</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">background: white;</string>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="seleccion_usuario">
     <widget class="QLabel" name="cliente_foto">
      <property name="geometry">
       <rect>
-       <x>50</x>
-       <y>150</y>
-       <width>191</width>
-       <height>291</height>
+       <x>0</x>
+       <y>0</y>
+       <width>900</width>
+       <height>680</height>
       </rect>
      </property>
      <property name="text">
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="res.qrc">:/resources/imagenes/cliente.jpg</pixmap>
+      <pixmap resource="res.qrc">:/resources/imagenes/seleccionFondo.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>false</bool>
@@ -54,79 +54,71 @@
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="prov_foto">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>220</y>
-       <width>196</width>
-       <height>221</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="res.qrc">:/resources/imagenes/proveedor.jpg</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="transp_foto">
-     <property name="geometry">
-      <rect>
-       <x>530</x>
-       <y>220</y>
-       <width>196</width>
-       <height>211</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="res.qrc">:/resources/imagenes/transportista.jpg</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignHCenter|Qt::AlignTop</set>
-     </property>
-    </widget>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>460</y>
-       <width>661</width>
-       <height>27</height>
+       <x>110</x>
+       <y>480</y>
+       <width>701</width>
+       <height>41</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <property name="spacing">
-       <number>70</number>
+       <number>170</number>
+      </property>
+      <property name="leftMargin">
+       <number>40</number>
+      </property>
+      <property name="rightMargin">
+       <number>40</number>
       </property>
       <item>
-       <widget class="QPushButton" name="btnCliente">
-        <property name="text">
-         <string>Cliente</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="btnProveedor">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 114, 98);
+color: rgb(255, 255, 255);</string>
+        </property>
         <property name="text">
          <string>Proveedor</string>
         </property>
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="btnCliente">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 114, 98);
+color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string>Cliente</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="btnTransp">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 114, 98);
+color: rgb(255, 255, 255);</string>
+        </property>
         <property name="text">
          <string>Transportista</string>
         </property>
@@ -138,10 +130,20 @@
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>540</y>
+       <y>610</y>
        <width>83</width>
-       <height>25</height>
+       <height>35</height>
       </rect>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(255, 114, 98);</string>
      </property>
      <property name="text">
       <string>Atras</string>
@@ -152,11 +154,15 @@
     <widget class="QPushButton" name="btnAceptarPersona">
      <property name="geometry">
       <rect>
-       <x>660</x>
-       <y>540</y>
+       <x>650</x>
+       <y>570</y>
        <width>83</width>
-       <height>25</height>
+       <height>30</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 114, 98);
+color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
       <string>Aceptar</string>
@@ -165,71 +171,96 @@
     <widget class="QPushButton" name="atrasRegistroPersona">
      <property name="geometry">
       <rect>
-       <x>40</x>
-       <y>540</y>
+       <x>30</x>
+       <y>630</y>
        <width>83</width>
-       <height>25</height>
+       <height>35</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(255, 114, 98);</string>
      </property>
      <property name="text">
       <string>Atras</string>
      </property>
     </widget>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QWidget" name="layoutWidget1">
      <property name="geometry">
       <rect>
-       <x>420</x>
-       <y>30</y>
-       <width>321</width>
-       <height>491</height>
+       <x>490</x>
+       <y>130</y>
+       <width>241</width>
+       <height>431</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <property name="spacing">
-       <number>5</number>
+       <number>0</number>
       </property>
       <item>
-       <widget class="QLabel" name="label_nomb">
-        <property name="text">
+       <widget class="QLineEdit" name="nombre">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
          <string>Nombre</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="nombre"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_apellido">
-        <property name="text">
+       <widget class="QLineEdit" name="apellido">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
          <string>Apellido</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="apellido"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_ci">
-        <property name="text">
-         <string>Cédula</string>
+       <widget class="QLineEdit" name="cedula">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
+         <string>Cedula</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="cedula"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_telf">
-        <property name="text">
+       <widget class="QLineEdit" name="telefono">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
          <string>Teléfono</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="telefono"/>
-      </item>
-      <item>
        <widget class="QLabel" name="label_fecha">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 114, 98);</string>
+        </property>
         <property name="text">
          <string>Fecha de Nacimiento</string>
         </property>
@@ -237,6 +268,12 @@
       </item>
       <item>
        <widget class="QDateEdit" name="fechaNac">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
         <property name="maximumDate">
          <date>
           <year>2021</year>
@@ -260,14 +297,33 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_dir">
-        <property name="text">
+       <widget class="QLineEdit" name="direccion">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
          <string>DIrección</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="direccion"/>
+       <spacer name="verticalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>10</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item>
        <widget class="Line" name="line">
@@ -277,203 +333,322 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_correo">
-        <property name="text">
+       <spacer name="verticalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>10</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="correo">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
          <string>Correo</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="correo"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_contra">
-        <property name="text">
+       <widget class="QLineEdit" name="password">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
          <string>Contraseña</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="password"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_repCon">
-        <property name="text">
+       <widget class="QLineEdit" name="repPassword">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
          <string>Repetir Contraseña</string>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QLineEdit" name="repPassword"/>
-      </item>
      </layout>
     </widget>
-   </widget>
-   <widget class="QWidget" name="registo_proveedor">
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>140</x>
-       <y>30</y>
-       <width>131</width>
-       <height>17</height>
+       <x>0</x>
+       <y>0</y>
+       <width>900</width>
+       <height>680</height>
       </rect>
      </property>
      <property name="text">
-      <string>Registrar Proveedor</string>
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/resources/imagenes/registroFondo.png</pixmap>
      </property>
     </widget>
+    <zorder>label_2</zorder>
+    <zorder>layoutWidget1</zorder>
+    <zorder>btnAceptarPersona</zorder>
+    <zorder>atrasRegistroPersona</zorder>
+   </widget>
+   <widget class="QWidget" name="registo_proveedor">
     <widget class="QPushButton" name="atrasProv">
      <property name="geometry">
       <rect>
-       <x>40</x>
-       <y>540</y>
+       <x>30</x>
+       <y>630</y>
        <width>83</width>
-       <height>25</height>
+       <height>35</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 114, 98);
+background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
       <string>Atras</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
      </property>
     </widget>
     <widget class="QWidget" name="layoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>420</x>
-       <y>30</y>
-       <width>321</width>
-       <height>491</height>
+       <x>490</x>
+       <y>130</y>
+       <width>241</width>
+       <height>411</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_4">
+     <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0">
       <property name="spacing">
-       <number>5</number>
+       <number>0</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
       </property>
       <item>
-       <widget class="QLabel" name="label_nomb_2">
-        <property name="text">
+       <widget class="QLineEdit" name="nombreProv">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
          <string>Nombre</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="nombreProv"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_desc">
-        <property name="text">
-         <string>Descripcion</string>
+       <widget class="QLineEdit" name="descripcion">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
+         <string>Descripción</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="descripcion"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_tipo">
-        <property name="text">
-         <string>Tipo de proveedor</string>
+       <widget class="QLineEdit" name="tipoProv">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
+         <string>Tipo de Proveedor</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="tipoProv"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_telf_2">
-        <property name="text">
+       <widget class="QLineEdit" name="telefonoProv">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
          <string>Teléfono</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="telefonoProv"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_dir_2">
-        <property name="text">
-         <string>DIrección</string>
+       <widget class="QLineEdit" name="direccionProv">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
+         <string>Dirección</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="direccionProv"/>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>10</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item>
        <widget class="Line" name="line_2">
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <property name="lineWidth">
+         <number>1</number>
+        </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_correo_2">
-        <property name="text">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>10</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="correoProv">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
          <string>Correo</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="correoProv"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_contra_2">
-        <property name="text">
+       <widget class="QLineEdit" name="passwordProv">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
          <string>Contraseña</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="passwordProv"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_repCon_2">
-        <property name="text">
+       <widget class="QLineEdit" name="repPasswordProv">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="placeholderText">
          <string>Repetir Contraseña</string>
         </property>
        </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="repPasswordProv"/>
       </item>
      </layout>
     </widget>
     <widget class="QPushButton" name="btnAceptarProv">
      <property name="geometry">
       <rect>
-       <x>660</x>
-       <y>540</y>
+       <x>650</x>
+       <y>570</y>
        <width>83</width>
-       <height>25</height>
+       <height>30</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 114, 98);
+color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
       <string>Aceptar</string>
      </property>
     </widget>
-   </widget>
-   <widget class="QWidget" name="transportista">
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
-       <x>330</x>
-       <y>70</y>
-       <width>121</width>
-       <height>41</height>
+       <x>0</x>
+       <y>0</y>
+       <width>900</width>
+       <height>680</height>
       </rect>
      </property>
      <property name="text">
-      <string>Datos del vehículo</string>
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/resources/imagenes/registroFondo.png</pixmap>
      </property>
     </widget>
+    <zorder>label_6</zorder>
+    <zorder>atrasProv</zorder>
+    <zorder>layoutWidget_2</zorder>
+    <zorder>btnAceptarProv</zorder>
+   </widget>
+   <widget class="QWidget" name="transportista">
     <widget class="QPushButton" name="atrasTransp">
      <property name="geometry">
       <rect>
-       <x>40</x>
-       <y>540</y>
+       <x>560</x>
+       <y>630</y>
        <width>83</width>
-       <height>25</height>
+       <height>35</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 114, 98);
+color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
       <string>Atras</string>
@@ -482,96 +657,120 @@
     <widget class="QPushButton" name="btnAceptarTransp">
      <property name="geometry">
       <rect>
-       <x>360</x>
-       <y>280</y>
+       <x>680</x>
+       <y>430</y>
        <width>83</width>
-       <height>25</height>
+       <height>30</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 114, 98);
+background-color: rgb(255, 255, 255);
+</string>
      </property>
      <property name="text">
       <string>Aceptar</string>
      </property>
     </widget>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QLabel" name="label_7">
      <property name="geometry">
       <rect>
-       <x>220</x>
-       <y>130</y>
-       <width>341</width>
-       <height>131</height>
+       <x>0</x>
+       <y>0</y>
+       <width>900</width>
+       <height>680</height>
       </rect>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <property name="spacing">
-         <number>10</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Modelo</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Placa</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>Tipo</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <property name="spacing">
-         <number>18</number>
-        </property>
-        <item>
-         <widget class="QLineEdit" name="modelo"/>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="placa"/>
-        </item>
-        <item>
-         <widget class="QComboBox" name="comboBoxTipo">
-          <property name="currentText">
-           <string>Seleccione un vehículo</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>Seleccione un vehículo</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Camión</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Carro</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Moto</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/resources/imagenes/transpFondo.png</pixmap>
+     </property>
     </widget>
+    <widget class="QComboBox" name="comboBoxTipo">
+     <property name="geometry">
+      <rect>
+       <x>581</x>
+       <y>339</y>
+       <width>271</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="currentText">
+      <string>Seleccione un tipo de vehículo</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Seleccione un tipo de vehículo</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Camión</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Carro</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Moto</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLineEdit" name="placa">
+     <property name="geometry">
+      <rect>
+       <x>581</x>
+       <y>278</y>
+       <width>271</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="placeholderText">
+      <string>Placa</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="modelo">
+     <property name="geometry">
+      <rect>
+       <x>581</x>
+       <y>217</y>
+       <width>271</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="placeholderText">
+      <string>Modelo</string>
+     </property>
+    </widget>
+    <zorder>label_7</zorder>
+    <zorder>comboBoxTipo</zorder>
+    <zorder>placa</zorder>
+    <zorder>modelo</zorder>
+    <zorder>atrasTransp</zorder>
+    <zorder>btnAceptarTransp</zorder>
    </widget>
   </widget>
  </widget>
