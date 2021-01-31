@@ -62,9 +62,10 @@ class MySQLConnection
         vector <Solicitud> listarSolicitudes(Proveedor proveedor);
         vector <string> listarTiposDePago(Proveedor proveedor);
 
-        // Funciones que están son pública, pero NO deben usarse en FRONT. grasias ;)
+        // Funciones que son públicas, pero NO deben usarse en FRONT. grasias ;)
         int registrarProducto(const char *correo_proveedor, producto_cantidad pxq);
         int registrarTipoDePago(const char *correo_proveedor, const char *descripcion);
+        int modificarEstatusSolicitud(const int id_solicitud, const char *estatus);
 
 };
 #endif // MYSQLCONNECTION_H

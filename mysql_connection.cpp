@@ -906,3 +906,29 @@ int MySQLConnection::registrarTipoDePago(const char *correo_proveedor, const cha
     delete pstmt;
     return 0;
 }
+
+
+int MySQLConnection::modificarEstatusSolicitud(const int id_solicitud, const char *estatus)
+{
+    sql::PreparedStatement *pstmt;
+
+    try
+    {
+        pstmt = con->prepareStatement("UPDATE solicitudes SET estatus = ? WHERE id_solicitud = ?");
+        pstmt->setString(1, estatus);
+        pstmt->setInt(2, id_solicitud);
+        pstmt->executeQuery();
+
+        delete pstmt;
+        return 1;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete pstmt;
+    return 0;
+}
