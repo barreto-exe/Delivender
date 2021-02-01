@@ -542,10 +542,11 @@ int MySQLConnection::obtenerIdProducto(const char *correo_proveedor, Producto pr
 
     try
     {
-        pstmt = con->prepareStatement("SELECT * FROM productos WHERE correo_proveedor = ? AND nombre = ? AND precio = ?");
+        pstmt = con->prepareStatement("SELECT * FROM productos WHERE correo_proveedor = ? AND nombre = ? AND precio = ? AND descripcion = ?");
         pstmt->setString(1, correo_proveedor);
-        pstmt->setString(2, producto.getNombre());
+        pstmt->setString(2, producto.getNombre().c_str());
         pstmt->setDouble(3, producto.getPrecio());
+        pstmt->setString(4, producto.getDescripcion().c_str());
         res = pstmt->executeQuery();
 
         if (res->next())
@@ -1013,6 +1014,12 @@ vector <string> MySQLConnection::listarTiposDePago(Proveedor proveedor)
 /***************************************************** FUNCIONES "PROTEGIDAS" *****************************************************/
 int MySQLConnection::registrarProducto(const char *correo_proveedor, producto_cantidad pxq)
 {
+    if (obtenerIdProducto(correo_proveedor, pxq.producto))
+    {
+        qDebug() << "Ya existe este producto";
+        return 0;
+    }
+
     sql::PreparedStatement *pstmt;
     try
     {
@@ -1040,6 +1047,12 @@ int MySQLConnection::registrarProducto(const char *correo_proveedor, producto_ca
 
 int MySQLConnection::registrarTipoDePago(const char *correo_proveedor, const char *descripcion)
 {
+    if (obtenerIdTipoDePago(correo_proveedor, descripcion))
+    {
+        qDebug() << "Ya existe este tipo de pago";
+        return 0;
+    }
+
     sql::PreparedStatement *pstmt;
     try
     {

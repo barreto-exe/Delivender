@@ -117,6 +117,7 @@ vector <producto_cantidad> Proveedor::getAlmacen() const { return almacen; }
 int Proveedor::agregarProductoAlmacen(Producto producto, int cantidad)
 {
     producto_cantidad pxq = Global::db.structProductoCantidad(producto,cantidad);
+
     if (Global::db.registrarProducto(correo.c_str(), pxq))
     {
         almacen.push_back(pxq);
@@ -126,17 +127,8 @@ int Proveedor::agregarProductoAlmacen(Producto producto, int cantidad)
     return 0;
 }
 
-int Proveedor::agregarTipoDePago(const char *descripcion)
-{
-    return Global::db.registrarTipoDePago(correo.c_str(), descripcion);
-}
+int Proveedor::agregarTipoDePago(const char *descripcion) { return Global::db.registrarTipoDePago(correo.c_str(), descripcion); }
 
-int Proveedor::aprobarSolicitud(const int id_solicitud)
-{
-    return Global::db.modificarEstatusSolicitud(id_solicitud, "aprobada");
-}
+int Proveedor::aprobarSolicitud(const int id_solicitud) { return Global::db.modificarEstatusSolicitud(id_solicitud, "aprobada"); }
 
-int Proveedor::rechazarSolicitud(const int id_solicitud)
-{
-    return Global::db.modificarEstatusSolicitud(id_solicitud, "rechazada");
-}
+int Proveedor::rechazarSolicitud(const int id_solicitud) { return Global::db.modificarEstatusSolicitud(id_solicitud, "rechazada"); }
