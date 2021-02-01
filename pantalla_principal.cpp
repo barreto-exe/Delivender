@@ -17,11 +17,21 @@ pantalla_principal::~pantalla_principal()
 
 void pantalla_principal::mostrarProveedores(){
     vector <Proveedor> proveedores = Global::db.listarProveedores();
-
-    QVectorIterator<Proveedor> i(QVector<Proveedor>::fromStdVector(proveedores));
-    /*while (i.hasNext()){
-        ui->provLayout->addWidget(new tiendaWidget(this,i.next().getNombre(),i.next().getDescripcion()));
-        i.next();
-    }*/
+    QVector<Proveedor> lista = QVector<Proveedor>::fromStdVector(proveedores);
+    int j=0, k=0;
+    QVectorIterator<Proveedor> i(lista);
+    string nombre, descripcion;
+    while (i.hasNext()){
+        Proveedor a = i.next();
+        nombre = a.getNombre();
+        descripcion = a.getDescripcion();
+        qDebug() << QString::fromStdString(nombre) << " Descrip: " << QString::fromStdString(descripcion);
+        ui->provLayout->addWidget(new tiendaWidget(this,nombre,descripcion),j,k,1,1);
+        k++;
+        if (k==3){
+            j++;
+            k=0;
+        }
+    }
 
 }

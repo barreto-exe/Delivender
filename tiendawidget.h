@@ -18,6 +18,9 @@ public:
     explicit tiendaWidget(QWidget *parent = nullptr, string nombre = "", string descripcion = "");
     ~tiendaWidget();
 
+private slots:
+    void on_btnNombre_clicked();
+
 private:
     Ui::tiendaWidget *ui;
 };

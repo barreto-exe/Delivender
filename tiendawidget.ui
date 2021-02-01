@@ -14,38 +14,66 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background: rgb(255, 114, 98)</string>
+   <string notr="true">background-color: rgb(255, 114, 98);
+
+</string>
   </property>
-  <widget class="QLabel" name="nombre">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>10</y>
-     <width>181</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Nombre del Proveedor</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="descripcion">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>10</x>
      <y>40</y>
-     <width>181</width>
-     <height>41</height>
+     <width>241</width>
+     <height>51</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">font: 10pt &quot;Nimbus Sans&quot;;
+color: rgb(255, 255, 255);
+border: 2px solid white;</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
    <property name="lineWidth">
-    <number>1</number>
+    <number>2</number>
+   </property>
+   <property name="midLineWidth">
+    <number>0</number>
    </property>
    <property name="text">
     <string>Hola, esa es la descripcion del proveedor</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignHCenter|Qt::AlignTop</set>
+   </property>
    <property name="wordWrap">
     <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnNombre">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>241</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: none;
+background-color: white;
+color: rgb(255, 114, 98);
+text-align: center;
+text-decoration: none;
+font-size:14px;
+font: 75 13pt &quot;Quicksand Medium&quot;;</string>
+   </property>
+   <property name="text">
+    <string>PushButton</string>
    </property>
   </widget>
  </widget>
