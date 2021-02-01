@@ -206,6 +206,9 @@ color: rgb(255, 114, 98);</string>
           <height>35</height>
          </size>
         </property>
+        <property name="cursor">
+         <cursorShape>CrossCursor</cursorShape>
+        </property>
         <property name="placeholderText">
          <string>Nombre</string>
         </property>
@@ -774,6 +777,38 @@ background-color: rgb(255, 255, 255);
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>atrasSeleccion</tabstop>
+  <tabstop>btnProveedor</tabstop>
+  <tabstop>btnCliente</tabstop>
+  <tabstop>btnTransp</tabstop>
+  <tabstop>nombre</tabstop>
+  <tabstop>apellido</tabstop>
+  <tabstop>cedula</tabstop>
+  <tabstop>telefono</tabstop>
+  <tabstop>fechaNac</tabstop>
+  <tabstop>direccion</tabstop>
+  <tabstop>correo</tabstop>
+  <tabstop>password</tabstop>
+  <tabstop>repPassword</tabstop>
+  <tabstop>btnAceptarPersona</tabstop>
+  <tabstop>atrasRegistroPersona</tabstop>
+  <tabstop>nombreProv</tabstop>
+  <tabstop>descripcion</tabstop>
+  <tabstop>tipoProv</tabstop>
+  <tabstop>telefonoProv</tabstop>
+  <tabstop>direccionProv</tabstop>
+  <tabstop>correoProv</tabstop>
+  <tabstop>passwordProv</tabstop>
+  <tabstop>repPasswordProv</tabstop>
+  <tabstop>atrasProv</tabstop>
+  <tabstop>btnAceptarProv</tabstop>
+  <tabstop>modelo</tabstop>
+  <tabstop>placa</tabstop>
+  <tabstop>comboBoxTipo</tabstop>
+  <tabstop>btnAceptarTransp</tabstop>
+  <tabstop>atrasTransp</tabstop>
+ </tabstops>
  <resources>
   <include location="res.qrc"/>
  </resources>

@@ -124,6 +124,12 @@ background-color: rgb(255, 255, 255);
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>correo</tabstop>
+  <tabstop>contrasenia</tabstop>
+  <tabstop>btnRegistrarse</tabstop>
+  <tabstop>btnInicioSesion</tabstop>
+ </tabstops>
  <resources>
   <include location="res.qrc"/>
  </resources>
