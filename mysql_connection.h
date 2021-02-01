@@ -29,17 +29,27 @@ class MySQLConnection
         // Funciones
         char *encriptar(const char *password);
         char *timeToString(time_t fecha);
+
+        // Verificaciones
         int verificarCorreo(const char *correo);
         int verificarCedula(const char *cedula);
         int verificarPlaca(const char *placa);
+        // Registros
         int registrarUsuario(const char *correo, const char *password, const char *tipo);
         int registrarPersona(const Persona persona);
+        int registrarPedido(const char *correo_proveedor, vector <producto_cantidad> pedido, const int id_solicitud);
+        // Instancias
         Proveedor *instanciarProveedor(const char *correo);
-        void instanciarAlmacen(Proveedor proveedor);
+        void instanciarAlmacen(Proveedor *proveedor);
         Persona *instanciarPersona(const char *correo);
+        void instanciarPedido(Solicitud *solicitud);
+        producto_cantidad instanciarProductoCantidad(const int id);
         Solicitud *instanciarSolicitud(Persona cliente, const int id);
         Solicitud *instanciarSolicitud(Proveedor proveedor, const int id);
+        // Obtener ID
         int obtenerIdTipoDePago(const char *correo_proveedor, const char *tipo);
+        int obtenerIdProducto(const char *correo_proveedor, Producto producto);
+        int obtenerIdSolicitud(Solicitud solicitud);
         const char *obtenerTipoDePago(const int id);
 
     public:
