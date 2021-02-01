@@ -11,6 +11,7 @@ Solicitud::Solicitud()
     fechaEntrega = time_t();
     direccion = "";
     pedido = vector <producto_cantidad>();
+    id = 0;
 }
 
 Solicitud::Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion, vector <producto_cantidad> pedido)
@@ -23,6 +24,7 @@ Solicitud::Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, floa
     this->fechaEntrega = fechaEntrega;
     this->direccion = direccion;
     this->pedido = pedido;
+    id = 0;
 }
 
 Solicitud::Solicitud(Proveedor proveedor, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion, vector <producto_cantidad> pedido)
@@ -35,6 +37,7 @@ Solicitud::Solicitud(Proveedor proveedor, string tipoPago, float monto, time_t f
     this->fechaEntrega = fechaEntrega;
     this->direccion = direccion;
     this->pedido = pedido;
+    id = 0;
 }
 
 Solicitud::Solicitud(Persona cliente, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion, vector <producto_cantidad> pedido)
@@ -47,6 +50,7 @@ Solicitud::Solicitud(Persona cliente, string tipoPago, float monto, time_t fecha
     this->fechaEntrega = fechaEntrega;
     this->direccion = direccion;
     this->pedido = pedido;
+    id = 0;
 }
 
 // Establece el proveedor
@@ -121,6 +125,14 @@ Solicitud &Solicitud::setPedido(vector <producto_cantidad> pedido)
     return *this; // Permite el proceso en cascada
 }
 
+// Establece el ID
+Solicitud &Solicitud::setId(int id)
+{
+    this->id = id;
+
+    return *this; // Permite el proceso en cascada
+}
+
 // Devuelve el proveedor
 Proveedor Solicitud::getProveedor() const { return proveedor; }
 
@@ -147,3 +159,6 @@ string Solicitud::getDireccion() const { return direccion; }
 
 // Devuelve el pedido
 vector <producto_cantidad> Solicitud::getPedido() const { return pedido; }
+
+// Devuelve el ID
+int Solicitud::getId() const { return id; }

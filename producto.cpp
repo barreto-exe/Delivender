@@ -7,6 +7,15 @@ Producto::Producto(string nombre, string descripcion, float precio)
     this->nombre = nombre;
     this->descripcion = descripcion;
     this->precio = precio;
+    id = 0;
+}
+
+// Establece el ID
+Producto &Producto::setId(int id)
+{
+    this->id = id;
+
+    return *this; // Permite el proceso en cascada
 }
 
 // Establece el nombre del producto
@@ -41,3 +50,6 @@ string Producto::getDescripcion() const { return descripcion; }
 
 // Devuelve el precio
 float Producto::getPrecio() const { return precio; }
+
+// Devuelve el ID
+int Producto::getId() const { return id; }

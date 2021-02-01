@@ -16,6 +16,7 @@ class Producto {
         string nombre;
         string descripcion;
         float precio;
+        int id;
 
     public:
         // Constructor
@@ -25,11 +26,13 @@ class Producto {
         Producto &setNombre(string nombre);
         Producto &setDescripcion(string descripcion);
         Producto &setPrecio(float precio);
+        Producto &setId(int id);
 
         // Funciones get
         string getNombre() const;
         string getDescripcion() const;
         float getPrecio() const;
+        int getId() const;
 };
 
 #endif

@@ -27,6 +27,7 @@ class Solicitud
         string estatus;
         string direccion;
         vector <producto_cantidad> pedido;
+        int id;
 
     public:
         // Constructor
@@ -45,6 +46,7 @@ class Solicitud
         Solicitud &setEstatus(string estatus);
         Solicitud &setDireccion(string direccion);
         Solicitud &setPedido(vector <producto_cantidad> pedido);
+        Solicitud &setId(int id);
 
         //Funciones get
         Proveedor getProveedor() const;
@@ -56,6 +58,7 @@ class Solicitud
         string getEstatus() const;
         string getDireccion() const;
         vector <producto_cantidad> getPedido() const;
+        int getId() const;
 };
 
 #endif // SOLICITUD_H
