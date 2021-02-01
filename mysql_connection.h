@@ -29,7 +29,6 @@ class MySQLConnection
         // Funciones
         char *encriptar(const char *password);
         char *timeToString(time_t fecha);
-
         // Verificaciones
         int verificarCorreo(const char *correo);
         int verificarCedula(const char *cedula);
@@ -76,6 +75,7 @@ class MySQLConnection
         int registrarProducto(const char *correo_proveedor, producto_cantidad pxq);
         int registrarTipoDePago(const char *correo_proveedor, const char *descripcion);
         int modificarEstatusSolicitud(const int id_solicitud, const char *estatus);
+        int actualizarAlmacen(const int id_proveedor, const int id_producto, const int cantidad);
 
 };
 #endif // MYSQLCONNECTION_H

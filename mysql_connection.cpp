@@ -1087,3 +1087,29 @@ int MySQLConnection::modificarEstatusSolicitud(const int id_solicitud, const cha
     delete pstmt;
     return 0;
 }
+
+int MySQLConnection::actualizarAlmacen(const int id_proveedor, const int id_producto, const int cantidad)
+{
+    sql::PreparedStatement *pstmt;
+
+    try
+    {
+        pstmt = con->prepareStatement("UPDATE productos SET cantidad = ? WHERE id_proveedor = ? AND id_producto = ?");
+        pstmt->setInt(1, cantidad);
+        pstmt->setInt(2, id_proveedor);
+        pstmt->setInt(3, id_producto);
+        pstmt->execute();
+
+        delete pstmt;
+        return 1;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete pstmt;
+    return 0;
+}
