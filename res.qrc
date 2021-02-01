@@ -4,5 +4,6 @@
         <file>imagenes/registroFondo.png</file>
         <file>imagenes/seleccionFondo.png</file>
         <file>imagenes/transpFondo.png</file>
+        <file>imagenes/principalFondo.png</file>
     </qresource>
 </RCC>

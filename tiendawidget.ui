@@ -14,9 +14,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(255, 114, 98);
-
-</string>
+   <string notr="true">background-color: rgb(255, 114, 98);</string>
   </property>
   <widget class="QLabel" name="descripcion">
    <property name="geometry">
@@ -68,12 +66,12 @@ border: 2px solid white;</string>
    </property>
    <property name="styleSheet">
     <string notr="true">border: none;
-background-color: white;
+background-color: rgb(226, 226, 226);
 color: rgb(255, 114, 98);
 text-align: center;
 text-decoration: none;
 font-size:14px;
-font: 75 13pt &quot;Quicksand Medium&quot;;</string>
+font: 75 13pt &quot;Quicksand Bold&quot;;</string>
    </property>
    <property name="text">
     <string>PushButton</string>
