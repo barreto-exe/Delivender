@@ -1,7 +1,6 @@
 #include"global.h"
 #include <QDebug>
 #include <QMessageBox>
-#include<ctime>
 
 // Constructor
 MySQLConnection::MySQLConnection()
@@ -38,8 +37,10 @@ MySQLConnection::MySQLConnection()
 // Devuelve connection SQL
 sql::Connection *MySQLConnection::getConnection() const { return con; }
 
+/****************************************************************************************************************************************/
+/********************************************************** FUNCIONES PRIVADAS **********************************************************/
+/****************************************************************************************************************************************/
 
-/*********************************************************** FUNCIONES PRIVADAS *****************************************************************/
 // Retorna el parámetro encriptado
 char *MySQLConnection::encriptar(const char *password)
 {
@@ -57,18 +58,9 @@ char *MySQLConnection::encriptar(const char *password)
     return str;
 }
 
-char *MySQLConnection::timeToString(time_t fecha)
-{
-    struct tm * timeinfo;
-    char *str = new char[11] ();
+/*********************************************************** VERIFICACIONES *************************************************************/
 
-    time(&fecha);
-    timeinfo = localtime(&fecha);
-
-    strftime(str, 11, "%d/%m/%Y", timeinfo);
-    return str;
-}
-
+// Verifica si un correo corresponde  a un usuario registrado
 int MySQLConnection::verificarCorreo(const char *correo)
 {
     sql::PreparedStatement *pstmt;
@@ -158,6 +150,9 @@ int MySQLConnection::verificarPlaca(const char *placa)
     return 0;
 }
 
+/************************************************************* REGISTROS ****************************************************************/
+
+// Registro de nuevo usuario
 int MySQLConnection::registrarUsuario(const char *correo, const char *password, const char *tipo)
 {
     sql::PreparedStatement *pstmt;
@@ -183,11 +178,10 @@ int MySQLConnection::registrarUsuario(const char *correo, const char *password, 
     return 0;
 }
 
+// Registro de nueva persona
 int MySQLConnection::registrarPersona(Persona persona)
 {
     sql::PreparedStatement *pstmt;
-
-    // Registro los datos de la persona en la tabla personas
     try
     {
         pstmt = con->prepareStatement("INSERT INTO personas(correo,nombre,apellido,cedula,telefono,direccion,fecha_nacimiento) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -214,6 +208,7 @@ int MySQLConnection::registrarPersona(Persona persona)
     return 0;
 }
 
+// Registro detalles de una solicitud de compra
 int MySQLConnection::registrarPedido(const char *correo_proveedor, vector<producto_cantidad> pedido, const int id_solicitud)
 {
     sql::PreparedStatement *pstmt;
@@ -241,6 +236,75 @@ int MySQLConnection::registrarPedido(const char *correo_proveedor, vector<produc
     return 1;
 }
 
+// Registro de un nuevo producto
+int MySQLConnection::registrarProducto(const char *correo_proveedor, producto_cantidad pxq)
+{
+    if (obtenerIdProducto(correo_proveedor, pxq.producto))
+    {
+        qDebug() << "Ya existe este producto";
+        return 0;
+    }
+
+    sql::PreparedStatement *pstmt;
+    try
+    {
+        pstmt = con->prepareStatement("INSERT INTO productos(correo_proveedor,nombre,descripcion,precio,cantidad) VALUES (?, ?, ?, ?, ?)");
+
+        pstmt->setString(1, correo_proveedor);
+        pstmt->setString(2, pxq.producto.getNombre());
+        pstmt->setString(3, pxq.producto.getDescripcion());
+        pstmt->setDouble(4, pxq.producto.getPrecio());
+        pstmt->setInt(5, pxq.cantidad);
+        pstmt->execute();
+        qDebug() << "El producto se registró con éxito uwu";
+        delete pstmt;
+        (&pxq.producto)->setId(obtenerIdProducto(correo_proveedor, pxq.producto));
+        return 1;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+    delete pstmt;
+    return 0;
+}
+
+// Registro de nuevo tipo de pago
+int MySQLConnection::registrarTipoDePago(const char *correo_proveedor, const char *descripcion)
+{
+    if (obtenerIdTipoDePago(correo_proveedor, descripcion))
+    {
+        qDebug() << "Ya existe este tipo de pago";
+        return 0;
+    }
+
+    sql::PreparedStatement *pstmt;
+    try
+    {
+        pstmt = con->prepareStatement("INSERT INTO tipos_de_pago(correo_proveedor,descripcion) VALUES (?, ?)");
+
+        pstmt->setString(1, correo_proveedor);
+        pstmt->setString(2, descripcion);
+        pstmt->execute();
+        qDebug() << "Se registró el tipo de pago";
+        delete pstmt;
+        return 1;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+    delete pstmt;
+    return 0;
+}
+
+/************************************************************* INSTANCIAS ***************************************************************/
+
+// Instanciar un proveedor de la BDD
 Proveedor *MySQLConnection::instanciarProveedor(const char *correo)
 {
     sql::PreparedStatement *pstmt;
@@ -288,6 +352,7 @@ Proveedor *MySQLConnection::instanciarProveedor(const char *correo)
     return 0;
 }
 
+// Instanciar el almacén de un proveedor desde la BDD
 void MySQLConnection::instanciarAlmacen(Proveedor *proveedor)
 {
     sql::PreparedStatement *pstmt;
@@ -323,6 +388,7 @@ void MySQLConnection::instanciarAlmacen(Proveedor *proveedor)
 
 }
 
+// Instanciar una persona de la BDD
 Persona *MySQLConnection::instanciarPersona(const char *correo)
 {
     sql::PreparedStatement *pstmt;
@@ -362,6 +428,7 @@ Persona *MySQLConnection::instanciarPersona(const char *correo)
     return 0;
 }
 
+// Instanciar detalles de una solicitud de compra desde la BDD
 void MySQLConnection::instanciarPedido(Solicitud *solicitud)
 {
     sql::PreparedStatement *pstmt;
@@ -390,6 +457,7 @@ void MySQLConnection::instanciarPedido(Solicitud *solicitud)
     delete pstmt;
 }
 
+// Instanciar un producto con su cantidad desed la BDD
 producto_cantidad MySQLConnection::instanciarProductoCantidad(const int id)
 {
     sql::PreparedStatement *pstmt;
@@ -426,6 +494,7 @@ producto_cantidad MySQLConnection::instanciarProductoCantidad(const int id)
     return producto_cantidad();
 }
 
+// Instanciar una solicitud de un cliente desde la BDD
 Solicitud *MySQLConnection::instanciarSolicitud(Persona cliente, const int id)
 {
     sql::PreparedStatement *pstmt;
@@ -470,6 +539,7 @@ Solicitud *MySQLConnection::instanciarSolicitud(Persona cliente, const int id)
     return 0;
 }
 
+// Instanciar una solicitud de un proveedor desde la BDD
 Solicitud *MySQLConnection::instanciarSolicitud(Proveedor proveedor, const int id)
 {
     sql::PreparedStatement *pstmt;
@@ -514,6 +584,9 @@ Solicitud *MySQLConnection::instanciarSolicitud(Proveedor proveedor, const int i
     return 0;
 }
 
+/************************************************************* OBTENER ID ***************************************************************/
+
+// Obtener ID de un tipo de pago
 int MySQLConnection::obtenerIdTipoDePago(const char *correo_proveedor, const char *tipo)
 {
     sql::PreparedStatement *pstmt;
@@ -542,6 +615,7 @@ int MySQLConnection::obtenerIdTipoDePago(const char *correo_proveedor, const cha
     return id;
 }
 
+// Obtener ID de un producto
 int MySQLConnection::obtenerIdProducto(const char *correo_proveedor, Producto producto)
 {
     sql::PreparedStatement *pstmt;
@@ -575,6 +649,7 @@ int MySQLConnection::obtenerIdProducto(const char *correo_proveedor, Producto pr
     return id;
 }
 
+// Obtener ID de una solicitud
 int MySQLConnection::obtenerIdSolicitud(Solicitud solicitud)
 {
     sql::PreparedStatement *pstmt;
@@ -610,6 +685,7 @@ int MySQLConnection::obtenerIdSolicitud(Solicitud solicitud)
     return id;
 }
 
+// Obtener la descripcion de un tipo de pago a partir de su ID
 const char *MySQLConnection::obtenerTipoDePago(const int id)
 {
     sql::PreparedStatement *pstmt;
@@ -642,7 +718,66 @@ const char *MySQLConnection::obtenerTipoDePago(const int id)
     return 0;
 }
 
-/*********************************************************** FUNCIONES PÚBLICAS ****************************************************************/
+/******************************************************** ACTUALIZACIÓN DE DATOS ********************************************************/
+
+// Modificar estatus de una solicitud
+int MySQLConnection::modificarEstatusSolicitud(const int id_solicitud, const char *estatus)
+{
+    sql::PreparedStatement *pstmt;
+
+    try
+    {
+        pstmt = con->prepareStatement("UPDATE solicitudes SET estatus = ? WHERE id_solicitud = ?");
+        pstmt->setString(1, estatus);
+        pstmt->setInt(2, id_solicitud);
+        pstmt->execute();
+
+        delete pstmt;
+        return 1;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete pstmt;
+    return 0;
+}
+
+// Actualizar cantidad de productos dentro del almacen
+int MySQLConnection::actualizarAlmacen(const char *correo_proveedor, const int id_producto, const int cantidad)
+{
+    sql::PreparedStatement *pstmt;
+
+    try
+    {
+        pstmt = con->prepareStatement("UPDATE productos SET cantidad = ? WHERE correo_proveedor = ? AND id_producto = ?");
+        pstmt->setInt(1, cantidad);
+        pstmt->setString(2, correo_proveedor);
+        pstmt->setInt(3, id_producto);
+        pstmt->execute();
+
+        delete pstmt;
+        return 1;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete pstmt;
+    return 0;
+}
+
+/****************************************************************************************************************************************/
+/********************************************************** FUNCIONES PÚBLICAS **********************************************************/
+/****************************************************************************************************************************************/
+
+// Cosnstructor de un struct producto_cantidad
 producto_cantidad MySQLConnection::structProductoCantidad(Producto producto, int cantidad)
 {
     producto_cantidad pxq = producto_cantidad();
@@ -651,6 +786,7 @@ producto_cantidad MySQLConnection::structProductoCantidad(Producto producto, int
     return pxq;
 }
 
+/*********************************************************** INICIO DE SESIÓN ***********************************************************/
 /* Entra a la BDD y comprueba el inicio de sesión
 *  Retorna 1: cuando los datos son válidos y se inicia sesión
 *  Retorna -1: cuando el correo está registrado, pero la contraseña no coincide
@@ -746,6 +882,9 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
     return -2;
 }
 
+/********************************************************* REGISTRO DE USUARIOS *********************************************************/
+
+// Registro de nuevo cliente
 int MySQLConnection::registrarCliente(Persona cliente, const char *correo, const char *password)
 {
     if (con == 0)
@@ -770,6 +909,7 @@ int MySQLConnection::registrarCliente(Persona cliente, const char *correo, const
     return 1;
 }
 
+// Registro de nuevo proveedor
 int MySQLConnection::registrarProveedor(Proveedor proveedor, const char *correo, const char *password)
 {
     if (con == 0)
@@ -812,6 +952,7 @@ int MySQLConnection::registrarProveedor(Proveedor proveedor, const char *correo,
     return 0;
 }
 
+// Registro de nuevo transportista
 int MySQLConnection::registrarTransportista(Persona transportista, Vehiculo vehiculo, const char *correo,  const char *password)
 {
     if (con == 0)
@@ -844,6 +985,7 @@ int MySQLConnection::registrarTransportista(Persona transportista, Vehiculo vehi
     return 1;
 }
 
+// Registro de un nuevo vehículo
 int MySQLConnection::registrarVehiculo(Vehiculo vehiculo, const char *correo_transportista)
 {
     if (con == 0)
@@ -874,6 +1016,9 @@ int MySQLConnection::registrarVehiculo(Vehiculo vehiculo, const char *correo_tra
     return 0;
 }
 
+/******************************************************** FUNCIONES PARA CLIENTES ********************************************************/
+
+// Registro de nueva solicitud
 int MySQLConnection::registrarSolicitud(Solicitud solicitud)
 {
     if (obtenerIdTipoDePago(solicitud.getProveedor().getCorreo().c_str(), solicitud.getTipoPago().c_str()))
@@ -912,6 +1057,7 @@ int MySQLConnection::registrarSolicitud(Solicitud solicitud)
     return 0;
 }
 
+// Listar proveedores disponibles
 vector <Proveedor> MySQLConnection::listarProveedores()
 {
     vector <Proveedor> lista;
@@ -940,6 +1086,7 @@ vector <Proveedor> MySQLConnection::listarProveedores()
     return lista;
 }
 
+// Listar mis solicitudes (cliente)
 vector <Solicitud> MySQLConnection::listarSolicitudes(Persona cliente)
 {
     vector <Solicitud> lista;
@@ -968,35 +1115,7 @@ vector <Solicitud> MySQLConnection::listarSolicitudes(Persona cliente)
     return lista;
 }
 
-
-vector <Solicitud> MySQLConnection::listarSolicitudes(Proveedor proveedor)
-{
-    vector <Solicitud> lista;
-
-    sql::PreparedStatement *pstmt;
-    sql::ResultSet *res;
-
-    try
-    {
-        pstmt = con->prepareStatement("SELECT * FROM solicitudes WHERE correo_proveedor = ?");
-        pstmt->setString(1, proveedor.getCorreo().c_str());
-        res = pstmt->executeQuery();
-
-        while (res->next())
-            lista.push_back(*instanciarSolicitud(proveedor,res->getInt("id_solicitud")));
-    }
-    catch (sql::SQLException &e)
-    {
-        // Error de conexión
-        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
-        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-    }
-
-    delete res;
-    delete pstmt;
-    return lista;
-}
-
+// Listar tipos de pago de un proveedor
 vector <string> MySQLConnection::listarTiposDePago(Proveedor proveedor)
 {
     vector <string> lista;
@@ -1025,119 +1144,108 @@ vector <string> MySQLConnection::listarTiposDePago(Proveedor proveedor)
     return lista;
 }
 
-/***************************************************** FUNCIONES "PROTEGIDAS" *****************************************************/
-int MySQLConnection::registrarProducto(const char *correo_proveedor, producto_cantidad pxq)
+/****************************************************** FUNCIONES PARA PROVEEDORES ******************************************************/
+
+// Listar mis solicitudes (proveedor)
+vector <Solicitud> MySQLConnection::listarSolicitudes(Proveedor proveedor)
 {
-    if (obtenerIdProducto(correo_proveedor, pxq.producto))
+    vector <Solicitud> lista;
+
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
     {
-        qDebug() << "Ya existe este producto";
+        pstmt = con->prepareStatement("SELECT * FROM solicitudes WHERE correo_proveedor = ?");
+        pstmt->setString(1, proveedor.getCorreo().c_str());
+        res = pstmt->executeQuery();
+
+        while (res->next())
+            lista.push_back(*instanciarSolicitud(proveedor,res->getInt("id_solicitud")));
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete res;
+    delete pstmt;
+    return lista;
+}
+
+// Listar mis tipos de pago
+vector <string> MySQLConnection::listarTiposDePago()
+{
+    vector <string> lista;
+
+    if (Global::proveedor == nullptr)
+        return lista;
+
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM tipos_de_pago WHERE correo_proveedor = ?");
+        pstmt->setString(1, Global::proveedor->getCorreo().c_str());
+        res = pstmt->executeQuery();
+
+        while (res->next())
+            lista.push_back(res->getString("descripcion"));
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete res;
+    delete pstmt;
+    return lista;
+}
+
+// Agregar producto al almacén
+int MySQLConnection::agregarProductoAlmacen(Producto producto, int cantidad)
+{
+    if (Global::proveedor == nullptr)
         return 0;
-    }
 
-    sql::PreparedStatement *pstmt;
-    try
+    producto_cantidad pxq = Global::db.structProductoCantidad(producto,cantidad);
+
+    if (Global::db.registrarProducto(Global::proveedor->getCorreo().c_str(), pxq))
     {
-        pstmt = con->prepareStatement("INSERT INTO productos(correo_proveedor,nombre,descripcion,precio,cantidad) VALUES (?, ?, ?, ?, ?)");
-
-        pstmt->setString(1, correo_proveedor);
-        pstmt->setString(2, pxq.producto.getNombre());
-        pstmt->setString(3, pxq.producto.getDescripcion());
-        pstmt->setDouble(4, pxq.producto.getPrecio());
-        pstmt->setInt(5, pxq.cantidad);
-        pstmt->execute();
-        qDebug() << "El producto se registró con éxito uwu";
-        delete pstmt;
-        (&pxq.producto)->setId(obtenerIdProducto(correo_proveedor, pxq.producto));
+        Global::proveedor->getAlmacen().push_back(pxq);
         return 1;
     }
-    catch (sql::SQLException &e)
-    {
-        // Error de conexión
-        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
-        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-    }
-    delete pstmt;
+
     return 0;
 }
 
-int MySQLConnection::registrarTipoDePago(const char *correo_proveedor, const char *descripcion)
+// Agregar un tipo de pago
+int MySQLConnection::agregarTipoDePago(const char *descripcion)
 {
-    if (obtenerIdTipoDePago(correo_proveedor, descripcion))
-    {
-        qDebug() << "Ya existe este tipo de pago";
+    if (Global::proveedor == nullptr)
         return 0;
-    }
 
-    sql::PreparedStatement *pstmt;
-    try
-    {
-        pstmt = con->prepareStatement("INSERT INTO tipos_de_pago(correo_proveedor,descripcion) VALUES (?, ?)");
-
-        pstmt->setString(1, correo_proveedor);
-        pstmt->setString(2, descripcion);
-        pstmt->execute();
-        qDebug() << "Se registró el tipo de pago";
-        delete pstmt;
-        return 1;
-    }
-    catch (sql::SQLException &e)
-    {
-        // Error de conexión
-        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
-        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-    }
-    delete pstmt;
-    return 0;
+    return registrarTipoDePago(Global::proveedor->getCorreo().c_str(), descripcion);
 }
 
-
-int MySQLConnection::modificarEstatusSolicitud(const int id_solicitud, const char *estatus)
+// Aprobar una solicitud de compra
+int MySQLConnection::aprobarSolicitud(const int id_solicitud)
 {
-    sql::PreparedStatement *pstmt;
+    if (Global::proveedor == nullptr)
+        return 0;
 
-    try
-    {
-        pstmt = con->prepareStatement("UPDATE solicitudes SET estatus = ? WHERE id_solicitud = ?");
-        pstmt->setString(1, estatus);
-        pstmt->setInt(2, id_solicitud);
-        pstmt->execute();
+    // Verificar primero si existe la cantidad de productos suficientes
 
-        delete pstmt;
-        return 1;
-    }
-    catch (sql::SQLException &e)
-    {
-        // Error de conexión
-        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
-        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-    }
-
-    delete pstmt;
-    return 0;
+    return modificarEstatusSolicitud(id_solicitud, "aprobada");
 }
 
-int MySQLConnection::actualizarAlmacen(const int id_proveedor, const int id_producto, const int cantidad)
+// Rechazar una solicitud de compra
+int MySQLConnection::rechazarSolicitud(const int id_solicitud)
 {
-    sql::PreparedStatement *pstmt;
-
-    try
-    {
-        pstmt = con->prepareStatement("UPDATE productos SET cantidad = ? WHERE id_proveedor = ? AND id_producto = ?");
-        pstmt->setInt(1, cantidad);
-        pstmt->setInt(2, id_proveedor);
-        pstmt->setInt(3, id_producto);
-        pstmt->execute();
-
-        delete pstmt;
-        return 1;
-    }
-    catch (sql::SQLException &e)
-    {
-        // Error de conexión
-        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
-        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-    }
-
-    delete pstmt;
-    return 0;
+    return Global::db.modificarEstatusSolicitud(id_solicitud, "rechazada");
 }

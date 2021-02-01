@@ -46,12 +46,6 @@ class Proveedor {
         string getDireccion() const;
         string getTipoProveedor() const;
         vector <producto_cantidad> getAlmacen() const;
-
-        // Funciones
-        int agregarProductoAlmacen(Producto producto, int cantidad);
-        int agregarTipoDePago(const char *descripcion);
-        int aprobarSolicitud(const int id_solicitud);
-        int rechazarSolicitud(const int id_solicitud);
 };
 
 #endif
