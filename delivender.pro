@@ -26,6 +26,7 @@ SOURCES += \
     producto.cpp \
     proveedor.cpp \
     solicitud.cpp \
+    tiendawidget.cpp \
     vehiculo.cpp
 
 HEADERS += \
@@ -39,12 +40,14 @@ HEADERS += \
     producto_cantidad.h \
     proveedor.h \
     solicitud.h \
+    tiendawidget.h \
     vehiculo.h
 
 FORMS += \
     mainwindow.ui \
     pantalla_principal.ui \
-    pantalla_registro.ui
+    pantalla_registro.ui \
+    tiendawidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
