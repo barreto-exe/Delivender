@@ -32,9 +32,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     Global::db.registrarTransportista(*transportista, *vehiculo, correo, password);*/
 
-    vector <Proveedor> lista = Global::db.listarProveedores();
+    //vector <Proveedor> lista = Global::db.listarProveedores();
 
-    if (lista.empty())
+    if (Global::db.modificarEstatusSolicitud(1, "aprobado"))
         qDebug() << "Todo bello";
 
 }

@@ -133,9 +133,10 @@ void pantalla_registro::on_btnAceptarProv_clicked()
             Proveedor *proveedor = new Proveedor(ui->nombreProv->text().toStdString(),
                                                  ui->descripcion->text().toStdString(),
                                                  ui->telefonoProv->text().toStdString(),
+                                                 ui->correoProv->text().toStdString(),
                                                  ui->direccionProv->text().toStdString(),
-                                                 ui->tipoProv->text().toStdString(),
-                                                 0);
+                                                 ui->tipoProv->text().toStdString());
+
             int reg = Global::db.registrarProveedor(*proveedor,ui->correoProv->text().toStdString().c_str(),ui->passwordProv->text().toStdString().c_str());
             if (reg==1){
                 msgBox.setText("Se ha registrado con éxito!");
