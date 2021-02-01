@@ -28,9 +28,9 @@ MySQLConnection::MySQLConnection()
     }
     catch (sql::SQLException &e)
     {
+        con = 0;
         qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-        con = 0;
     }
 }
 
@@ -197,7 +197,7 @@ int MySQLConnection::registrarPersona(Persona persona)
         pstmt->setString(4, persona.getCedula().c_str());
         pstmt->setString(5, persona.getTelefono().c_str());
         pstmt->setString(6, persona.getDireccion().c_str());
-        pstmt->setString(7, timeToString(persona.getFechaNacimiento()));
+        pstmt->setString(7, persona.getFechaNacimiento().toString("dd/MM/yyyy").toStdString().c_str());
         pstmt->execute();
         qDebug() << "La persona se registró con éxito uwu";
         delete pstmt;
@@ -341,7 +341,8 @@ Persona *MySQLConnection::instanciarPersona(const char *correo)
             persona->setApellido(res->getString("apellido"));
             persona->setTelefono(res->getString("telefono"));
             persona->setDireccion(res->getString("direccion"));
-            persona->setFechaNacimiento(time_t());
+            QString fecha = QString().fromStdString(res->getString("fecha_nacimiento"));
+            persona->setFechaNacimiento(QDate().fromString(fecha, "dd/MM/yyyy"));
             persona->setCorreo(correo);
 
             delete res;
@@ -444,8 +445,10 @@ Solicitud *MySQLConnection::instanciarSolicitud(Persona cliente, const int id)
             solicitud->setMonto(res->getDouble("monto"));
             solicitud->setTipoPago(obtenerTipoDePago(res->getInt("id_tipo_de_pago")));
             solicitud->setDireccion(res->getString("direccion"));
-            solicitud->setFechaPedido(time_t());
-            solicitud->setFechaEntrega(time_t());
+            QString fechaP = QString().fromStdString(res->getString("fecha_de_creacion"));
+            QString fechaE = QString().fromStdString(res->getString("fecha_de_entrega"));
+            solicitud->setFechaPedido(QDate().fromString(fechaP, "dd/MM/yyyy"));
+            solicitud->setFechaEntrega(QDate().fromString(fechaE, "dd/MM/yyyy"));
             solicitud->setEstatus(res->getString("estatus"));
             solicitud->setId(id);
             instanciarPedido(solicitud);
@@ -486,8 +489,10 @@ Solicitud *MySQLConnection::instanciarSolicitud(Proveedor proveedor, const int i
             solicitud->setMonto(res->getDouble("monto"));
             solicitud->setTipoPago(obtenerTipoDePago(res->getInt("id_tipo_de_pago")));
             solicitud->setDireccion(res->getString("direccion"));
-            solicitud->setFechaPedido(time_t());
-            solicitud->setFechaEntrega(time_t());
+            QString fechaP = QString().fromStdString(res->getString("fecha_de_creacion"));
+            QString fechaE = QString().fromStdString(res->getString("fecha_de_entrega"));
+            solicitud->setFechaPedido(QDate().fromString(fechaP, "dd/MM/yyyy"));
+            solicitud->setFechaEntrega(QDate().fromString(fechaE, "dd/MM/yyyy"));
             solicitud->setEstatus(res->getString("estatus"));
             solicitud->setId(id);
             instanciarPedido(solicitud);
@@ -582,7 +587,7 @@ int MySQLConnection::obtenerIdSolicitud(Solicitud solicitud)
         pstmt->setString(1, solicitud.getProveedor().getCorreo().c_str());
         pstmt->setString(2, solicitud.getCliente().getCorreo().c_str());
         pstmt->setDouble(3, solicitud.getMonto());
-        pstmt->setString(4, timeToString(solicitud.getFechaPedido()));
+        pstmt->setString(4, solicitud.getFechaPedido().toString("dd/MM/yyyy").toStdString().c_str());
         pstmt->setString(5, solicitud.getDireccion().c_str());
         pstmt->setString(6, solicitud.getEstatus().c_str());
         res = pstmt->executeQuery();
@@ -886,8 +891,8 @@ int MySQLConnection::registrarSolicitud(Solicitud solicitud)
         pstmt->setDouble(3, solicitud.getMonto());
         pstmt->setInt(4, obtenerIdTipoDePago(solicitud.getProveedor().getCorreo().c_str(), solicitud.getTipoPago().c_str()));
         pstmt->setString(5, solicitud.getDireccion().c_str());
-        pstmt->setString(6, timeToString(solicitud.getFechaPedido()));
-        pstmt->setString(7, timeToString(solicitud.getFechaEntrega()));
+        pstmt->setString(6, solicitud.getFechaPedido().toString("dd/MM/yyyy").toStdString().c_str());
+        pstmt->setString(7, solicitud.getFechaEntrega().toString("dd/MM/yyyy").toStdString().c_str());
         pstmt->setString(8, solicitud.getEstatus().c_str());
         pstmt->execute();
         qDebug() << "La solicitud fue registrada con éxito uwu";

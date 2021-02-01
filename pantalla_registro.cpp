@@ -31,13 +31,14 @@ void pantalla_registro::on_btnAceptarPersona_clicked() //Boton aceptar al introd
     if(ui->password->text() == ui->repPassword->text())  {
         //Y ningun campo esta vacio, procede a registrar/guardar los datos
         if(!ui->nombre->text().isEmpty() && !ui->apellido->text().isEmpty() && !ui->cedula->text().isEmpty() && !ui->telefono->text().isEmpty() && !ui->direccion->text().isEmpty() && !ui->fechaNac->text().isEmpty() && !ui->password->text().isEmpty()){
-            time_t fechaNac = ui->fechaNac->dateTime().toTime_t();
+
             datosPersona = new Persona(ui->nombre->text().toStdString(),
                                                 ui->apellido->text().toStdString(),
                                                 ui->cedula->text().toStdString(),
                                                 ui->telefono->text().toStdString(),
                                                 ui->correo->text().toStdString().c_str(),
-                                                ui->direccion->text().toStdString(),fechaNac);
+                                                ui->direccion->text().toStdString(),
+                                                ui->fechaNac->date());
             if(cliente){
                 //Lo registra si es un cliente
                 int reg = Global::db.registrarCliente(*datosPersona, ui->correo->text().toStdString().c_str(), ui->password->text().toStdString().c_str());

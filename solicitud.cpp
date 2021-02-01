@@ -7,14 +7,14 @@ Solicitud::Solicitud()
     cliente = Persona();
     tipoPago = "";
     monto = 0;
-    fechaPedido = time_t();
-    fechaEntrega = time_t();
+    fechaPedido = QDate();
+    fechaEntrega = QDate();
     direccion = "";
     pedido = vector <producto_cantidad>();
     id = 0;
 }
 
-Solicitud::Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion, vector <producto_cantidad> pedido)
+Solicitud::Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, float monto, QDate fechaPedido, QDate fechaEntrega, string direccion, vector <producto_cantidad> pedido)
 {
     this->proveedor = proveedor;
     this->cliente = cliente;
@@ -27,7 +27,7 @@ Solicitud::Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, floa
     id = 0;
 }
 
-Solicitud::Solicitud(Proveedor proveedor, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion, vector <producto_cantidad> pedido)
+Solicitud::Solicitud(Proveedor proveedor, string tipoPago, float monto, QDate fechaPedido, QDate fechaEntrega, string direccion, vector <producto_cantidad> pedido)
 {
     this->proveedor = proveedor;
     cliente = Persona();
@@ -40,7 +40,7 @@ Solicitud::Solicitud(Proveedor proveedor, string tipoPago, float monto, time_t f
     id = 0;
 }
 
-Solicitud::Solicitud(Persona cliente, string tipoPago, float monto, time_t fechaPedido, time_t fechaEntrega, string direccion, vector <producto_cantidad> pedido)
+Solicitud::Solicitud(Persona cliente, string tipoPago, float monto, QDate fechaPedido, QDate fechaEntrega, string direccion, vector <producto_cantidad> pedido)
 {
     proveedor = Proveedor();
     this->cliente = cliente;
@@ -86,7 +86,7 @@ Solicitud &Solicitud::setMonto(float monto)
 }
 
 // Establece la fecha de realizacion de pedido
-Solicitud &Solicitud::setFechaPedido(time_t fechaPedido)
+Solicitud &Solicitud::setFechaPedido(QDate fechaPedido)
 {
     this->fechaPedido = fechaPedido;
     
@@ -94,7 +94,7 @@ Solicitud &Solicitud::setFechaPedido(time_t fechaPedido)
 }
 
 // Establece la fecha de realizacion de entrega
-Solicitud &Solicitud::setFechaEntrega(time_t fechaEntrega)
+Solicitud &Solicitud::setFechaEntrega(QDate fechaEntrega)
 {
     this->fechaEntrega = fechaEntrega;
     
@@ -146,10 +146,10 @@ string Solicitud::getTipoPago() const { return tipoPago; }
 float Solicitud::getMonto() const { return monto; }
 
 // Devuelve la fecha de realización del pedido
-time_t Solicitud::getFechaPedido() const { return fechaPedido; }
+QDate Solicitud::getFechaPedido() const { return fechaPedido; }
 
 // Devuelve la fecha de realización de la entrega
-time_t Solicitud::getFechaEntrega() const { return fechaEntrega; }
+QDate Solicitud::getFechaEntrega() const { return fechaEntrega; }
 
 // Devuelve el estatus
 string Solicitud::getEstatus() const { return estatus; }
