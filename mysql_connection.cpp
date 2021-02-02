@@ -820,7 +820,7 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
                 // Instanciando proveedor global con los atributos de la BDD
                 if (!strcmp(tipo.c_str(), "proveedor"))
                 {
-                    Global::proveedor = instanciarProveedor(correo);
+                    Global::usuario = instanciarProveedor(correo);
                 }
                 else
                 {
@@ -837,12 +837,12 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
                         // Instanciando cliente global con los atributos de la BDD
                         if (!strcmp(tipo.c_str(), "cliente"))
                         {
-                            Global::cliente = persona;
+                            Global::usuario = persona;
                         }
                         // Instanciando transportista global con los atributos de la BDD
                         else if (!strcmp(tipo.c_str(), "transportista"))
                         {
-                            Global::transportista = persona;
+                            Global::usuario = persona;
                         }
                         else
                         {
@@ -905,7 +905,7 @@ int MySQLConnection::registrarCliente(Persona cliente, const char *correo, const
     char tipo[8] = "cliente";
     registrarUsuario(correo, password, tipo);
     registrarPersona(cliente);
-    Global::cliente = &cliente;
+    Global::usuario = &cliente;
     return 1;
 }
 
@@ -939,7 +939,7 @@ int MySQLConnection::registrarProveedor(Proveedor proveedor, const char *correo,
         pstmt->executeQuery();
         delete pstmt;
         qDebug() << "El proveedor se registró con éxito uwu";
-        Global::proveedor = &proveedor;
+        Global::usuario = &proveedor;
         return 1;
 
     }
@@ -981,7 +981,7 @@ int MySQLConnection::registrarTransportista(Persona transportista, Vehiculo vehi
     registrarUsuario(correo, password, tipo);
     registrarPersona(transportista);
     registrarVehiculo(vehiculo, transportista.getCedula().c_str());
-    Global::transportista = &transportista;
+    Global::usuario = &transportista;
     return 1;
 }
 
@@ -1180,7 +1180,7 @@ vector <string> MySQLConnection::listarTiposDePago()
 {
     vector <string> lista;
 
-    if (Global::proveedor == nullptr)
+    if (Global::usuario == nullptr)
         return lista;
 
     sql::PreparedStatement *pstmt;
@@ -1189,7 +1189,7 @@ vector <string> MySQLConnection::listarTiposDePago()
     try
     {
         pstmt = con->prepareStatement("SELECT * FROM tipos_de_pago WHERE correo_proveedor = ?");
-        pstmt->setString(1, Global::proveedor->getCorreo().c_str());
+        pstmt->setString(1, Global::usuario->getCorreo().c_str());
         res = pstmt->executeQuery();
 
         while (res->next())
@@ -1210,14 +1210,14 @@ vector <string> MySQLConnection::listarTiposDePago()
 // Agregar producto al almacén
 int MySQLConnection::agregarProductoAlmacen(Producto producto, int cantidad)
 {
-    if (Global::proveedor == nullptr)
+    if (Global::usuario == nullptr)
         return 0;
 
     producto_cantidad pxq = Global::db.structProductoCantidad(producto,cantidad);
 
-    if (Global::db.registrarProducto(Global::proveedor->getCorreo().c_str(), pxq))
+    if (Global::db.registrarProducto(Global::usuario->getCorreo().c_str(), pxq))
     {
-        Global::proveedor->getAlmacen().push_back(pxq);
+        //Global::usuario->getAlmacen().push_back(pxq);
         return 1;
     }
 
@@ -1227,16 +1227,16 @@ int MySQLConnection::agregarProductoAlmacen(Producto producto, int cantidad)
 // Agregar un tipo de pago
 int MySQLConnection::agregarTipoDePago(const char *descripcion)
 {
-    if (Global::proveedor == nullptr)
+    if (Global::usuario == nullptr)
         return 0;
 
-    return registrarTipoDePago(Global::proveedor->getCorreo().c_str(), descripcion);
+    return registrarTipoDePago(Global::usuario->getCorreo().c_str(), descripcion);
 }
 
 // Aprobar una solicitud de compra
 int MySQLConnection::aprobarSolicitud(const int id_solicitud)
 {
-    if (Global::proveedor == nullptr)
+    if (Global::usuario == nullptr)
         return 0;
 
     // Verificar primero si existe la cantidad de productos suficientes

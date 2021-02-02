@@ -4,75 +4,33 @@
 #include"global.h"
 
 // Constructor de la clase
-Proveedor::Proveedor()
+Proveedor::Proveedor() : Usuario()
 {
-    nombre = "";
     descripcion = "";
-    telefono = "";
-    correo = "";
-    direccion = "";
     tipoProveedor = "";
     almacen = vector <producto_cantidad>();
 }
 
 Proveedor::Proveedor(string nombre, string descripcion, string telefono, string correo, string direccion, string tipoProveedor, vector <producto_cantidad> almacen)
+    : Usuario(nombre, telefono, correo, direccion)
 {
-    this->nombre = nombre;
     this->descripcion = descripcion;
-    this->telefono = telefono;
-    this->correo = correo;
-    this->direccion = direccion;
     this->tipoProveedor = tipoProveedor;
     this->almacen = almacen;
 }
 
 Proveedor::Proveedor(string nombre, string descripcion, string telefono, string correo, string direccion, string tipoProveedor)
+    : Usuario(nombre, telefono, correo, direccion)
 {
-    this->nombre = nombre;
     this->descripcion = descripcion;
-    this->telefono = telefono;
-    this->correo = correo;
-    this->direccion = direccion;
     this->tipoProveedor = tipoProveedor;
     almacen = vector <producto_cantidad>();
-}
-
-// Establece el nombre
-Proveedor &Proveedor::setNombre(string nombre)
-{
-    this->nombre = nombre;
-
-    return *this; // Permite el proceso en cascada
 }
 
 // Establece la descripcion
 Proveedor &Proveedor::setDescripcion(string descripcion)
 {
     this->descripcion = descripcion;
-
-    return *this; // Permite el proceso en cascada
-}
-
-// Establece el teléfono
-Proveedor &Proveedor::setTelefono(string telefono)
-{
-    this->telefono = telefono;
-
-    return *this; // Permite el proceso en cascada
-}
-
-// Establece el correo
-Proveedor &Proveedor::setCorreo(string correo)
-{
-    this->correo = correo;
-
-    return *this; // Permite el proceso en cascada
-}
-
-// Establece la dirección
-Proveedor &Proveedor::setDireccion(string direccion)
-{
-    this->direccion = direccion;
 
     return *this; // Permite el proceso en cascada
 }
@@ -93,20 +51,8 @@ Proveedor &Proveedor::setAlmacen(vector <producto_cantidad> almacen)
     return *this; // Permite el proceso en cascada
 }
 
-// Devuelve el nombre
-string Proveedor::getNombre() const { return nombre; }
-
 // Devuelve la descripcion
 string Proveedor::getDescripcion() const { return descripcion; }
-
-// Devuelve el teléfono
-string Proveedor::getTelefono() const { return telefono; }
-
-// Devuelve el correo
-string Proveedor::getCorreo() const { return correo; }
-
-// Devuelve la direccion
-string Proveedor::getDireccion() const { return direccion; }
 
 // Devuelve el tipo de proveedor
 string Proveedor::getTipoProveedor() const { return tipoProveedor; }

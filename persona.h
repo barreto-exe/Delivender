@@ -5,43 +5,32 @@
 #ifndef PERSONA_H
 #define PERSONA_H
 
-#include <string>
 #include<QDate>
+#include"usuario.h"
 
-using std::string;
 
 // Clase para clientes y transportistas
-class Persona {
+class Persona : public Usuario
+{
     private:
         // Atributos
-        string nombre;
         string apellido;
         string cedula;
-        string telefono;
-        string correo;
-        string direccion;
         QDate fechaNacimiento;
         
     public:
         // Constructor
-        Persona(string nombre = "", string apellido = "", string cedula = "", string telefono = "", string correo = "", string direccion = "", QDate fechaNacimiento = QDate());
+        Persona();
+        Persona(string nombre, string apellido, string cedula, string telefono, string correo, string direccion, QDate fechaNacimiento);
     
         // Funciones set
-        Persona &setNombre(string nombre);
         Persona &setApellido(string apellido);
         Persona &setCedula(string cedula);
-        Persona &setTelefono(string telefono);
-        Persona &setCorreo(string correo);
-        Persona &setDireccion(string direccion);
         Persona &setFechaNacimiento(QDate fechaNacimiento);
     
         // Funciones get
-        string getNombre() const;
         string getApellido() const;
         string getCedula() const;
-        string getTelefono() const;
-        string getCorreo() const;
-        string getDireccion() const;
         QDate getFechaNacimiento() const;
 };
 

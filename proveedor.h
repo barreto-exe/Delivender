@@ -5,21 +5,18 @@
 #ifndef PROVEEDOR_H
 #define PROVEEDOR_H
 
-#include <string>
+#include "usuario.h"
 #include "producto_cantidad.h"
 
 using std::string;
 using std::vector;
 
 // Clase para empresas afilidadas a Delivender
-class Proveedor {
+class Proveedor : public Usuario
+{
     private:
         // Atributos
-        string nombre;
         string descripcion;
-        string telefono;
-        string correo;
-        string direccion;
         string tipoProveedor;
         vector <producto_cantidad> almacen;
 
@@ -30,20 +27,12 @@ class Proveedor {
         Proveedor(string nombre, string descripcion, string telefono, string correo, string direccion, string tipoProveedor, vector <producto_cantidad> almacen);
 
         // Funciones set
-        Proveedor &setNombre(string nombre);
         Proveedor &setDescripcion(string descripcion);
-        Proveedor &setTelefono(string telefono);
-        Proveedor &setCorreo(string correo);
-        Proveedor &setDireccion(string direccion);
         Proveedor &setTipoProveedor(string tipoProveedor);
         Proveedor &setAlmacen(vector <producto_cantidad> almacen);
 
         // Funciones get
-        string getNombre() const;
         string getDescripcion() const;
-        string getTelefono() const;
-        string getCorreo() const;
-        string getDireccion() const;
         string getTipoProveedor() const;
         vector <producto_cantidad> getAlmacen() const;
 };

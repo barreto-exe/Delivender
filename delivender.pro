@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    cliente.cpp \
     global.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -27,9 +28,12 @@ SOURCES += \
     proveedor.cpp \
     solicitud.cpp \
     tiendawidget.cpp \
+    transportista.cpp \
+    usuario.cpp \
     vehiculo.cpp
 
 HEADERS += \
+    cliente.h \
     global.h \
     mainwindow.h \
     mysql_connection.h \
@@ -41,6 +45,8 @@ HEADERS += \
     proveedor.h \
     solicitud.h \
     tiendawidget.h \
+    transportista.h \
+    usuario.h \
     vehiculo.h
 
 FORMS += \
