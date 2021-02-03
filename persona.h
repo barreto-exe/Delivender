@@ -5,8 +5,8 @@
 #ifndef PERSONA_H
 #define PERSONA_H
 
-#include <ctime>
 #include <string>
+#include<QDate>
 
 using std::string;
 
@@ -20,11 +20,11 @@ class Persona {
         string telefono;
         string correo;
         string direccion;
-        time_t fechaNacimiento;
+        QDate fechaNacimiento;
         
     public:
         // Constructor
-        Persona(string nombre = "", string apellido = "", string cedula = "", string telefono = "", string correo = "", string direccion = "", time_t fechaNacimiento = time_t());
+        Persona(string nombre = "", string apellido = "", string cedula = "", string telefono = "", string correo = "", string direccion = "", QDate fechaNacimiento = QDate());
     
         // Funciones set
         Persona &setNombre(string nombre);
@@ -33,7 +33,7 @@ class Persona {
         Persona &setTelefono(string telefono);
         Persona &setCorreo(string correo);
         Persona &setDireccion(string direccion);
-        Persona &setFechaNacimiento(time_t fechaNacimiento);
+        Persona &setFechaNacimiento(QDate fechaNacimiento);
     
         // Funciones get
         string getNombre() const;
@@ -42,7 +42,7 @@ class Persona {
         string getTelefono() const;
         string getCorreo() const;
         string getDireccion() const;
-        time_t getFechaNacimiento() const;
+        QDate getFechaNacimiento() const;
 };
 
 #endif

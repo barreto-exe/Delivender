@@ -1,4 +1,3 @@
-#include "mysql_connection.h"
 #include"global.h"
 #include <QDebug>
 #include <QMessageBox>
@@ -32,7 +31,6 @@ MySQLConnection::MySQLConnection()
         con = 0;
         qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
-        con = 0;
     }
 }
 
@@ -199,7 +197,7 @@ int MySQLConnection::registrarPersona(Persona persona)
         pstmt->setString(4, persona.getCedula().c_str());
         pstmt->setString(5, persona.getTelefono().c_str());
         pstmt->setString(6, persona.getDireccion().c_str());
-        pstmt->setString(7, timeToString(persona.getFechaNacimiento()));
+        pstmt->setString(7, persona.getFechaNacimiento().toString("dd/MM/yyyy").toStdString().c_str());
         pstmt->execute();
         qDebug() << "La persona se registró con éxito uwu";
         delete pstmt;
@@ -265,6 +263,7 @@ Proveedor *MySQLConnection::instanciarProveedor(const char *correo)
             proveedor->setDireccion(res->getString("direccion"));
             proveedor->setTipoProveedor(res->getString("tipo_de_proveedor"));
             proveedor->setCorreo(correo);
+            instanciarAlmacen(proveedor);
         }
         else
         {
@@ -276,7 +275,6 @@ Proveedor *MySQLConnection::instanciarProveedor(const char *correo)
         delete res;
         delete pstmt;
 
-        instanciarAlmacen(proveedor);
         return proveedor;
     }
     catch (sql::SQLException &e)
@@ -307,6 +305,7 @@ void MySQLConnection::instanciarAlmacen(Proveedor *proveedor)
             producto.setNombre(res->getString("nombre"));
             producto.setDescripcion(res->getString("descripcion"));
             producto.setPrecio(res->getDouble("precio"));
+            producto.setId(res->getInt("id_producto"));
             int cantidad = res->getInt("cantidad");
             (*proveedor).getAlmacen().push_back(structProductoCantidad(producto, cantidad));
         }
@@ -342,7 +341,8 @@ Persona *MySQLConnection::instanciarPersona(const char *correo)
             persona->setApellido(res->getString("apellido"));
             persona->setTelefono(res->getString("telefono"));
             persona->setDireccion(res->getString("direccion"));
-            persona->setFechaNacimiento(time_t());
+            QString fecha = QString().fromStdString(res->getString("fecha_nacimiento"));
+            persona->setFechaNacimiento(QDate().fromString(fecha, "dd/MM/yyyy"));
             persona->setCorreo(correo);
 
             delete res;
@@ -371,7 +371,7 @@ void MySQLConnection::instanciarPedido(Solicitud *solicitud)
     try
     {
         pstmt = con->prepareStatement("SELECT * FROM solicitudes_detalles WHERE id_solicitud = ?");
-        pstmt->setInt(1, obtenerIdSolicitud(*solicitud));
+        pstmt->setInt(1, solicitud->getId());
         res = pstmt->executeQuery();
 
         while (res->next())
@@ -445,9 +445,13 @@ Solicitud *MySQLConnection::instanciarSolicitud(Persona cliente, const int id)
             solicitud->setMonto(res->getDouble("monto"));
             solicitud->setTipoPago(obtenerTipoDePago(res->getInt("id_tipo_de_pago")));
             solicitud->setDireccion(res->getString("direccion"));
-            solicitud->setFechaPedido(time_t());
-            solicitud->setFechaEntrega(time_t());
+            QString fechaP = QString().fromStdString(res->getString("fecha_de_creacion"));
+            QString fechaE = QString().fromStdString(res->getString("fecha_de_entrega"));
+            solicitud->setFechaPedido(QDate().fromString(fechaP, "dd/MM/yyyy"));
+            solicitud->setFechaEntrega(QDate().fromString(fechaE, "dd/MM/yyyy"));
             solicitud->setEstatus(res->getString("estatus"));
+            solicitud->setId(id);
+            instanciarPedido(solicitud);
 
             delete res;
             delete pstmt;
@@ -485,9 +489,13 @@ Solicitud *MySQLConnection::instanciarSolicitud(Proveedor proveedor, const int i
             solicitud->setMonto(res->getDouble("monto"));
             solicitud->setTipoPago(obtenerTipoDePago(res->getInt("id_tipo_de_pago")));
             solicitud->setDireccion(res->getString("direccion"));
-            solicitud->setFechaPedido(time_t());
-            solicitud->setFechaEntrega(time_t());
+            QString fechaP = QString().fromStdString(res->getString("fecha_de_creacion"));
+            QString fechaE = QString().fromStdString(res->getString("fecha_de_entrega"));
+            solicitud->setFechaPedido(QDate().fromString(fechaP, "dd/MM/yyyy"));
+            solicitud->setFechaEntrega(QDate().fromString(fechaE, "dd/MM/yyyy"));
             solicitud->setEstatus(res->getString("estatus"));
+            solicitud->setId(id);
+            instanciarPedido(solicitud);
 
             delete res;
             delete pstmt;
@@ -550,7 +558,10 @@ int MySQLConnection::obtenerIdProducto(const char *correo_proveedor, Producto pr
         res = pstmt->executeQuery();
 
         if (res->next())
+        {
             id = res->getInt("id_producto");
+            (&producto)->setId(id);
+        }
     }
     catch (sql::SQLException &e)
     {
@@ -576,13 +587,16 @@ int MySQLConnection::obtenerIdSolicitud(Solicitud solicitud)
         pstmt->setString(1, solicitud.getProveedor().getCorreo().c_str());
         pstmt->setString(2, solicitud.getCliente().getCorreo().c_str());
         pstmt->setDouble(3, solicitud.getMonto());
-        pstmt->setString(4, timeToString(solicitud.getFechaPedido()));
+        pstmt->setString(4, solicitud.getFechaPedido().toString("dd/MM/yyyy").toStdString().c_str());
         pstmt->setString(5, solicitud.getDireccion().c_str());
         pstmt->setString(6, solicitud.getEstatus().c_str());
         res = pstmt->executeQuery();
 
         if (res->next())
+        {
             id = res->getInt("id_solicitud");
+            (&solicitud)->setId(id);
+        }
     }
     catch (sql::SQLException &e)
     {
@@ -877,15 +891,15 @@ int MySQLConnection::registrarSolicitud(Solicitud solicitud)
         pstmt->setDouble(3, solicitud.getMonto());
         pstmt->setInt(4, obtenerIdTipoDePago(solicitud.getProveedor().getCorreo().c_str(), solicitud.getTipoPago().c_str()));
         pstmt->setString(5, solicitud.getDireccion().c_str());
-        pstmt->setString(6, timeToString(solicitud.getFechaPedido()));
-        pstmt->setString(7, timeToString(solicitud.getFechaEntrega()));
+        pstmt->setString(6, solicitud.getFechaPedido().toString("dd/MM/yyyy").toStdString().c_str());
+        pstmt->setString(7, solicitud.getFechaEntrega().toString("dd/MM/yyyy").toStdString().c_str());
         pstmt->setString(8, solicitud.getEstatus().c_str());
         pstmt->execute();
         qDebug() << "La solicitud fue registrada con éxito uwu";
         delete pstmt;
 
         int id = obtenerIdSolicitud(solicitud);
-
+        (&solicitud)->setId(id);
         return registrarPedido(solicitud.getProveedor().getCorreo().c_str(), solicitud.getPedido(), id);
     }
     catch (sql::SQLException &e)
@@ -1033,6 +1047,7 @@ int MySQLConnection::registrarProducto(const char *correo_proveedor, producto_ca
         pstmt->execute();
         qDebug() << "El producto se registró con éxito uwu";
         delete pstmt;
+        (&pxq.producto)->setId(obtenerIdProducto(correo_proveedor, pxq.producto));
         return 1;
     }
     catch (sql::SQLException &e)
