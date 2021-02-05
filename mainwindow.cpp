@@ -34,9 +34,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     //vector <Proveedor> lista = Global::db.listarProveedores();
 
-    if (Global::db.modificarEstatusSolicitud(1, "aprobado"))
-        qDebug() << "Todo bello";
-
 }
 
 MainWindow::~MainWindow()

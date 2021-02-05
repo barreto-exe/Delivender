@@ -7,8 +7,7 @@
 #define GLOBAL_H
 
 #include "mysql_connection.h"
-#include "persona.h"
-#include "proveedor.h"
+#include "usuario.h"
 
 class Global
 {
@@ -17,9 +16,9 @@ public:
     static MySQLConnection db;
 
     // Delivender
-    static Proveedor *proveedor, proveedorSeleccionado;
-    static Persona *cliente, *transportista;
+    static Usuario *usuario;
     static vector <producto_cantidad> pedido;
+    static Proveedor proveedorSeleccionado;
 };
 
 #endif // GLOBAL_H

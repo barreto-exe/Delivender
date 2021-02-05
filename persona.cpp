@@ -2,23 +2,19 @@
 #include "persona.h"
 
 // Constructor de la clase
-Persona::Persona(string nombre, string apellido, string cedula, string telefono, string correo, string direccion, QDate fechaNacimiento)
+Persona::Persona() : Usuario()
 {
-    this->nombre = nombre;
-    this->apellido = apellido;
-    this->cedula = cedula;
-    this->telefono = telefono;
-    this->correo = correo;
-    this->direccion = direccion;
-    this->fechaNacimiento = fechaNacimiento;
+    apellido = "";
+    cedula = "";
+    fechaNacimiento = QDate();
 }
 
-// Establece el nombre
-Persona &Persona::setNombre(string nombre)
+Persona::Persona(string nombre, string apellido, string cedula, string telefono, string correo, string direccion, QDate fechaNacimiento)
+    : Usuario(nombre, telefono, correo, direccion)
 {
-    this->nombre = nombre;
-
-    return *this; // Permite el proceso en cascada
+    this->apellido = apellido;
+    this->cedula = cedula;
+    this->fechaNacimiento = fechaNacimiento;
 }
 
 // Establece el apellido
@@ -37,30 +33,6 @@ Persona &Persona::setCedula(string cedula)
     return *this; // Permite el proceso en cascada
 }
 
-// Establece el teléfono
-Persona &Persona::setTelefono(string telefono)
-{
-    this->telefono = telefono;
-
-    return *this; // Permite el proceso en cascada
-}
-
-// Establece el correo
-Persona &Persona::setCorreo(string correo)
-{
-    this->correo = correo;
-
-    return *this; // Permite el proceso en cascada
-}
-
-// Establece la dirección
-Persona &Persona::setDireccion(string direccion)
-{
-    this->direccion = direccion;
-
-    return *this; // Permite el proceso en cascada
-}
-
 // Establece la fecha de nacimiento
 Persona &Persona::setFechaNacimiento(QDate fechaNacimiento)
 {
@@ -69,23 +41,11 @@ Persona &Persona::setFechaNacimiento(QDate fechaNacimiento)
     return *this; // Permite el proceso en cascada
 }
 
-// Devuelve el nombre
-string Persona::getNombre() const { return nombre; }
-
 // Devuelve el apellido
 string Persona::getApellido() const { return apellido; }
 
 // Devuelve la cedula
 string Persona::getCedula() const { return cedula; }
-
-// Devuelve el teléfono
-string Persona::getTelefono() const { return telefono; }
-
-// Devuelve el correo
-string Persona::getCorreo() const { return correo; }
-
-// Devuelve la direccion
-string Persona::getDireccion() const { return direccion; }
 
 // Devuelve la fecha de nacimiento
 QDate Persona::getFechaNacimiento() const { return fechaNacimiento; }
