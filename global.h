@@ -17,6 +17,8 @@ public:
 
     // Delivender
     static Usuario *usuario;
+    static vector <producto_cantidad> pedido;
+    static Proveedor proveedorSeleccionado;
 };
 
 #endif // GLOBAL_H

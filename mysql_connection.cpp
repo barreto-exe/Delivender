@@ -335,7 +335,7 @@ Proveedor *MySQLConnection::instanciarProveedor(const char *correo)
             proveedor->setDireccion(res->getString("direccion"));
             proveedor->setTipoProveedor(res->getString("tipo_de_proveedor"));
             proveedor->setCorreo(correo);
-            instanciarAlmacen(proveedor);
+            proveedor->setAlmacen(instanciarAlmacen(proveedor));
         }
         else
         {
@@ -361,15 +361,16 @@ Proveedor *MySQLConnection::instanciarProveedor(const char *correo)
 }
 
 // Instanciar el almacén de un proveedor desde la BDD
-void MySQLConnection::instanciarAlmacen(Proveedor *proveedor)
+vector<producto_cantidad> MySQLConnection::instanciarAlmacen(Proveedor *proveedor)
 {
+    vector<producto_cantidad> almacen = vector<producto_cantidad>();
     sql::PreparedStatement *pstmt;
     sql::ResultSet *res;
 
     try
     {
         pstmt = con->prepareStatement("SELECT * FROM productos WHERE correo_proveedor = ?");
-        pstmt->setString(1, (*proveedor).getCorreo());
+        pstmt->setString(1, proveedor->getCorreo());
         res = pstmt->executeQuery();
 
         while (res->next())
@@ -380,7 +381,8 @@ void MySQLConnection::instanciarAlmacen(Proveedor *proveedor)
             producto.setPrecio(res->getDouble("precio"));
             producto.setId(res->getInt("id_producto"));
             int cantidad = res->getInt("cantidad");
-            (*proveedor).getAlmacen().push_back(structProductoCantidad(producto, cantidad));
+            qDebug() << producto.getNombre().c_str();
+            almacen.push_back(structProductoCantidad(producto, cantidad));
         }
 
     }
@@ -392,7 +394,7 @@ void MySQLConnection::instanciarAlmacen(Proveedor *proveedor)
     }
     delete res;
     delete pstmt;
-    return;
+    return almacen;
 
 }
 
@@ -477,7 +479,7 @@ Transportista *MySQLConnection::instanciarTransportista(const char *correo)
 }
 
 // Instanciar detalles de una solicitud de compra desde la BDD
-void MySQLConnection::instanciarPedido(Solicitud *solicitud)
+vector<producto_cantidad> MySQLConnection::instanciarPedido(Solicitud *solicitud)
 {
     sql::PreparedStatement *pstmt;
     sql::ResultSet *res;
@@ -491,7 +493,7 @@ void MySQLConnection::instanciarPedido(Solicitud *solicitud)
 
         while (res->next())
         {
-            (*solicitud).getPedido().push_back(instanciarProductoCantidad(res->getInt("id_producto")));
+            pedido.push_back(instanciarProductoCantidad(res->getInt("id_producto")));
         }
     }
     catch (sql::SQLException &e)
@@ -503,6 +505,7 @@ void MySQLConnection::instanciarPedido(Solicitud *solicitud)
 
     delete res;
     delete pstmt;
+    return pedido;
 }
 
 // Instanciar un producto con su cantidad desed la BDD
@@ -1103,7 +1106,6 @@ int MySQLConnection::registrarSolicitud(Solicitud solicitud)
 vector <string> MySQLConnection::listarTiposDePago(Proveedor proveedor)
 {
     vector <string> lista;
-
     sql::PreparedStatement *pstmt;
     sql::ResultSet *res;
 
