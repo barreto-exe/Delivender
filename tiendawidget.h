@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <string>
+#include "proveedor.h"
+#include "global.h"
 
 using std::string;
 
@@ -15,7 +17,7 @@ class tiendaWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit tiendaWidget(QWidget *parent = nullptr, string nombre = "", string descripcion = "");
+    explicit tiendaWidget(QWidget *parent = nullptr, Proveedor *proveedor = nullptr);
     ~tiendaWidget();
 
 private slots:
@@ -23,6 +25,7 @@ private slots:
 
 private:
     Ui::tiendaWidget *ui;
+    Proveedor proveedor;
 };
 
 #endif // TIENDAWIDGET_H

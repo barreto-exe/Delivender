@@ -27,8 +27,8 @@
    </property>
    <property name="styleSheet">
     <string notr="true">font: 10pt &quot;Nimbus Sans&quot;;
-color: rgb(255, 255, 255);
-border: 2px solid white;</string>
+color: rgb(226, 226, 226);;
+border: 2px solid rgb(226, 226, 226);;;</string>
    </property>
    <property name="frameShape">
     <enum>QFrame::NoFrame</enum>

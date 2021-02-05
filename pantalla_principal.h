@@ -19,9 +19,11 @@ public:
     ~pantalla_principal();
     void mostrarProveedores();
 
+public slots:
+    void mostrarTienda();
+    void popupCantidad();
 private:
     Ui::pantalla_principal *ui;
-
 };
 
 #endif // PANTALLA_PRINCIPAL_H

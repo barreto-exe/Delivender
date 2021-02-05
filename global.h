@@ -17,8 +17,9 @@ public:
     static MySQLConnection db;
 
     // Delivender
-    static Proveedor *proveedor;
+    static Proveedor *proveedor, proveedorSeleccionado;
     static Persona *cliente, *transportista;
+    static vector <producto_cantidad> pedido;
 };
 
 #endif // GLOBAL_H

@@ -26,7 +26,7 @@
     <string notr="true">background: white;</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="menu">
     <widget class="QLabel" name="fondoPrincipal">
@@ -104,6 +104,39 @@ color: rgb(255,255	,255);
      </property>
      <property name="text">
       <string>Bienvenido, Luis Barreto.</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tienda">
+    <widget class="QWidget" name="gridLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>130</y>
+       <width>841</width>
+       <height>531</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="productLayout"/>
+    </widget>
+    <widget class="QLabel" name="provNombre">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>30</y>
+       <width>601</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 75 italic 17pt &quot;DejaVu Sans&quot;;
+color: rgb(0, 0, 0);</string>
+     </property>
+     <property name="text">
+      <string>Nombre del Proveedor</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
     </widget>
    </widget>
