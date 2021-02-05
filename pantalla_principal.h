@@ -22,6 +22,11 @@ public:
 public slots:
     void mostrarTienda();
     void popupCantidad();
+private slots:
+    void on_btnAtras_clicked();
+
+    void on_btnSiguiente_clicked();
+
 private:
     Ui::pantalla_principal *ui;
 };

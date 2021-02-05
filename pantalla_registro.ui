@@ -26,7 +26,7 @@
     <string notr="true">background: white;</string>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="seleccion_usuario">
     <widget class="QLabel" name="cliente_foto">

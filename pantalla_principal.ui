@@ -26,7 +26,7 @@
     <string notr="true">background: white;</string>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="menu">
     <widget class="QLabel" name="fondoPrincipal">
@@ -111,21 +111,25 @@ color: rgb(255,255	,255);
     <widget class="QWidget" name="gridLayoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>130</y>
-       <width>841</width>
-       <height>531</height>
+       <x>40</x>
+       <y>190</y>
+       <width>801</width>
+       <height>401</height>
       </rect>
      </property>
-     <layout class="QGridLayout" name="productLayout"/>
+     <layout class="QGridLayout" name="productLayout">
+      <property name="spacing">
+       <number>10</number>
+      </property>
+     </layout>
     </widget>
     <widget class="QLabel" name="provNombre">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>40</x>
        <y>30</y>
-       <width>601</width>
-       <height>71</height>
+       <width>541</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -139,7 +143,74 @@ color: rgb(0, 0, 0);</string>
       <bool>true</bool>
      </property>
     </widget>
+    <widget class="QPushButton" name="btnAtras">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>620</y>
+       <width>83</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Atras</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="provDescripcion">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>80</y>
+       <width>531</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 75 13pt &quot;Quicksand&quot;;
+color: rgb(0, 0, 0);</string>
+     </property>
+     <property name="text">
+      <string>Descripcion del proveedor</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnSiguiente">
+     <property name="geometry">
+      <rect>
+       <x>780</x>
+       <y>620</y>
+       <width>83</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Siguiente</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>160</y>
+       <width>201</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 57 11pt &quot;Quicksand Medium&quot;;
+color: rgb(0, 0, 0);</string>
+     </property>
+     <property name="text">
+      <string>Productos disponibles:</string>
+     </property>
+    </widget>
    </widget>
+   <widget class="QWidget" name="page"/>
   </widget>
  </widget>
  <resources>
