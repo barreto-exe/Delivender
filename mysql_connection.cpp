@@ -388,8 +388,8 @@ void MySQLConnection::instanciarAlmacen(Proveedor *proveedor)
 
 }
 
-// Instanciar una persona de la BDD
-Persona *MySQLConnection::instanciarPersona(const char *correo)
+// Instanciar una persona - cliente de la BDD
+Cliente *MySQLConnection::instanciarCliente(const char *correo)
 {
     sql::PreparedStatement *pstmt;
     sql::ResultSet *res;
@@ -402,7 +402,47 @@ Persona *MySQLConnection::instanciarPersona(const char *correo)
 
         if (res->next())
         {
-            Persona *persona = new Persona();
+            Cliente *persona = new Cliente();
+            persona->setNombre(res->getString("nombre"));
+            persona->setApellido(res->getString("apellido"));
+            persona->setTelefono(res->getString("telefono"));
+            persona->setDireccion(res->getString("direccion"));
+            QString fecha = QString().fromStdString(res->getString("fecha_nacimiento"));
+            persona->setFechaNacimiento(QDate().fromString(fecha, "dd/MM/yyyy"));
+            persona->setCorreo(correo);
+
+            delete res;
+            delete pstmt;
+            return persona;
+        }
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete res;
+    delete pstmt;
+    return 0;
+}
+
+// Instanciar una persona - transportista de la BDD
+Transportista *MySQLConnection::instanciarTransportista(const char *correo)
+{
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM personas WHERE correo = ?");
+        pstmt->setString(1, correo);
+        res = pstmt->executeQuery();
+
+        if (res->next())
+        {
+            Transportista *persona = new Transportista();
             persona->setNombre(res->getString("nombre"));
             persona->setApellido(res->getString("apellido"));
             persona->setTelefono(res->getString("telefono"));
@@ -554,7 +594,7 @@ Solicitud *MySQLConnection::instanciarSolicitud(Proveedor proveedor, const int i
         if (res->next())
         {
             Solicitud *solicitud = new Solicitud();
-            solicitud->setCliente(*instanciarPersona(res->getString("correo_cliente").c_str()));
+            solicitud->setCliente(*instanciarCliente(res->getString("correo_cliente").c_str()));
             solicitud->setProveedor(proveedor);
             solicitud->setMonto(res->getDouble("monto"));
             solicitud->setTipoPago(obtenerTipoDePago(res->getInt("id_tipo_de_pago")));
@@ -828,21 +868,18 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
                     pstmt->setString(1, correo);
                     res = pstmt->executeQuery();
 
-                    Persona *persona;
 
                     if (res->next())
                     {
-                        persona = instanciarPersona(correo);
-
                         // Instanciando cliente global con los atributos de la BDD
                         if (!strcmp(tipo.c_str(), "cliente"))
                         {
-                            Global::usuario = persona;
+                            Global::usuario = instanciarCliente(correo);
                         }
                         // Instanciando transportista global con los atributos de la BDD
                         else if (!strcmp(tipo.c_str(), "transportista"))
                         {
-                            Global::usuario = persona;
+                            Global::usuario = instanciarTransportista(correo);
                         }
                         else
                         {

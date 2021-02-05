@@ -15,6 +15,8 @@
 #include "persona.h"
 #include "proveedor.h"
 #include "vehiculo.h"
+#include"transportista.h"
+#include"cliente.h"
 
 using std::string;
 
@@ -41,7 +43,8 @@ class MySQLConnection
         // Instancias
         Proveedor *instanciarProveedor(const char *correo);
         void instanciarAlmacen(Proveedor *proveedor);
-        Persona *instanciarPersona(const char *correo);
+        Cliente *instanciarCliente(const char *correo);
+        Transportista *instanciarTransportista(const char *correo);
         void instanciarPedido(Solicitud *solicitud);
         producto_cantidad instanciarProductoCantidad(const int id);
         Solicitud *instanciarSolicitud(Persona cliente, const int id);
