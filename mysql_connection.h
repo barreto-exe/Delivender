@@ -39,9 +39,9 @@ class MySQLConnection
         int registrarPedido(const char *correo_proveedor, vector <producto_cantidad> pedido, const int id_solicitud);
         // Instancias
         Proveedor *instanciarProveedor(const char *correo);
-        void instanciarAlmacen(Proveedor *proveedor);
+        vector<producto_cantidad> instanciarAlmacen(Proveedor *proveedor);
         Persona *instanciarPersona(const char *correo);
-        void instanciarPedido(Solicitud *solicitud);
+        vector<producto_cantidad> instanciarPedido(Solicitud *solicitud);
         producto_cantidad instanciarProductoCantidad(const int id);
         Solicitud *instanciarSolicitud(Persona cliente, const int id);
         Solicitud *instanciarSolicitud(Proveedor proveedor, const int id);
