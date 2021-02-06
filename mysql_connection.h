@@ -48,6 +48,7 @@ class MySQLConnection
         Solicitud *instanciarSolicitud(Persona cliente, const int id);
         Solicitud *instanciarSolicitud(Proveedor proveedor, const int id);
         Solicitud *instanciarSolicitud(const int id);
+        vector<Vehiculo> instanciarVehiculos(const char *correo_transportista);
         // Obtener ID
         int obtenerIdTipoDePago(const char *correo_proveedor, const char *tipo);
         int obtenerIdProducto(const char *correo_proveedor, Producto producto);

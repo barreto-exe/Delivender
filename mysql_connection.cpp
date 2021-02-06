@@ -491,6 +491,7 @@ Transportista *MySQLConnection::instanciarTransportista(const char *correo)
             QString fecha = QString().fromStdString(res->getString("fecha_nacimiento"));
             persona->setFechaNacimiento(QDate().fromString(fecha, "dd/MM/yyyy"));
             persona->setCorreo(correo);
+            persona->setVehiculos(instanciarVehiculos(correo));
 
             delete res;
             delete pstmt;
@@ -709,6 +710,41 @@ Solicitud *MySQLConnection::instanciarSolicitud(const int id)
     delete res;
     delete pstmt;
     return 0;
+}
+
+vector <Vehiculo> MySQLConnection::instanciarVehiculos(const char *correo_transportista)
+{
+    vector <Vehiculo> lista = vector <Vehiculo>();
+
+    if (!vistaProveedor())
+        return lista;
+
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        pstmt = con->prepareStatement("SELECT * FROM vehiculos WHERE correo_transportista = ? ");
+        pstmt->setString(1, correo_transportista);
+        res = pstmt->executeQuery();
+
+        while (res->next())
+        {
+            Vehiculo vehiculo = Vehiculo(res->getString("modelo").c_str(), res->getString("placa").c_str(), res->getString("tipo").c_str());
+            lista.push_back(vehiculo);
+        }
+
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete res;
+    delete pstmt;
+    return lista;
 }
 
 /************************************************************* OBTENER ID ***************************************************************/
@@ -1340,7 +1376,7 @@ int MySQLConnection::rechazarSolicitud(const int id_solicitud)
 // Lista a todos los transportistas registrados en la BDD con su respectivo vehículo
 vector <vehiculo_transportista> MySQLConnection::listarTransportistas()
 {
-    vector <vehiculo_transportista> lista;
+    vector <vehiculo_transportista> lista = vector <vehiculo_transportista>();
 
     if (!vistaProveedor())
         return lista;

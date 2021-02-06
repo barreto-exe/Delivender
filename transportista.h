@@ -23,6 +23,9 @@ class Transportista : public Persona
 
         // Funciones get
         vector <Vehiculo> getVehiculos() const;
+
+        // Funciones
+        Transportista &agregarVehiculo(Vehiculo vehiculo);
 };
 
 #endif // TRANSPORTISTA_H

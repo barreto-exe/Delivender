@@ -23,3 +23,9 @@ Transportista &Transportista::setVehiculos(vector<Vehiculo> vehiculos)
 
 // Devuelve los vehiculos
 vector <Vehiculo> Transportista::getVehiculos() const { return vehiculos; }
+
+Transportista &Transportista::agregarVehiculo(Vehiculo vehiculo)
+{
+    vehiculos.push_back(vehiculo);
+    return *this;
+}

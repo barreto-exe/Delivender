@@ -162,3 +162,10 @@ vector <producto_cantidad> Solicitud::getPedido() const { return pedido; }
 
 // Devuelve el ID
 int Solicitud::getId() const { return id; }
+
+// Agrega un producto con su cantidad al pedido
+Solicitud &Solicitud::agregarProducto(producto_cantidad producto)
+{
+    pedido.push_back(producto);
+    return *this;
+}

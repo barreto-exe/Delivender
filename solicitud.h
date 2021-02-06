@@ -58,6 +58,9 @@ class Solicitud
         string getDireccion() const;
         vector <producto_cantidad> getPedido() const;
         int getId() const;
+
+        // Funciones
+        Solicitud &agregarProducto(producto_cantidad producto);
 };
 
 #endif // SOLICITUD_H
