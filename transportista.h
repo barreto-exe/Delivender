@@ -7,15 +7,22 @@
 
 #include<vector>
 #include"persona.h"
-//#include"vehiculo.h"
+#include"vehiculo.h"
 
 class Transportista : public Persona
 {
-    /*private:
-        *vector <Vehiculo> vehiculos;*/
+    private:
+        vector <Vehiculo> vehiculos;
     public:
+        // Constructores
         Transportista();
-        Transportista(string nombre, string apellido, string cedula, string telefono, string correo, string direccion, QDate fechaNacimiento);
+        Transportista(string nombre, string apellido, string cedula, string telefono, string correo, string direccion, QDate fechaNacimiento,  vector <Vehiculo> vehiculos);
+
+        // Funciones set
+        Transportista &setVehiculos(vector <Vehiculo> vehiculos);
+
+        // Funciones get
+        vector <Vehiculo> getVehiculos() const;
 };
 
 #endif // TRANSPORTISTA_H

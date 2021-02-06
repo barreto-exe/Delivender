@@ -49,7 +49,8 @@ HEADERS += \
     tiendawidget.h \
     transportista.h \
     usuario.h \
-    vehiculo.h
+    vehiculo.h \
+    vehiculo_transportista.h
 
 FORMS += \
     mainwindow.ui \
