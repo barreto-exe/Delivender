@@ -113,5 +113,35 @@ void pantalla_principal::on_btnAtras_clicked()
 
 void pantalla_principal::on_btnSiguiente_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(2);
+    QMessageBox::StandardButton confirmar;
+    confirmar = QMessageBox::question(this,"Confirmar","¿Esta seguro que desea continuar? No podrá editar su solicitud luego");
+    if (confirmar == QMessageBox::Yes){
+        int i=0, monto=0; //monto es donde se guarda el total del pedido
+
+        //Filas y columnas de la tabla
+        ui->reciboTable->setRowCount(Global::pedido.size()+2);
+        ui->reciboTable->setColumnCount(4);
+
+        for (auto p : Global::pedido){ //por cada producto en el pedido
+            //Los añade a la tabla
+            ui->reciboTable->setItem(i,0,new QTableWidgetItem(QString::fromStdString(p.producto.getNombre())));
+            ui->reciboTable->setItem(i,1,new QTableWidgetItem(QString::number(p.cantidad)));
+            ui->reciboTable->setItem(i,2,new QTableWidgetItem(QString::number(p.producto.getPrecio())));
+            ui->reciboTable->setItem(i,3,new QTableWidgetItem(QString::number(p.cantidad*p.producto.getPrecio()) + "$"));
+            i++;
+            monto += p.cantidad*p.producto.getPrecio(); //va sumando los precios
+        }
+        //Ajustes de la tabla
+        ui->reciboTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        ui->reciboTable->verticalHeader()->setVisible(false);
+
+        ui->reciboTable->setItem(i+1,0,new QTableWidgetItem("TOTAL"));
+        ui->reciboTable->setItem(i+1,3,new QTableWidgetItem(QString::number(monto) + "$")); // Muestra el total en la esquina
+        ui->stackedWidget->setCurrentIndex(2);
+    }
+}
+
+void pantalla_principal::on_pushButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
 }
