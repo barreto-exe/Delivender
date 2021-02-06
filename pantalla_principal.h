@@ -27,7 +27,7 @@ private slots:
 
     void on_btnSiguiente_clicked();
 
-    void on_pushButton_clicked();
+    void on_btnProcesarSolic_clicked();
 
 private:
     Ui::pantalla_principal *ui;

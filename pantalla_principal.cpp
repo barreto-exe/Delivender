@@ -116,7 +116,8 @@ void pantalla_principal::on_btnSiguiente_clicked()
     QMessageBox::StandardButton confirmar;
     confirmar = QMessageBox::question(this,"Confirmar","¿Esta seguro que desea continuar? No podrá editar su solicitud luego");
     if (confirmar == QMessageBox::Yes){
-        int i=0, monto=0; //monto es donde se guarda el total del pedido
+        int i=0;
+        float monto=0; //monto es donde se guarda el total del pedido
 
         //Filas y columnas de la tabla
         ui->reciboTable->setRowCount(Global::pedido.size()+2);
@@ -134,14 +135,23 @@ void pantalla_principal::on_btnSiguiente_clicked()
         //Ajustes de la tabla
         ui->reciboTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
         ui->reciboTable->verticalHeader()->setVisible(false);
-
+        //Muestra el total en la esquina de la tabla
         ui->reciboTable->setItem(i+1,0,new QTableWidgetItem("TOTAL"));
-        ui->reciboTable->setItem(i+1,3,new QTableWidgetItem(QString::number(monto) + "$")); // Muestra el total en la esquina
+        ui->reciboTable->setItem(i+1,3,new QTableWidgetItem(QString::number(monto) + "$"));
+
+        vector<string> tiposPago = Global::db.listarTiposDePago(Global::proveedorSeleccionado);
+        for (auto s : tiposPago){
+            ui->comboBoxPago->addItem(QString::fromStdString(s));
+        }
         ui->stackedWidget->setCurrentIndex(2);
     }
 }
 
-void pantalla_principal::on_pushButton_clicked()
+
+void pantalla_principal::on_btnProcesarSolic_clicked()
 {
+    /*TODO: Instanciar la solicitud uwu*/
+    QTableWidgetItem *total = ui->reciboTable->item(ui->reciboTable->rowCount()-1,ui->reciboTable->columnCount()-1);
+    float monto = total->text().toFloat();
     ui->stackedWidget->setCurrentIndex(0);
 }

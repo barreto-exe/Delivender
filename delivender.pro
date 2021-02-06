@@ -22,6 +22,7 @@ SOURCES += \
     mainwindow.cpp \
     mysql_connection.cpp \
     pantalla_principal.cpp \
+    pantalla_proveedor.cpp \
     pantalla_registro.cpp \
     persona.cpp \
     producto.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     mainwindow.h \
     mysql_connection.h \
     pantalla_principal.h \
+    pantalla_proveedor.h \
     pantalla_registro.h \
     persona.h \
     producto.h \
@@ -52,6 +54,7 @@ HEADERS += \
 FORMS += \
     mainwindow.ui \
     pantalla_principal.ui \
+    pantalla_proveedor.ui \
     pantalla_registro.ui \
     tiendawidget.ui
 

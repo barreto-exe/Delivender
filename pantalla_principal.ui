@@ -214,8 +214,8 @@ color: rgb(0, 0, 0);</string>
     <widget class="QTableWidget" name="reciboTable">
      <property name="geometry">
       <rect>
-       <x>200</x>
-       <y>150</y>
+       <x>60</x>
+       <y>106</y>
        <width>471</width>
        <height>311</height>
       </rect>
@@ -256,85 +256,125 @@ color: rgb(0, 0, 0);</string>
       </property>
      </column>
     </widget>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>270</x>
-       <y>40</y>
-       <width>331</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font: 75 16pt &quot;Sans&quot;;
-color: rgb(0, 0, 0);</string>
-     </property>
-     <property name="text">
-      <string>¡Solicitud Procesada con Éxito!</string>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_3">
      <property name="geometry">
       <rect>
-       <x>200</x>
-       <y>110</y>
-       <width>211</width>
-       <height>20</height>
+       <x>60</x>
+       <y>55</y>
+       <width>251</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">font: 75 14pt &quot;Quicksand&quot;;
+      <string notr="true">font: 75 16pt &quot;Quicksand&quot;;
 color: rgb(0, 0, 0);</string>
      </property>
      <property name="text">
       <string>Información del pedido:</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_4">
+    <widget class="QPushButton" name="btnProcesarSolic">
      <property name="geometry">
       <rect>
-       <x>360</x>
-       <y>500</y>
-       <width>64</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font: 75 14pt &quot;Quicksand&quot;;
-color: rgb(0, 0, 0);</string>
-     </property>
-     <property name="text">
-      <string>Status:</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_5">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>500</y>
-       <width>91</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font: 75 14pt &quot;Quicksand&quot;;
-color: rgb(252, 175, 62)</string>
-     </property>
-     <property name="text">
-      <string>En Espera</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton">
-     <property name="geometry">
-      <rect>
-       <x>400</x>
-       <y>540</y>
-       <width>83</width>
+       <x>670</x>
+       <y>590</y>
+       <width>131</width>
        <height>35</height>
       </rect>
      </property>
      <property name="text">
-      <string>Aceptar</string>
+      <string>Procesar Solicitud</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBoxPago">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>490</y>
+       <width>251</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>Seleccione un Metodo de Pago</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QDateEdit" name="fechaEntrega">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>574</y>
+       <width>251</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="maximumDate">
+      <date>
+       <year>2030</year>
+       <month>12</month>
+       <day>31</day>
+      </date>
+     </property>
+     <property name="minimumDate">
+      <date>
+       <year>2021</year>
+       <month>2</month>
+       <day>6</day>
+      </date>
+     </property>
+     <property name="displayFormat">
+      <string>dd / MM / yyyy</string>
+     </property>
+     <property name="calendarPopup">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>550</y>
+       <width>231</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 75 11pt &quot;Quicksand Medium&quot;;</string>
+     </property>
+     <property name="text">
+      <string>Seleccione la Fecha de Entrega:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="direccion">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>490</y>
+       <width>251</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>DIreccion de envío</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>440</y>
+       <width>471</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 75 13pt &quot;Quicksand&quot;;
+color: rgb(0, 0, 0);</string>
+     </property>
+     <property name="text">
+      <string>Para completar su solicitud, ingrese los siguientes datos</string>
      </property>
     </widget>
    </widget>
