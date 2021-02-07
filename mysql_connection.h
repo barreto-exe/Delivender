@@ -92,7 +92,7 @@ class MySQLConnection
         int aprobarSolicitud(const int id_solicitud);
         int rechazarSolicitud(const int id_solicitud);
         vector <vehiculo_transportista> listarTransportistas();
-        int actualizarInfoProducto(Producto producto);
+        int actualizarInfoProducto(producto_cantidad producto);
         // Funciones para TRANSPORTISTAS
         vector <Solicitud> listarEntregas();
         vector <Solicitud> listarEntregasPendientes();

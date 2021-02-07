@@ -1445,6 +1445,39 @@ vector <vehiculo_transportista> MySQLConnection::listarTransportistas()
     return lista;
 }
 
+int MySQLConnection::actualizarInfoProducto(producto_cantidad pxq)
+{
+    if (!vistaProveedor())
+        return 0;
+
+
+    sql::PreparedStatement *pstmt;
+
+    try
+    {
+        pstmt = con->prepareStatement("UPDATE productos SET nombre = ? AND descripcion = ? AND precio = ? AND cantidad = ? WHERE id_producto = ? AND correo_proveedor = ?");
+        pstmt->setString(1, pxq.producto.getNombre());
+        pstmt->setString(2, pxq.producto.getDescripcion());
+        pstmt->setDouble(3, pxq.producto.getPrecio());
+        pstmt->setInt(4, pxq.cantidad);
+        pstmt->setInt(5, pxq.producto.getId());
+        pstmt->setString(6, Global::usuario->getCorreo());
+        pstmt->execute();
+
+        delete pstmt;
+        return 1;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete pstmt;
+    return 0;
+}
+
 /**************************************************** FUNCIONES PARA TRANSPORTISTAS ****************************************************/
 
 // Listar entregas
