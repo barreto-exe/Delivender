@@ -26,7 +26,7 @@
     <string notr="true">background: white;</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="menu">
     <widget class="QLabel" name="fondoPrincipal">
@@ -230,11 +230,14 @@ color: rgb(0, 0, 0);</string>
     <widget class="QTableWidget" name="reciboTable">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>106</y>
+       <x>50</x>
+       <y>81</y>
        <width>471</width>
        <height>311</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 114, 98);</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -275,15 +278,15 @@ color: rgb(0, 0, 0);</string>
     <widget class="QLabel" name="label_3">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>55</y>
-       <width>251</width>
+       <x>50</x>
+       <y>30</y>
+       <width>291</width>
        <height>31</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">font: 75 16pt &quot;Quicksand&quot;;
-color: rgb(0, 0, 0);</string>
+      <string notr="true">font: 75 18pt &quot;Quicksand&quot;;
+color: rgb(255, 114, 98);</string>
      </property>
      <property name="text">
       <string>Información del pedido:</string>
@@ -292,11 +295,15 @@ color: rgb(0, 0, 0);</string>
     <widget class="QPushButton" name="btnProcesarSolic">
      <property name="geometry">
       <rect>
-       <x>670</x>
-       <y>590</y>
+       <x>710</x>
+       <y>610</y>
        <width>131</width>
        <height>35</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 114, 98);
+color: '#FFFFFF';</string>
      </property>
      <property name="text">
       <string>Procesar Solicitud</string>
@@ -305,8 +312,8 @@ color: rgb(0, 0, 0);</string>
     <widget class="QComboBox" name="comboBoxPago">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>490</y>
+       <x>50</x>
+       <y>465</y>
        <width>251</width>
        <height>35</height>
       </rect>
@@ -320,8 +327,8 @@ color: rgb(0, 0, 0);</string>
     <widget class="QDateEdit" name="fechaEntrega">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>574</y>
+       <x>50</x>
+       <y>540</y>
        <width>251</width>
        <height>35</height>
       </rect>
@@ -350,8 +357,8 @@ color: rgb(0, 0, 0);</string>
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>550</y>
+       <x>50</x>
+       <y>516</y>
        <width>231</width>
        <height>21</height>
       </rect>
@@ -366,21 +373,21 @@ color: rgb(0, 0, 0);</string>
     <widget class="QLineEdit" name="direccion">
      <property name="geometry">
       <rect>
-       <x>350</x>
-       <y>490</y>
+       <x>340</x>
+       <y>465</y>
        <width>251</width>
        <height>35</height>
       </rect>
      </property>
      <property name="placeholderText">
-      <string>DIreccion de envío</string>
+      <string>Direccion de envío</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>440</y>
+       <x>50</x>
+       <y>415</y>
        <width>471</width>
        <height>31</height>
       </rect>
@@ -391,6 +398,22 @@ color: rgb(0, 0, 0);</string>
      </property>
      <property name="text">
       <string>Para completar su solicitud, ingrese los siguientes datos</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnAtrasSolic">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>610</y>
+       <width>83</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 114, 98);</string>
+     </property>
+     <property name="text">
+      <string>Atras</string>
      </property>
     </widget>
    </widget>

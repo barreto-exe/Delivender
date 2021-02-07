@@ -14,6 +14,8 @@ class pantalla_proveedor : public QWidget
 public:
     explicit pantalla_proveedor(QWidget *parent = nullptr);
     ~pantalla_proveedor();
+public slots:
+    void cargarInfoProveedor();
 
 private slots:
     void on_btnAddProducto_clicked();
@@ -23,6 +25,8 @@ private slots:
     void on_btnRegistrarProd_clicked();
 
     void on_btnAtrasAddProd_clicked();
+
+    void mostrarInfoProd();
 
 private:
     Ui::pantalla_proveedor *ui;
