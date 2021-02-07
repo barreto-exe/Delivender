@@ -15,6 +15,7 @@ pantalla_principal::pantalla_principal(QWidget *parent) :
 {
     ui->setupUi(this);
     mostrarProveedores();
+    ui->fechaEntrega->setDate(QDate::currentDate());
     ui->stackedWidget->setCurrentIndex(0);
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(mostrarTienda()));
 
@@ -113,63 +114,76 @@ void pantalla_principal::on_btnAtras_clicked()
 
 void pantalla_principal::on_btnSiguiente_clicked()
 {
-    QMessageBox::StandardButton confirmar;
-    confirmar = QMessageBox::question(this,"Confirmar","¿Esta seguro que desea continuar? No podrá editar su solicitud luego");
-    if (confirmar == QMessageBox::Yes){
-        int i=0;
-        float monto=0; //monto es donde se guarda el total del pedido
 
-        //Filas y columnas de la tabla
-        ui->reciboTable->setRowCount(Global::pedido.size()+2);
-        ui->reciboTable->setColumnCount(4);
+    int i=0;
+    float monto=0; //monto es donde se guarda el total del pedido
+    ui->reciboTable->clearContents();
+    ui->reciboTable->setRowCount(0);
 
-        for (auto p : Global::pedido){ //por cada producto en el pedido
-            //Los añade a la tabla
-            ui->reciboTable->setItem(i,0,new QTableWidgetItem(QString::fromStdString(p.producto.getNombre())));
-            ui->reciboTable->setItem(i,1,new QTableWidgetItem(QString::number(p.cantidad)));
-            ui->reciboTable->setItem(i,2,new QTableWidgetItem(QString::number(p.producto.getPrecio())));
-            ui->reciboTable->setItem(i,3,new QTableWidgetItem(QString::number(p.cantidad*p.producto.getPrecio()) + "$"));
-            i++;
-            monto += p.cantidad*p.producto.getPrecio(); //va sumando los precios
-        }
-        //Ajustes de la tabla
-        ui->reciboTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        ui->reciboTable->verticalHeader()->setVisible(false);
-        //Muestra el total en la esquina de la tabla
-        ui->reciboTable->setItem(i+1,0,new QTableWidgetItem("TOTAL"));
-        ui->reciboTable->setItem(i+1,3,new QTableWidgetItem(QString::number(monto) + "$"));
+    //Filas y columnas de la tabla
+    ui->reciboTable->setRowCount(Global::pedido.size()+2);
+    ui->reciboTable->setColumnCount(4);
 
-        vector<string> tiposPago = Global::db.listarTiposDePago(Global::proveedorSeleccionado);
-        for (auto s : tiposPago){
-            ui->comboBoxPago->addItem(QString::fromStdString(s));
-        }
-        ui->stackedWidget->setCurrentIndex(2);
+    for (auto p : Global::pedido){ //por cada producto en el pedido
+        //Los añade a la tabla
+        ui->reciboTable->setItem(i,0,new QTableWidgetItem(QString::fromStdString(p.producto.getNombre())));
+        ui->reciboTable->setItem(i,1,new QTableWidgetItem(QString::number(p.cantidad)));
+        ui->reciboTable->setItem(i,2,new QTableWidgetItem(QString::number(p.producto.getPrecio())));
+        ui->reciboTable->setItem(i,3,new QTableWidgetItem(QString::number(p.cantidad*p.producto.getPrecio()) + "$"));
+        i++;
+        monto += p.cantidad*p.producto.getPrecio(); //va sumando los precios
     }
+    //Ajustes de la tabla
+    ui->reciboTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->reciboTable->verticalHeader()->setVisible(false);
+    //Muestra el total en la esquina de la tabla
+    ui->reciboTable->setItem(i+1,0,new QTableWidgetItem("TOTAL"));
+    ui->reciboTable->setItem(i+1,3,new QTableWidgetItem(QString::number(monto) + "$"));
+
+    //Llena el combobox de tipos de pago
+    ui->comboBoxPago->clear();
+    ui->comboBoxPago->addItem("Seleccione un Método de Pago");
+    vector<string> tiposPago = Global::db.listarTiposDePago(Global::proveedorSeleccionado);
+    for (auto s : tiposPago){
+        ui->comboBoxPago->addItem(QString::fromStdString(s));
+    }
+    ui->stackedWidget->setCurrentIndex(2);
+
 }
 
 
 void pantalla_principal::on_btnProcesarSolic_clicked()
 {
     QMessageBox msgBox;
-    if (!ui->direccion->text().isEmpty() && ui->comboBoxPago->currentIndex()!=0){
-        QTableWidgetItem *total = ui->reciboTable->item(ui->reciboTable->rowCount()-1,ui->reciboTable->columnCount()-1);
-        float monto = total->text().toFloat();
-        string direccion = ui->direccion->text().toStdString();
-        string tipoPago = ui->comboBoxPago->currentText().toStdString();
-        QDate fechaPedido = QDate::currentDate();
-        QDate fechaEntrega = ui->fechaEntrega->date();
-        string estatus = "En espera";
+    QMessageBox::StandardButton confirmar;
+    confirmar = QMessageBox::question(this,"Confirmar","¿Esta seguro que desea continuar? No podrá editar su solicitud luego");
+    if (confirmar == QMessageBox::Yes){
+        if (!ui->direccion->text().isEmpty() && ui->comboBoxPago->currentIndex()!=0){
+            QTableWidgetItem *total = ui->reciboTable->item(ui->reciboTable->rowCount()-1,ui->reciboTable->columnCount()-1);
+            float monto = total->text().toFloat();
+            string direccion = ui->direccion->text().toStdString();
+            string tipoPago = ui->comboBoxPago->currentText().toStdString();
+            QDate fechaPedido = QDate::currentDate();
+            QDate fechaEntrega = ui->fechaEntrega->date();
+            string estatus = "En espera";
 
-        Solicitud *solicitud = new Solicitud(Global::proveedorSeleccionado,tipoPago,fechaPedido,fechaEntrega,direccion,Global::pedido);
-        Global::db.registrarSolicitud(*solicitud);
+            Solicitud *solicitud = new Solicitud(Global::proveedorSeleccionado,tipoPago,monto,fechaPedido,fechaEntrega,direccion,Global::pedido);
+            if(Global::db.registrarSolicitud(*solicitud)!=0){
+                msgBox.setText("¡Solicitud procesada con éxito!");
+                msgBox.exec();
 
-        msgBox.setText("¡Solicitud procesada con éxito!");
-        msgBox.exec();
+                ui->stackedWidget->setCurrentIndex(0);
 
-        ui->stackedWidget->setCurrentIndex(0);
-    } else {
-        msgBox.setText("Por favor, complete todos los datos para continuar");
-        msgBox.exec();
+                //Limpiando inputs y pedido anterior de var global
+                Global::pedido.clear();
+                ui->direccion->setText("");
+                ui->comboBoxPago->setCurrentIndex(0);
+                ui->fechaEntrega->setDate(QDate::currentDate());
+            }
+        } else {
+            msgBox.setText("Por favor, complete todos los datos para continuar");
+            msgBox.exec();
+        }
     }
 
 }
@@ -180,4 +194,9 @@ void pantalla_principal::on_btnMisSolicitudes_clicked()
     QMessageBox msgBox;
     msgBox.setText("Algo asi para las solicitudes(? u otra pagina idk");
     msgBox.exec();
+}
+
+void pantalla_principal::on_btnAtrasSolic_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
 }

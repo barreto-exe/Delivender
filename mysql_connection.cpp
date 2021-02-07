@@ -1272,7 +1272,7 @@ int MySQLConnection::registrarSolicitud(Solicitud solicitud)
         pstmt->setString(5, solicitud.getDireccion().c_str());
         pstmt->setString(6, solicitud.getFechaPedido().toString("dd/MM/yyyy").toStdString().c_str());
         pstmt->setString(7, solicitud.getFechaEntrega().toString("dd/MM/yyyy").toStdString().c_str());
-        pstmt->setString(8, solicitud.getEstatus().c_str());
+        pstmt->setString(8, "en espera");
         pstmt->execute();
         qDebug() << "La solicitud fue registrada con éxito uwu";
         delete pstmt;

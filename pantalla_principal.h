@@ -31,6 +31,8 @@ private slots:
 
     void on_btnMisSolicitudes_clicked();
 
+    void on_btnAtrasSolic_clicked();
+
 private:
     Ui::pantalla_principal *ui;
 };

@@ -27,6 +27,9 @@ private slots:
     void on_btnRegistrarse_clicked();
     void IrAInicio();
 
+signals:
+    void usuarioInicio();
+
 private:
     Ui::MainWindow *ui;
 

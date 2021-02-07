@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Signal para volver al inicio de sesion desde el registro
     connect(&registro, SIGNAL(inicioSignal()),this,SLOT(IrAInicio()));
-    
+    connect(this, SIGNAL(usuarioInicio()),&menuProveedor,SLOT(cargarInfoProveedor()));
     /*char correo[30] = "karenale@gmail.com", password[16] = "test";
     char nombre[20] = "karen", apellido[20] = "moran", cedula[10] = "28161658", telefono[15] = "04121924525", direccion[20] = "Curagua";
     time_t *fecha = new time_t();
@@ -71,7 +71,15 @@ void MainWindow::on_btnInicioSesion_clicked() //cambia a pantalla del menu princ
     {
         msgBox.setText("Inicio de sesión exitoso");
         msgBox.exec();
-        stackedWidget->setCurrentIndex(2);
+        if(!strcmp(Global::tipoDeUsuario.c_str(),"cliente")){
+            stackedWidget->setCurrentIndex(2);
+        } else if(!strcmp(Global::tipoDeUsuario.c_str(),"proveedor")){
+            emit usuarioInicio();
+            stackedWidget->setCurrentIndex(3);
+        } else if(!strcmp(Global::tipoDeUsuario.c_str(),"transportista")){
+            /*TODO: pantalla de transportista*/
+        }
+
     }
     else if (!inicioSesion) // Siel correo es inválido
     {
