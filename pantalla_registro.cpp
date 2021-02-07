@@ -6,6 +6,7 @@
 #include <ctime>
 #include "persona.h"
 #include "global.h"
+#include <pthread.h>
 
 bool cliente;
 Persona *datosPersona;
@@ -21,6 +22,28 @@ pantalla_registro::pantalla_registro(QWidget *parent) :
 pantalla_registro::~pantalla_registro()
 {
     delete ui;
+}
+
+// Estructura con argumentos de la función para registrar clientes
+struct argRegCliente
+{
+    Persona *datos;
+    const char *correo;
+    const char *password;
+    int resul;
+};
+
+// Función del hilo para iniciar sesión
+void *hiloRegCliente(void *args)
+{
+    argRegCliente *argumentos = (argRegCliente *) args;
+    Persona *datos = argumentos->datos;
+    const char *correo = argumentos->correo;
+    const char *password = argumentos->password;
+
+    argumentos->resul = Global::db.registrarCliente(*datos, correo, password);
+
+    pthread_exit(NULL);
 }
 
 void pantalla_registro::on_btnAceptarPersona_clicked() //Boton aceptar al introducir los datos del registro
@@ -41,7 +64,22 @@ void pantalla_registro::on_btnAceptarPersona_clicked() //Boton aceptar al introd
                                                 ui->fechaNac->date());
             if(cliente){
                 //Lo registra si es un cliente
-                int reg = Global::db.registrarCliente(*datosPersona, ui->correo->text().toStdString().c_str(), ui->password->text().toStdString().c_str());
+
+                // Prepara los argumentos
+                argRegCliente *args = new argRegCliente;
+                args->datos = datosPersona;
+                args->correo = ui->correo->text().toStdString().c_str();
+                args->password = ui->password->text().toStdString().c_str();
+
+                // Crea un nuevo hilo para el manejo del inicio de sesión
+                pthread_t hilo;
+                pthread_create(&hilo, NULL, hiloRegCliente, args);
+                pthread_join(hilo, NULL);
+
+                // Resultado del registro
+                int reg = args->resul;
+                delete args;
+
                 if (reg==1){
                     msgBox.setText("Se ha registrado con éxito!");
                     msgBox.exec();
