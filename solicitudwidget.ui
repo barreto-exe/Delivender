@@ -54,7 +54,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>0</y>
+     <y>10</y>
      <width>211</width>
      <height>21</height>
     </rect>
@@ -106,8 +106,8 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="estatus">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>0</y>
+     <x>300</x>
+     <y>10</y>
      <width>121</width>
      <height>21</height>
     </rect>
@@ -151,6 +151,28 @@ color: rgb(255, 255, 255);</string>
     <string>$$$</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>471</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>label_2</zorder>
+  <zorder>btnRechazar</zorder>
+  <zorder>btnAceptar</zorder>
+  <zorder>nombreCliente</zorder>
+  <zorder>direccion</zorder>
+  <zorder>comboBoxTransp</zorder>
+  <zorder>estatus</zorder>
+  <zorder>label</zorder>
+  <zorder>monto</zorder>
  </widget>
  <resources/>
  <connections/>
