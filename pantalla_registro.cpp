@@ -33,7 +33,7 @@ struct argRegCliente
     int resul;
 };
 
-// Función del hilo para iniciar sesión
+// Función del hilo para registro de cliente
 void *hiloRegCliente(void *args)
 {
     argRegCliente *argumentos = (argRegCliente *) args;
@@ -136,6 +136,30 @@ void pantalla_registro::on_btnTransp_clicked()//va al registro de persona
     cliente = false;
 }
 
+// Estructura con argumentos de la función para registrar transportista
+struct argRegTrans
+{
+    Persona *datos;
+    Vehiculo *vehiculo;
+    const char *correo;
+    const char *password;
+    int resul;
+};
+
+// Función del hilo para registro de cliente
+void *hiloRegTrans(void *args)
+{
+    argRegTrans *argumentos = (argRegTrans *) args;
+    Persona *datos = argumentos->datos;
+    Vehiculo *vehiculo = argumentos->vehiculo;
+    const char *correo = argumentos->correo;
+    const char *password = argumentos->password;
+
+    argumentos->resul = Global::db.registrarTransportista(*datos, *vehiculo, correo, password);
+
+    pthread_exit(NULL);
+}
+
 void pantalla_registro::on_btnAceptarTransp_clicked()
 {
     QMessageBox msgBox;
@@ -143,7 +167,22 @@ void pantalla_registro::on_btnAceptarTransp_clicked()
         //Si ningun campo esta vacio, registra al transportista
         Vehiculo *vehiculo = new Vehiculo(ui->modelo->text().toStdString(), ui->placa->text().toStdString(), ui->comboBoxTipo->currentText().toStdString());
 
-        int reg = Global::db.registrarTransportista(*datosPersona, *vehiculo, ui->correo->text().toStdString().c_str(), ui->password->text().toStdString().c_str());
+        // Prepara los argumentos
+        argRegTrans *args = new argRegTrans;
+        args->datos = datosPersona;
+        args->vehiculo = vehiculo;
+        args->correo = ui->correo->text().toStdString().c_str();
+        args->password = ui->password->text().toStdString().c_str();
+
+        // Crea un nuevo hilo para el manejo del registro
+        pthread_t hilo;
+        pthread_create(&hilo, NULL, hiloRegTrans, args);
+        pthread_join(hilo, NULL);
+
+        // Resultado del registro
+        int reg = args->resul;
+        delete args;
+
         if (reg==1){
             msgBox.setText("Se ha registrado con éxito!");
             msgBox.exec();
@@ -160,6 +199,27 @@ void pantalla_registro::on_atrasSeleccion_clicked()
     emit inicioSignal();
 }
 
+// Estructura con argumentos de la función para registrar proveedor
+struct argRegProv
+{
+    Proveedor *prov;
+    const char *correo;
+    const char *password;
+    int resul;
+};
+
+// Función del hilo para registro de proveedores
+void *hiloRegProv(void *args)
+{
+    argRegProv *argumentos = (argRegProv *) args;
+    Proveedor *prov = argumentos->prov;
+    const char *correo = argumentos->correo;
+    const char *password = argumentos->password;
+
+    argumentos->resul = Global::db.registrarProveedor(*prov, correo, password);
+
+    pthread_exit(NULL);
+}
 
 void pantalla_registro::on_btnAceptarProv_clicked()
 {
@@ -176,7 +236,21 @@ void pantalla_registro::on_btnAceptarProv_clicked()
                                                  ui->direccionProv->text().toStdString(),
                                                  ui->tipoProv->text().toStdString());
 
-            int reg = Global::db.registrarProveedor(*proveedor,ui->correoProv->text().toStdString().c_str(),ui->passwordProv->text().toStdString().c_str());
+            // Prepara los argumentos
+            argRegProv *args = new argRegProv;
+            args->prov = proveedor;
+            args->correo = ui->correoProv->text().toStdString().c_str();
+            args->password = ui->passwordProv->text().toStdString().c_str();
+
+            // Crea un nuevo hilo para el manejo del registro
+            pthread_t hilo;
+            pthread_create(&hilo, NULL, hiloRegProv, args);
+            pthread_join(hilo, NULL);
+
+            // Resultado del registro
+            int reg = args->resul;
+            delete args;
+
             if (reg==1){
                 msgBox.setText("Se ha registrado con éxito!");
                 msgBox.exec();
