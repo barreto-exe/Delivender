@@ -173,3 +173,11 @@ void pantalla_principal::on_btnProcesarSolic_clicked()
     }
 
 }
+
+void pantalla_principal::on_btnMisSolicitudes_clicked()
+{
+    /*TODO: Mostrar solicitudes*/
+    QMessageBox msgBox;
+    msgBox.setText("Algo asi para las solicitudes(? u otra pagina idk");
+    msgBox.exec();
+}

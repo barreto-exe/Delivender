@@ -28,6 +28,7 @@ SOURCES += \
     producto.cpp \
     proveedor.cpp \
     solicitud.cpp \
+    solicitudwidget.cpp \
     tiendawidget.cpp \
     transportista.cpp \
     usuario.cpp \
@@ -46,6 +47,7 @@ HEADERS += \
     producto_cantidad.h \
     proveedor.h \
     solicitud.h \
+    solicitudwidget.h \
     tiendawidget.h \
     transportista.h \
     usuario.h \
@@ -57,6 +59,7 @@ FORMS += \
     pantalla_principal.ui \
     pantalla_proveedor.ui \
     pantalla_registro.ui \
+    solicitudwidget.ui \
     tiendawidget.ui
 
 # Default rules for deployment.

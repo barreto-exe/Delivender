@@ -26,7 +26,7 @@
     <string notr="true">background: white;</string>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="menu">
     <widget class="QLabel" name="fondoPrincipal">
@@ -103,7 +103,23 @@ color: rgb(255,255	,255);
 </string>
      </property>
      <property name="text">
-      <string>Bienvenido, Luis Barreto.</string>
+      <string>¡Bienvenido/a de vuelta!</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnMisSolicitudes">
+     <property name="geometry">
+      <rect>
+       <x>740</x>
+       <y>10</y>
+       <width>141</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 114, 98);</string>
+     </property>
+     <property name="text">
+      <string>Ver mis Solicitudes</string>
      </property>
     </widget>
    </widget>
