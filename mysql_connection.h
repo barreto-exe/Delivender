@@ -92,6 +92,7 @@ class MySQLConnection
         int aprobarSolicitud(const int id_solicitud);
         int rechazarSolicitud(const int id_solicitud);
         vector <vehiculo_transportista> listarTransportistas();
+        int actualizarInfoProducto(Producto producto);
         // Funciones para TRANSPORTISTAS
         vector <Solicitud> listarEntregas();
         vector <Solicitud> listarEntregasPendientes();
@@ -100,9 +101,6 @@ class MySQLConnection
         vector <Proveedor> listarProveedores();
         vector <Solicitud> listarSolicitudes();
 
-        /* Notas para mi:
-         * Recuerda mover la verificacion de producto de la funcion de registro
-         */
 
 };
 #endif // MYSQLCONNECTION_H

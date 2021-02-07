@@ -252,12 +252,6 @@ int MySQLConnection::registrarPedido(const char *correo_proveedor, vector<produc
 // Registro de un nuevo producto
 int MySQLConnection::registrarProducto(const char *correo_proveedor, producto_cantidad pxq)
 {
-    if (obtenerIdProducto(correo_proveedor, pxq.producto))
-    {
-        qDebug() << "Ya existe este producto";
-        return 0;
-    }
-
     sql::PreparedStatement *pstmt;
     try
     {
@@ -1365,11 +1359,20 @@ int MySQLConnection::agregarProductoAlmacen(Producto producto, int cantidad)
     if (!vistaProveedor())
         return 0;
 
-    producto_cantidad pxq = Global::db.structProductoCantidad(producto,cantidad);
+    const char *correo = Global::usuario->getCorreo().c_str();
+    producto_cantidad pxq = structProductoCantidad(producto,cantidad);
 
-    if (Global::db.registrarProducto(Global::usuario->getCorreo().c_str(), pxq))
+
+    if (obtenerIdProducto(correo, pxq.producto))
     {
-        //Global::usuario->getAlmacen().push_back(pxq);
+        qDebug() << "Ya existe este producto";
+        return 0;
+    }
+
+    if (Global::db.registrarProducto(correo, pxq))
+    {
+        Proveedor *proveedor = reinterpret_cast<Proveedor*>(Global::usuario);
+        proveedor->getAlmacen().push_back(pxq);
         return 1;
     }
 
