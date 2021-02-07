@@ -160,7 +160,7 @@ void pantalla_principal::on_btnProcesarSolic_clicked()
         QDate fechaEntrega = ui->fechaEntrega->date();
         string estatus = "En espera";
 
-        Solicitud *solicitud = new Solicitud(Global::proveedorSeleccionado,tipoPago,monto,fechaPedido,fechaEntrega,direccion,Global::pedido);
+        Solicitud *solicitud = new Solicitud(Global::proveedorSeleccionado,tipoPago,fechaPedido,fechaEntrega,direccion,Global::pedido);
         Global::db.registrarSolicitud(*solicitud);
 
         msgBox.setText("¡Solicitud procesada con éxito!");

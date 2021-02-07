@@ -1092,10 +1092,10 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
                             return -2;
                         }
                     }
+                    delete res;
+                    delete pstmt;
                 }
                 Global::tipoDeUsuario = tipo;
-                delete res;
-                delete pstmt;
                 return 1;
             }
             // Entonces se encontró el correo, pero la contraseña no coincide
