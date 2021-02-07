@@ -43,12 +43,6 @@ sql::Connection *MySQLConnection::getConnection() const { return con; }
 /********************************************************** FUNCIONES PRIVADAS **********************************************************/
 /****************************************************************************************************************************************/
 
-// Verifica si un objeto es una instancia de una clase
-template<typename Base, typename T>
-inline bool instanceOf(const T*) {
-   return is_base_of<Base, T>::value;
-}
-
 // Retorna el parámetro encriptado
 char *MySQLConnection::encriptar(const char *password)
 {
@@ -914,7 +908,7 @@ int MySQLConnection::validarPtrUsuario()
 int MySQLConnection::vistaProveedor()
 {
     if (validarPtrUsuario())
-        if (instanceOf<Proveedor*>(Global::usuario))
+        if (!strcmp("proveedor", Global::tipoDeUsuario.c_str()))
             return 1;
 
     return 0;
@@ -924,7 +918,7 @@ int MySQLConnection::vistaProveedor()
 int MySQLConnection::vistaTransportista()
 {
     if (validarPtrUsuario())
-        if (instanceOf<Transportista*>(Global::usuario))
+        if (!strcmp("transportista", Global::tipoDeUsuario.c_str()))
             return 1;
 
     return 0;
@@ -934,7 +928,7 @@ int MySQLConnection::vistaTransportista()
 int MySQLConnection::vistaCliente()
 {
     if (validarPtrUsuario())
-        if (instanceOf<Cliente*>(Global::usuario))
+        if (!strcmp("cliente", Global::tipoDeUsuario.c_str()))
             return 1;
 
     return 0;
@@ -1025,6 +1019,7 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
                         }
                     }
                 }
+                Global::tipoDeUsuario = tipo;
                 delete res;
                 delete pstmt;
                 return 1;
@@ -1453,7 +1448,7 @@ vector <Solicitud> MySQLConnection::listarSolicitudes()
 
     try
     {
-        if (instanceOf<Cliente*>(Global::usuario))
+        if (vistaCliente())
         {
             Cliente *cliente = reinterpret_cast<Cliente*>(Global::usuario);
             pstmt = con->prepareStatement("SELECT * FROM solicitudes WHERE correo_cliente = ?");
@@ -1463,7 +1458,7 @@ vector <Solicitud> MySQLConnection::listarSolicitudes()
             while (res->next())
                 lista.push_back(*instanciarSolicitud(*cliente,res->getInt("id_solicitud")));
         }
-        else if (instanceOf<Proveedor*>(Global::usuario))
+        else if (vistaProveedor())
         {
             Proveedor *proveedor = reinterpret_cast<Proveedor*>(Global::usuario);
             pstmt = con->prepareStatement("SELECT * FROM solicitudes WHERE correo_proveedor = ?");
