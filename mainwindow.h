@@ -6,6 +6,7 @@
 // Frontend
 #include <pantalla_principal.h>
 #include <pantalla_registro.h>
+#include <pantalla_proveedor.h>
 #include <qstackedwidget.h>
 
 QT_BEGIN_NAMESPACE
@@ -32,6 +33,7 @@ private:
     // Frontend
     pantalla_principal menu;
     pantalla_registro registro;
+    pantalla_proveedor menuProveedor;
     QStackedWidget *stackedWidget;
 };
 #endif // MAINWINDOW_H

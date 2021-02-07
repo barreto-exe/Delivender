@@ -17,6 +17,7 @@ public:
 
     // Delivender
     static Usuario *usuario;
+    static string tipoDeUsuario;
     static vector <producto_cantidad> pedido;
     static Proveedor proveedorSeleccionado;
 };

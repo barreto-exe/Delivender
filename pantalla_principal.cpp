@@ -150,8 +150,26 @@ void pantalla_principal::on_btnSiguiente_clicked()
 
 void pantalla_principal::on_btnProcesarSolic_clicked()
 {
-    /*TODO: Instanciar la solicitud uwu*/
-    QTableWidgetItem *total = ui->reciboTable->item(ui->reciboTable->rowCount()-1,ui->reciboTable->columnCount()-1);
-    float monto = total->text().toFloat();
-    ui->stackedWidget->setCurrentIndex(0);
+    QMessageBox msgBox;
+    if (!ui->direccion->text().isEmpty() && ui->comboBoxPago->currentIndex()!=0){
+        QTableWidgetItem *total = ui->reciboTable->item(ui->reciboTable->rowCount()-1,ui->reciboTable->columnCount()-1);
+        float monto = total->text().toFloat();
+        string direccion = ui->direccion->text().toStdString();
+        string tipoPago = ui->comboBoxPago->currentText().toStdString();
+        QDate fechaPedido = QDate::currentDate();
+        QDate fechaEntrega = ui->fechaEntrega->date();
+        string estatus = "En espera";
+
+        Solicitud *solicitud = new Solicitud(Global::proveedorSeleccionado,tipoPago,monto,fechaPedido,fechaEntrega,direccion,Global::pedido);
+        Global::db.registrarSolicitud(*solicitud);
+
+        msgBox.setText("¡Solicitud procesada con éxito!");
+        msgBox.exec();
+
+        ui->stackedWidget->setCurrentIndex(0);
+    } else {
+        msgBox.setText("Por favor, complete todos los datos para continuar");
+        msgBox.exec();
+    }
+
 }
