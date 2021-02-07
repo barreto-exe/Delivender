@@ -26,20 +26,26 @@
     </rect>
    </property>
    <widget class="QWidget" name="inicio">
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 114, 98)</string>
+    </property>
     <widget class="QTabWidget" name="tabWidget">
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>0</y>
+       <y>29</y>
        <width>900</width>
-       <height>680</height>
+       <height>651</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="tabShape">
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="almacen">
       <attribute name="title">
@@ -48,10 +54,10 @@
       <widget class="QWidget" name="gridLayoutWidget">
        <property name="geometry">
         <rect>
-         <x>60</x>
-         <y>30</y>
-         <width>591</width>
-         <height>561</height>
+         <x>30</x>
+         <y>60</y>
+         <width>521</width>
+         <height>481</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="productLayout"/>
@@ -59,8 +65,8 @@
       <widget class="QPushButton" name="btnAddProducto">
        <property name="geometry">
         <rect>
-         <x>700</x>
-         <y>30</y>
+         <x>200</x>
+         <y>560</y>
          <width>171</width>
          <height>35</height>
         </rect>
@@ -72,14 +78,84 @@
       <widget class="QPushButton" name="btnAddMetPago">
        <property name="geometry">
         <rect>
-         <x>700</x>
-         <y>90</y>
-         <width>171</width>
+         <x>690</x>
+         <y>280</y>
+         <width>121</width>
          <height>35</height>
         </rect>
        </property>
        <property name="text">
-        <string>Añadir Metodo de Pago</string>
+        <string>Guardar</string>
+       </property>
+      </widget>
+      <widget class="Line" name="line">
+       <property name="geometry">
+        <rect>
+         <x>580</x>
+         <y>30</y>
+         <width>20</width>
+         <height>551</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>620</x>
+         <y>160</y>
+         <width>251</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 12pt &quot;Quicksand Medium&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Agregar nuevo metodo de pago</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="descripcionMetodo">
+       <property name="geometry">
+        <rect>
+         <x>630</x>
+         <y>220</y>
+         <width>231</width>
+         <height>35</height>
+        </rect>
+       </property>
+       <property name="placeholderText">
+        <string>Descripcion</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_2">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>20</y>
+         <width>331</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Quicksand Medium&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Productos disponibles en almacen</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>
@@ -87,11 +163,87 @@
       <attribute name="title">
        <string>Solicitudes</string>
       </attribute>
+      <widget class="QWidget" name="verticalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>30</y>
+         <width>771</width>
+         <height>541</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="solicLayout"/>
+      </widget>
      </widget>
     </widget>
    </widget>
-   <widget class="QWidget" name="addProducto"/>
-   <widget class="QWidget" name="addMetodoPago"/>
+   <widget class="QWidget" name="addProducto">
+    <widget class="QLineEdit" name="nombreProd">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>110</y>
+       <width>291</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>Nombre del Producto</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="descripcionProd">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>180</y>
+       <width>291</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>Descripción del Producto</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="precioProd">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>250</y>
+       <width>291</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>Precio</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnRegistrarProd">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>340</y>
+       <width>131</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Añadir Producto</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnAtrasAddProd">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>600</y>
+       <width>83</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Atras</string>
+     </property>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <resources/>

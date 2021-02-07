@@ -20,6 +20,10 @@ private slots:
 
     void on_btnAddMetPago_clicked();
 
+    void on_btnRegistrarProd_clicked();
+
+    void on_btnAtrasAddProd_clicked();
+
 private:
     Ui::pantalla_proveedor *ui;
 };

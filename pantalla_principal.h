@@ -29,6 +29,8 @@ private slots:
 
     void on_btnProcesarSolic_clicked();
 
+    void on_btnMisSolicitudes_clicked();
+
 private:
     Ui::pantalla_principal *ui;
 };
