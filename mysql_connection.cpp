@@ -152,6 +152,17 @@ int MySQLConnection::verificarPlaca(const char *placa)
     return 0;
 }
 
+// Verifica si la placa de una entrega corresponde a algun vehiculo del transportista global
+int MySQLConnection::verificarEntrega(const char *placa)
+{
+    Transportista *transportista = reinterpret_cast<Transportista*>(Global::usuario);
+
+    for (std::size_t i = 0; i < transportista->getVehiculos().size(); i++)
+        if (!strcmp(placa, transportista->getVehiculos()[i].getPLaca().c_str()))
+            return 1;
+    return 0;
+}
+
 /************************************************************* REGISTROS ****************************************************************/
 
 // Registro de nuevo usuario
@@ -444,7 +455,7 @@ Cliente *MySQLConnection::instanciarCliente(const char *correo)
             persona->setDireccion(res->getString("direccion"));
             QString fecha = QString().fromStdString(res->getString("fecha_nacimiento"));
             persona->setFechaNacimiento(QDate().fromString(fecha, "dd/MM/yyyy"));
-            persona->setCorreo(correo);
+            persona->setCorreo(string(correo));
 
             delete res;
             delete pstmt;
@@ -484,7 +495,7 @@ Transportista *MySQLConnection::instanciarTransportista(const char *correo)
             persona->setDireccion(res->getString("direccion"));
             QString fecha = QString().fromStdString(res->getString("fecha_nacimiento"));
             persona->setFechaNacimiento(QDate().fromString(fecha, "dd/MM/yyyy"));
-            persona->setCorreo(correo);
+            persona->setCorreo(string(correo));
             persona->setVehiculos(instanciarVehiculos(correo));
 
             delete res;
@@ -903,6 +914,33 @@ int MySQLConnection::modificarEstatusSolicitud(const int id_solicitud, const cha
     return 0;
 }
 
+
+// Modificar estatus de una entrega
+int MySQLConnection::modificarEstatusEntrega(const int id_entrega, const char *estatus)
+{
+    sql::PreparedStatement *pstmt;
+
+    try
+    {
+        pstmt = con->prepareStatement("UPDATE entregas SET estatus = ? WHERE id_entrega = ?");
+        pstmt->setString(1, estatus);
+        pstmt->setInt(2, id_entrega);
+        pstmt->execute();
+
+        delete pstmt;
+        return 1;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete pstmt;
+    return 0;
+}
+
 // Actualizar cantidad de productos dentro del almacen
 int MySQLConnection::actualizarAlmacen(const char *correo_proveedor, const int id_producto, const int cantidad)
 {
@@ -1231,8 +1269,9 @@ int MySQLConnection::registrarSolicitud(Solicitud solicitud)
     sql::PreparedStatement *pstmt;
     try
     {
+        Cliente *cliente = reinterpret_cast<Cliente *>(Global::usuario);
         pstmt = con->prepareStatement("INSERT INTO solicitudes(correo_cliente,correo_proveedor,monto,id_tipo_de_pago,direccion,fecha_de_creacion,fecha_de_entrega,estatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        pstmt->setString(1, solicitud.getCliente().getCorreo().c_str());
+        pstmt->setString(1, cliente->getCorreo().c_str());
         pstmt->setString(2, solicitud.getProveedor().getCorreo().c_str());
         pstmt->setDouble(3, solicitud.getMonto());
         pstmt->setInt(4, obtenerIdTipoDePago(solicitud.getProveedor().getCorreo().c_str(), solicitud.getTipoPago().c_str()));
@@ -1405,8 +1444,8 @@ vector <vehiculo_transportista> MySQLConnection::listarTransportistas()
 
 /**************************************************** FUNCIONES PARA TRANSPORTISTAS ****************************************************/
 
-// Listar entregas pendientes
-vector <Solicitud> MySQLConnection::listarEntregasPendientes()
+// Listar entregas
+vector <Solicitud> MySQLConnection::listarEntregas()
 {
     vector <Solicitud> lista = vector <Solicitud>();
 
@@ -1442,6 +1481,83 @@ vector <Solicitud> MySQLConnection::listarEntregasPendientes()
     return lista;
 }
 
+// Listar entregas pendientes
+vector <Solicitud> MySQLConnection::listarEntregasPendientes()
+{
+    vector <Solicitud> lista = vector <Solicitud>();
+
+    if (!vistaTransportista())
+        return lista;
+
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+        Transportista *transportista = reinterpret_cast<Transportista*>(Global::usuario);
+
+        for (std::size_t i = 0; i < transportista->getVehiculos().size(); i++)
+        {
+            pstmt = con->prepareStatement("SELECT * FROM entregas WHERE placa_transportista = ? AND estatus = ?");
+            pstmt->setString(1, transportista->getVehiculos()[i].getPLaca().c_str());
+            pstmt->setString(2, "pendiente");
+
+            res = pstmt->executeQuery();
+
+            while (res->next())
+                lista.push_back(*instanciarSolicitud(res->getInt("id_solicitud")));
+        }
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete res;
+    delete pstmt;
+    return lista;
+}
+
+int MySQLConnection::realizarEntrega(Solicitud solicitud)
+{
+    if (!vistaTransportista())
+        return 0;
+
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+
+    try
+    {
+
+        pstmt = con->prepareStatement("SELECT * FROM entregas WHERE id_solicitud = ? AND estatus = ?");
+        pstmt->setInt(1, solicitud.getId());
+        pstmt->setString(2, "pendiente");
+
+        res = pstmt->executeQuery();
+
+        if (res->next())
+            if (verificarEntrega(res->getString("placa_vehiculo").c_str()))
+                if (modificarEstatusEntrega(res->getInt("id_entrega"), "entregado"))
+                {
+                    delete res;
+                    delete pstmt;
+                    return 1;
+                }
+
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete res;
+    delete pstmt;
+    return 0;
+}
 
 /********************************************************* FUNCIONES GENÉRICAS *********************************************************/
 

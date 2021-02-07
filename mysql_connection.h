@@ -31,6 +31,7 @@ class MySQLConnection
         int verificarCorreo(const char *correo);
         int verificarCedula(const char *cedula);
         int verificarPlaca(const char *placa);
+        int verificarEntrega(const char *placa);
         // Registros
         int registrarUsuario(const char *correo, const char *password, const char *tipo);
         int registrarPersona(const Persona persona);
@@ -55,7 +56,8 @@ class MySQLConnection
         int obtenerIdSolicitud(Solicitud solicitud);
         const char *obtenerTipoDePago(const int id);
         // Actualización de datos
-        int modificarEstatusSolicitud(const int id_solicitud, const char *estatus);//*******************
+        int modificarEstatusSolicitud(const int id_solicitud, const char *estatus);
+        int modificarEstatusEntrega(const int id_entrega, const char *estatus);
         int actualizarAlmacen(const char *correo_proveedor, const int id_producto, const int cantidad);
         // Verificación de puntero global
         int validarPtrUsuario();
@@ -91,14 +93,15 @@ class MySQLConnection
         int rechazarSolicitud(const int id_solicitud);
         vector <vehiculo_transportista> listarTransportistas();
         // Funciones para TRANSPORTISTAS
+        vector <Solicitud> listarEntregas();
         vector <Solicitud> listarEntregasPendientes();
+        int realizarEntrega(Solicitud solicitud);
         // Funciones GENÉRICAS
         vector <Proveedor> listarProveedores();
         vector <Solicitud> listarSolicitudes();
 
         /* Notas para mi:
          * Recuerda mover la verificacion de producto de la funcion de registro
-         * Recuerda cambiar los parámetros de modificar estatus solicitud
          */
 
 };
