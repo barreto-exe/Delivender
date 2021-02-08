@@ -1437,18 +1437,16 @@ int MySQLConnection::agregarProductoAlmacen(Producto producto, int cantidad)
     if (!vistaProveedor())
         return 0;
 
-    const char *correo = Global::usuario->getCorreo().c_str();
-    qDebug() << correo;
     producto_cantidad pxq = structProductoCantidad(producto,cantidad);
 
 
-    if (obtenerIdProducto(correo, pxq.producto))
+    if (obtenerIdProducto(Global::usuario->getCorreo().c_str(), pxq.producto))
     {
         qDebug() << "Ya existe este producto";
         return 0;
     }
 
-    if (Global::db.registrarProducto(correo, pxq))
+    if (registrarProducto(Global::usuario->getCorreo().c_str(), pxq))
     {
         Proveedor *proveedor = reinterpret_cast<Proveedor*>(Global::usuario);
         proveedor->getAlmacen().push_back(pxq);
