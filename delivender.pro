@@ -1,5 +1,5 @@
 QT       += core gui
-LIBS += -lmysqlcppconn
+LIBS += -lmysqlcppconn -pthread
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11

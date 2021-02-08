@@ -28,12 +28,15 @@ class Solicitud
         vector <producto_cantidad> pedido;
         int id;
 
+        // Funciones
+        int verificarProducto(Producto producto);
+
     public:
         // Constructor
         Solicitud();
         Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, float monto, QDate fechaPedido, QDate fechaEntrega, string direccion, vector <producto_cantidad> pedido);
         Solicitud(Persona cliente, string tipoPago, float monto, QDate fechaPedido, QDate fechaEntrega, string direccion, vector <producto_cantidad> pedido);
-        Solicitud(Proveedor proveedor, string tipoPago, float monto, QDate fechaPedido, QDate fechaEntrega, string direccion, vector <producto_cantidad> pedido);
+        Solicitud(Proveedor proveedor, string tipoPago, QDate fechaPedido, QDate fechaEntrega, string direccion, vector <producto_cantidad> pedido);
 
         //Funciones set
         Solicitud &setProveedor(Proveedor proveedor);
@@ -61,6 +64,10 @@ class Solicitud
 
         // Funciones
         Solicitud &agregarProducto(producto_cantidad producto);
+        Solicitud &eliminarProducto(Producto producto);
+        Solicitud &calcularMonto();
+        QString toString();
+        Solicitud &clear();
 };
 
 #endif // SOLICITUD_H

@@ -38,7 +38,7 @@ class MySQLConnection
         int registrarPedido(const char *correo_proveedor, vector <producto_cantidad> pedido, const int id_solicitud);
         int registrarProducto(const char *correo_proveedor, producto_cantidad pxq);
         int registrarTipoDePago(const char *correo_proveedor, const char *descripcion);
-        int registrarEntrega(const int id_solicitud, Vehiculo vehiculo);
+        int registrarEntrega(const int id_solicitud, const char *placa_vehiculo);
         // Instancias
         Proveedor *instanciarProveedor(const char *correo);
         vector<producto_cantidad> instanciarAlmacen(Proveedor *proveedor);
@@ -58,7 +58,9 @@ class MySQLConnection
         // Actualización de datos
         int modificarEstatusSolicitud(const int id_solicitud, const char *estatus);
         int modificarEstatusEntrega(const int id_entrega, const char *estatus);
-        int actualizarAlmacen(const char *correo_proveedor, const int id_producto, const int cantidad);
+        int actualizarFechaEntrega(const int id_entrega, QDate fecha);
+        int actualizarCantidadProducto(const int id_producto, const int cantidad);
+        int actualizarAlmacen(vector <producto_cantidad> pedido, const int signo);
         // Verificación de puntero global
         int validarPtrUsuario();
         int vistaProveedor();
@@ -89,9 +91,10 @@ class MySQLConnection
         vector <string> listarTiposDePago();
         int agregarProductoAlmacen(Producto producto, int cantidad);
         int agregarTipoDePago(const char *descripcion);
-        int aprobarSolicitud(const int id_solicitud);
-        int rechazarSolicitud(const int id_solicitud);
+        int aprobarSolicitud(Solicitud solicitud, const char *placa_vehiculo);
+        int rechazarSolicitud(Solicitud solicitud);
         vector <vehiculo_transportista> listarTransportistas();
+        int actualizarInfoProducto(producto_cantidad producto);
         // Funciones para TRANSPORTISTAS
         vector <Solicitud> listarEntregas();
         vector <Solicitud> listarEntregasPendientes();
@@ -100,9 +103,6 @@ class MySQLConnection
         vector <Proveedor> listarProveedores();
         vector <Solicitud> listarSolicitudes();
 
-        /* Notas para mi:
-         * Recuerda mover la verificacion de producto de la funcion de registro
-         */
 
 };
 #endif // MYSQLCONNECTION_H

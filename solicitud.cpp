@@ -27,16 +27,16 @@ Solicitud::Solicitud(Proveedor proveedor, Persona cliente, string tipoPago, floa
     id = 0;
 }
 
-Solicitud::Solicitud(Proveedor proveedor, string tipoPago, float monto, QDate fechaPedido, QDate fechaEntrega, string direccion, vector <producto_cantidad> pedido)
+Solicitud::Solicitud(Proveedor proveedor, string tipoPago, QDate fechaPedido, QDate fechaEntrega, string direccion, vector <producto_cantidad> pedido)
 {
     this->proveedor = proveedor;
     cliente = Persona();
     this->tipoPago = tipoPago;
-    this->monto = monto;
     this->fechaPedido = fechaPedido;
     this->fechaEntrega = fechaEntrega;
     this->direccion = direccion;
     this->pedido = pedido;
+    calcularMonto();
     id = 0;
 }
 
@@ -166,6 +166,69 @@ int Solicitud::getId() const { return id; }
 // Agrega un producto con su cantidad al pedido
 Solicitud &Solicitud::agregarProducto(producto_cantidad producto)
 {
-    pedido.push_back(producto);
+    int i = verificarProducto(producto.producto);
+    if (i == -1)
+    {
+        pedido.push_back(producto);
+
+    }
+    else
+    {
+        pedido[i].cantidad = producto.cantidad;
+    }
+    calcularMonto();
     return *this;
+}
+
+// Elimina un producto del pedido
+Solicitud &Solicitud::eliminarProducto(Producto producto)
+{
+    int i = verificarProducto(producto);
+
+    if (i != -1)
+    {
+        pedido.erase(pedido.begin() + i);
+        calcularMonto();
+    }
+
+    return *this;
+}
+
+// Calcula el monto total del pedido
+Solicitud &Solicitud::calcularMonto()
+{
+    monto = 0;
+    if (!pedido.empty())
+        for (std::size_t i = 0; i < pedido.size(); i++)
+            monto += pedido[i].producto.getPrecio() * pedido[i].cantidad;
+
+    return *this;
+}
+
+int Solicitud::verificarProducto(Producto producto)
+{
+    for (std::size_t i = 0; i < pedido.size(); i++)
+        if (pedido[i].producto.getId() == producto.getId())
+            return i;
+    return -1;
+}
+
+Solicitud &Solicitud::clear()
+{
+    proveedor = Proveedor();
+    cliente = Persona();
+    tipoPago = "";
+    monto = 0;
+    fechaPedido = QDate();
+    fechaEntrega = QDate();
+    direccion = "";
+    pedido = vector <producto_cantidad>();
+    id = 0;
+    return *this;
+}
+
+QString Solicitud::toString()
+{
+    string resumen = "Solicitud # 00" + std::to_string(id) + " -- " + proveedor.getNombre() + " -- $" + std::to_string(monto) + " -- ";
+    return QString(resumen.c_str()) + fechaPedido.toString("dd/MM/yyyy");
 }
