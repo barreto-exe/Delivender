@@ -7,20 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>470</width>
-    <height>120</height>
+    <height>90</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(215, 180, 254);</string>
+   <string notr="true"/>
   </property>
   <widget class="QPushButton" name="btnRechazar">
    <property name="geometry">
     <rect>
      <x>280</x>
-     <y>80</y>
+     <y>60</y>
      <width>83</width>
      <height>25</height>
     </rect>
@@ -37,7 +37,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>370</x>
-     <y>80</y>
+     <y>60</y>
      <width>83</width>
      <height>25</height>
     </rect>
@@ -54,13 +54,14 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>10</y>
-     <width>211</width>
+     <y>0</y>
+     <width>421</width>
      <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 75 14pt &quot;Quicksand Medium&quot;;</string>
+    <string notr="true">font: 75 12pt &quot;Quicksand Medium&quot;;
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Nombre del cliente</string>
@@ -70,13 +71,16 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>40</y>
-     <width>251</width>
-     <height>21</height>
+     <y>22</y>
+     <width>261</width>
+     <height>16</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
    <property name="text">
-    <string>DIreccion</string>
+    <string>Direccion</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -89,13 +93,14 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>80</y>
+     <y>60</y>
      <width>231</width>
      <height>25</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(0, 0, 0);</string>
+    <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);</string>
    </property>
    <item>
     <property name="text">
@@ -106,14 +111,17 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="estatus">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>280</x>
      <y>10</y>
-     <width>121</width>
-     <height>21</height>
+     <width>171</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 75 12pt &quot;Quicksand Medium&quot;;</string>
+    <string notr="true">font: 75 12pt &quot;Quicksand Medium&quot;;
+border: 2px solid white;
+border-radius: 5px;
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Estado</string>
@@ -125,30 +133,20 @@ color: rgb(255, 255, 255);</string>
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>40</y>
-     <width>64</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Monto:</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="monto">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>20</x>
      <y>40</y>
      <width>91</width>
      <height>17</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
    <property name="text">
-    <string>$$$</string>
+    <string>Monto</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -156,9 +154,12 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>471</width>
-     <height>121</height>
+     <width>470</width>
+     <height>100</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(215, 180, 254);</string>
    </property>
    <property name="text">
     <string/>
@@ -171,7 +172,6 @@ color: rgb(255, 255, 255);</string>
   <zorder>direccion</zorder>
   <zorder>comboBoxTransp</zorder>
   <zorder>estatus</zorder>
-  <zorder>label</zorder>
   <zorder>monto</zorder>
  </widget>
  <resources/>

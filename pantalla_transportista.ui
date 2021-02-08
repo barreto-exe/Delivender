@@ -14,35 +14,86 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(255, 255, 255);</string>
+   <string notr="true">background-color: rgb(255, 114, 98);</string>
   </property>
-  <widget class="QWidget" name="verticalLayoutWidget">
+  <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>90</y>
-     <width>771</width>
-     <height>521</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout"/>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>40</y>
-     <width>271</width>
-     <height>31</height>
+     <x>0</x>
+     <y>29</y>
+     <width>900</width>
+     <height>661</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 114, 98);
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <widget class="QWidget" name="pendientes">
+    <attribute name="title">
+     <string>Entregas Pendientes</string>
+    </attribute>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>661</width>
+       <height>521</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="entregasLayout"/>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>671</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 114, 98);
 font: 75 18pt &quot;Quicksand Medium&quot;;</string>
-   </property>
-   <property name="text">
-    <string>Solicitudes Pendientes</string>
-   </property>
+     </property>
+     <property name="text">
+      <string>Estas son las entregas pendientes para hoy...</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="realizadas">
+    <attribute name="title">
+     <string>Entregas Realizadas</string>
+    </attribute>
+    <widget class="QWidget" name="verticalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>661</width>
+       <height>521</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="realizadasLayout"/>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>651</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 114, 98);
+font: 75 18pt &quot;Quicksand Medium&quot;;</string>
+     </property>
+     <property name="text">
+      <string>Historial de entregas realizadas</string>
+     </property>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <resources/>

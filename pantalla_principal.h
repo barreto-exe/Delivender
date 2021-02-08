@@ -18,6 +18,7 @@ public:
     explicit pantalla_principal(QWidget *parent = nullptr);
     ~pantalla_principal();
     void mostrarProveedores();
+    void clearLayout(QLayout *layout);
 
 public slots:
     void mostrarTienda();

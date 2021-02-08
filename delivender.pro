@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     cliente.cpp \
+    entregawidget.cpp \
     global.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -37,6 +38,7 @@ SOURCES += \
 
 HEADERS += \
     cliente.h \
+    entregawidget.h \
     global.h \
     mainwindow.h \
     mysql_connection.h \
@@ -57,6 +59,7 @@ HEADERS += \
     vehiculo_transportista.h
 
 FORMS += \
+    entregawidget.ui \
     mainwindow.ui \
     pantalla_principal.ui \
     pantalla_proveedor.ui \

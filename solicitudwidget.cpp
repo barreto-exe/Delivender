@@ -11,10 +11,11 @@ solicitudWidget::solicitudWidget(QWidget *parent, Solicitud *s) :
     ui->setupUi(this);
     this->solicitud = *s;
     //Mostrando toda la info de la solicitud en el widget
-    ui->nombreCliente->setText(QString::fromStdString(solicitud.getCliente().getNombre()));
-    ui->direccion->setText(QString::fromStdString(solicitud.getDireccion()));
-    ui->estatus->setText(QString::fromStdString(solicitud.getEstatus()));
-    ui->monto->setText(QString::number(solicitud.getMonto()));
+    ui->nombreCliente->setText("Cliente: "+ QString::fromStdString(solicitud.getCliente().getNombre()) +
+                               " " + QString::fromStdString(solicitud.getCliente().getApellido()));
+    ui->direccion->setText("Direccion: "+QString::fromStdString(solicitud.getDireccion()));
+    ui->estatus->setText("Estatus: "+QString::fromStdString(solicitud.getEstatus()));
+    ui->monto->setText("Monto: "+QString::number(solicitud.getMonto()));
     vector<vehiculo_transportista> transportistas = Global::db.listarTransportistas();
     for (auto t : transportistas){
         ui->comboBoxTransp->addItem(QString::fromStdString(t.transportista.getNombre()) +
@@ -35,8 +36,12 @@ void solicitudWidget::on_btnAceptar_clicked()
     QMessageBox msgBox;
     if(ui->comboBoxTransp->currentIndex()!=0){
         if(Global::db.aprobarSolicitud(solicitud.getId())!=0){
+
             ui->btnAceptar->setEnabled(false);
+            ui->btnAceptar->hide();
             ui->btnRechazar->setEnabled(false);
+            ui->btnRechazar->hide();
+            ui->estatus->setText("Estatus: aprobada");
             msgBox.setText("Solicitud aprobada con éxito");
         } else {
             msgBox.setText("No se pudo aprobar la solicitud, intentelo nuevamente");
@@ -50,10 +55,15 @@ void solicitudWidget::on_btnAceptar_clicked()
 void solicitudWidget::on_btnRechazar_clicked()
 {
     QMessageBox msgBox;
-    if(Global::db.rechazarSolicitud(solicitud.getId()!=0)){
-        msgBox.setText("Solicitud rechazada con éxito");
-        this->deleteLater();
-    } else {
-        msgBox.setText("No se pudo rechazar la solicitud, intentelo nuevamente");
+    QMessageBox::StandardButton confirmar;
+    confirmar = QMessageBox::question(this,"Confirmar","¿Esta seguro que desea rechazar esta solicitud?");
+    if (confirmar == QMessageBox::Yes){
+        if(Global::db.rechazarSolicitud(solicitud.getId()!=0)){
+            msgBox.setText("Solicitud rechazada con éxito");
+            this->deleteLater();
+        } else {
+            msgBox.setText("No se pudo rechazar la solicitud, intentelo nuevamente");
+        }
+        msgBox.exec();
     }
 }

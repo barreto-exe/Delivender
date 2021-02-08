@@ -1,6 +1,5 @@
 #include "pantalla_principal.h"
 #include "ui_pantalla_principal.h"
-#include <QDebug>
 #include "tiendawidget.h"
 #include "global.h"
 #include <QPushButton>
@@ -36,7 +35,6 @@ void pantalla_principal::mostrarProveedores(){
     QVectorIterator<Proveedor> i(lista);
     while (i.hasNext()){ //mientras haya un proveedor en la lista
         Proveedor infoProv = i.next();
-        qDebug() << "Nombre proveedor: "<< QString::fromStdString(infoProv.getNombre()) << " Descripcion: " << QString::fromStdString(infoProv.getDescripcion());
         ui->provLayout->addWidget(new tiendaWidget(this,&infoProv),j,k,1,1); //lo muestra en la pantalla
         k++;
         if (k==3){ //cambia la fila y la columna
@@ -48,6 +46,7 @@ void pantalla_principal::mostrarProveedores(){
 }
 
 void pantalla_principal::mostrarTienda(){
+    clearLayout(ui->productLayout);
     Proveedor proveedor = Global::proveedorSeleccionado; //toma el proveedor seleccionado de la variable global
 
     ui->provNombre->setText(QString::fromStdString(proveedor.getNombre())); //pone el nombre del proveedor en la pantalla
@@ -98,8 +97,6 @@ void pantalla_principal::popupCantidad(){
                     msgBox.setText("Producto agregado al carrito!");
                     msgBox.exec();
                 }
-
-                qDebug() << "productos en pedido: " + QString::number(Global::pedido.size());
             }
         }
     }
@@ -226,4 +223,19 @@ void pantalla_principal::on_btnAtrasSolic_clicked()
 void pantalla_principal::on_btnAtrasMisSolic_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
+}
+
+void pantalla_principal::clearLayout(QLayout *layout){
+    QLayoutItem *item;
+    while((item = layout->takeAt(0))){
+        if(item->layout()){
+            clearLayout(item->layout());
+            delete item->layout();
+        }
+        if (item->widget()){
+            delete item->widget();
+        }
+        delete item;
+    }
+
 }

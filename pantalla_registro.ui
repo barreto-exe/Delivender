@@ -26,7 +26,7 @@
     <string notr="true">background: white;</string>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="seleccion_usuario">
     <widget class="QLabel" name="cliente_foto">
@@ -277,6 +277,10 @@ color: rgb(255, 114, 98);</string>
           <height>35</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);</string>
+        </property>
         <property name="maximumDate">
          <date>
           <year>2021</year>
@@ -485,7 +489,7 @@ background-color: rgb(255, 255, 255);</string>
          </size>
         </property>
         <property name="placeholderText">
-         <string>Tipo de Proveedor</string>
+         <string>Tipo de Proveedor Ej: Moda, Alimentos</string>
         </property>
        </widget>
       </item>
@@ -705,6 +709,10 @@ background-color: rgb(255, 255, 255);
        <width>16777215</width>
        <height>35</height>
       </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="currentText">
       <string>Seleccione un tipo de vehículo</string>
