@@ -7,6 +7,7 @@
 #include <pantalla_principal.h>
 #include <pantalla_registro.h>
 #include <pantalla_proveedor.h>
+#include <pantalla_transportista.h>
 #include <qstackedwidget.h>
 
 QT_BEGIN_NAMESPACE
@@ -28,7 +29,8 @@ private slots:
     void IrAInicio();
 
 signals:
-    void usuarioInicio();
+    void provInicio();
+    void transpInicio();
 
 private:
     Ui::MainWindow *ui;
@@ -37,6 +39,7 @@ private:
     pantalla_principal menu;
     pantalla_registro registro;
     pantalla_proveedor menuProveedor;
+    pantalla_transportista menuTransportista;
     QStackedWidget *stackedWidget;
 };
 #endif // MAINWINDOW_H

@@ -24,6 +24,7 @@ SOURCES += \
     pantalla_principal.cpp \
     pantalla_proveedor.cpp \
     pantalla_registro.cpp \
+    pantalla_transportista.cpp \
     persona.cpp \
     producto.cpp \
     proveedor.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
     pantalla_principal.h \
     pantalla_proveedor.h \
     pantalla_registro.h \
+    pantalla_transportista.h \
     persona.h \
     producto.h \
     producto_cantidad.h \
@@ -59,6 +61,7 @@ FORMS += \
     pantalla_principal.ui \
     pantalla_proveedor.ui \
     pantalla_registro.ui \
+    pantalla_transportista.ui \
     solicitudwidget.ui \
     tiendawidget.ui
 

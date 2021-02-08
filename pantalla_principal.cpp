@@ -116,7 +116,9 @@ void pantalla_principal::on_btnSiguiente_clicked()
 {
 
     int i=0;
-    float monto=0; //monto es donde se guarda el total del pedido
+    float monto=0; //donde se guarda el total del pedido
+
+    //Limpiando tabla
     ui->reciboTable->clearContents();
     ui->reciboTable->setRowCount(0);
 
@@ -190,13 +192,38 @@ void pantalla_principal::on_btnProcesarSolic_clicked()
 
 void pantalla_principal::on_btnMisSolicitudes_clicked()
 {
-    /*TODO: Mostrar solicitudes*/
-    QMessageBox msgBox;
-    msgBox.setText("Algo asi para las solicitudes(? u otra pagina idk");
-    msgBox.exec();
+    vector<Solicitud> solicitudes = Global::db.listarSolicitudes();
+    int i=0;
+    //Limpia la tabla
+    ui->solicitudesTable->clearContents();
+    ui->solicitudesTable->setRowCount(0);
+
+    //Filas y columnas de la tabla
+    ui->solicitudesTable->setRowCount(solicitudes.size());
+    ui->solicitudesTable->setColumnCount(4);
+
+    for (auto s : solicitudes){ //por cada solicitud
+        //Las añade a la tabla
+        ui->solicitudesTable->setItem(i,0,new QTableWidgetItem(s.getFechaPedido().toString("dd / MM / yyyy")));
+        ui->solicitudesTable->setItem(i,1,new QTableWidgetItem(QString::fromStdString(s.getProveedor().getNombre())));
+        ui->solicitudesTable->setItem(i,2,new QTableWidgetItem(QString::fromStdString(s.getEstatus())));
+        ui->solicitudesTable->setItem(i,3,new QTableWidgetItem(QString::number(s.getMonto()) + "$"));
+        i++;
+    }
+    //Ajustes de la tabla
+    ui->solicitudesTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->solicitudesTable->verticalHeader()->setVisible(false);
+
+    //cambia la pagina
+    ui->stackedWidget->setCurrentIndex(3);
 }
 
 void pantalla_principal::on_btnAtrasSolic_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
+}
+
+void pantalla_principal::on_btnAtrasMisSolic_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
 }
