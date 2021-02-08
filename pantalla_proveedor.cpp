@@ -46,6 +46,12 @@ void pantalla_proveedor::cargarInfoProveedor(){
     for (auto s : lista){
         ui->solicLayout->addWidget(new solicitudWidget(this, &s));
     }
+
+    /*Muestra los metodos de pago*/
+    vector <string> metPagoLista = Global::db.listarTiposDePago();
+    for (auto p : metPagoLista){
+        ui->listaPago->addItem(QString::fromStdString(p));
+    }
 }
 void pantalla_proveedor::mostrarInfoProd(){
 
@@ -65,8 +71,9 @@ void pantalla_proveedor::on_btnAddMetPago_clicked()
 {
     QMessageBox msgBox;
     if (Global::db.agregarTipoDePago(ui->descripcionMetodo->text().toStdString().c_str())==1){
+        ui->listaPago->addItem(ui->descripcionMetodo->text());
         msgBox.setText("Metodo de pago agregado con éxito");
-        ui->descripcionMetodo->setText("");
+        ui->descripcionMetodo->setText("");       
     } else {
         msgBox.setText("Intentelo nuevamente");
     }

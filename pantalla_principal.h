@@ -33,6 +33,8 @@ private slots:
 
     void on_btnAtrasSolic_clicked();
 
+    void on_btnAtrasMisSolic_clicked();
+
 private:
     Ui::pantalla_principal *ui;
 };

@@ -108,7 +108,7 @@
        <property name="geometry">
         <rect>
          <x>620</x>
-         <y>140</y>
+         <y>370</y>
          <width>251</width>
          <height>51</height>
         </rect>
@@ -206,6 +206,16 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
+      <zorder>gridLayoutWidget</zorder>
+      <zorder>btnAddProducto</zorder>
+      <zorder>btnAddMetPago</zorder>
+      <zorder>line</zorder>
+      <zorder>descripcionMetodo</zorder>
+      <zorder>label_2</zorder>
+      <zorder>listaPago</zorder>
+      <zorder>label_4</zorder>
+      <zorder>line_2</zorder>
+      <zorder>label</zorder>
      </widget>
      <widget class="QWidget" name="solicitudes">
       <attribute name="title">
@@ -336,7 +346,7 @@ color: #ffffff;
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="res.qrc">:/resources/imagenes/addProductoFondo.png</pixmap>
+      <pixmap>:/resources/imagenes/addProductoFondo.png</pixmap>
      </property>
     </widget>
     <zorder>label_4</zorder>
@@ -362,8 +372,6 @@ color: #ffffff;
   <tabstop>btnRegistrarProd</tabstop>
   <tabstop>btnAtrasAddProd</tabstop>
  </tabstops>
- <resources>
-  <include location="res.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -19,13 +19,15 @@ MainWindow::MainWindow(QWidget *parent)
     stackedWidget->insertWidget(1,&registro);
     stackedWidget->insertWidget(2,&menu);
     stackedWidget->insertWidget(3,&menuProveedor);
+    stackedWidget->insertWidget(4,&menuTransportista);
 
     //Centra la ventana en la pantalla
     move(QGuiApplication::screens().at(0)->geometry().center() - frameGeometry().center());
 
     //Signal para volver al inicio de sesion desde el registro
     connect(&registro, SIGNAL(inicioSignal()),this,SLOT(IrAInicio()));
-    connect(this, SIGNAL(usuarioInicio()),&menuProveedor,SLOT(cargarInfoProveedor()));
+    connect(this, SIGNAL(provInicio()),&menuProveedor,SLOT(cargarInfoProveedor()));
+    connect(this, SIGNAL(transpInicio()),&menuTransportista,SLOT(cargarInfoTransp()));
     /*char correo[30] = "karenale@gmail.com", password[16] = "test";
     char nombre[20] = "karen", apellido[20] = "moran", cedula[10] = "28161658", telefono[15] = "04121924525", direccion[20] = "Curagua";
     time_t *fecha = new time_t();
@@ -74,10 +76,11 @@ void MainWindow::on_btnInicioSesion_clicked() //cambia a pantalla del menu princ
         if(!strcmp(Global::tipoDeUsuario.c_str(),"cliente")){
             stackedWidget->setCurrentIndex(2);
         } else if(!strcmp(Global::tipoDeUsuario.c_str(),"proveedor")){
-            emit usuarioInicio();
+            emit provInicio();
             stackedWidget->setCurrentIndex(3);
         } else if(!strcmp(Global::tipoDeUsuario.c_str(),"transportista")){
-            /*TODO: pantalla de transportista*/
+            emit transpInicio();
+            stackedWidget->setCurrentIndex(4);
         }
 
     }
