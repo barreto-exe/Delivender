@@ -786,11 +786,11 @@ int MySQLConnection::obtenerIdProducto(const char *correo_proveedor, Producto pr
 
     try
     {
-        pstmt = con->prepareStatement("SELECT * FROM productos WHERE correo_proveedor = ? AND nombre = ? AND precio = ? AND descripcion = ?");
+        pstmt = con->prepareStatement("SELECT * FROM productos WHERE correo_proveedor = ? AND nombre = ? AND descripcion = ? AND precio = ?");
         pstmt->setString(1, correo_proveedor);
         pstmt->setString(2, producto.getNombre().c_str());
-        pstmt->setDouble(3, producto.getPrecio());
-        pstmt->setString(4, producto.getDescripcion().c_str());
+        pstmt->setString(3, producto.getDescripcion().c_str());
+        pstmt->setDouble(4, producto.getPrecio());
         res = pstmt->executeQuery();
 
         if (res->next())
