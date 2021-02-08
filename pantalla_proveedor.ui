@@ -25,6 +25,9 @@
      <height>680</height>
     </rect>
    </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
    <widget class="QWidget" name="inicio">
     <property name="styleSheet">
      <string notr="true">background-color: rgb(255, 114, 98)</string>
@@ -79,7 +82,7 @@
        <property name="geometry">
         <rect>
          <x>690</x>
-         <y>280</y>
+         <y>490</y>
          <width>121</width>
          <height>35</height>
         </rect>
@@ -105,9 +108,9 @@
        <property name="geometry">
         <rect>
          <x>620</x>
-         <y>160</y>
+         <y>140</y>
          <width>251</width>
-         <height>31</height>
+         <height>51</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -127,7 +130,7 @@
        <property name="geometry">
         <rect>
          <x>630</x>
-         <y>220</y>
+         <y>440</y>
          <width>231</width>
          <height>35</height>
         </rect>
@@ -158,6 +161,51 @@
         <bool>true</bool>
        </property>
       </widget>
+      <widget class="QListWidget" name="listaPago">
+       <property name="geometry">
+        <rect>
+         <x>620</x>
+         <y>120</y>
+         <width>256</width>
+         <height>151</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_4">
+       <property name="geometry">
+        <rect>
+         <x>610</x>
+         <y>80</y>
+         <width>271</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Quicksand Medium&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Metodos de pago</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="Line" name="line_2">
+       <property name="geometry">
+        <rect>
+         <x>640</x>
+         <y>330</y>
+         <width>211</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="solicitudes">
       <attribute name="title">
@@ -181,8 +229,8 @@
     <widget class="QLineEdit" name="nombreProd">
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>110</y>
+       <x>570</x>
+       <y>170</y>
        <width>291</width>
        <height>35</height>
       </rect>
@@ -194,8 +242,8 @@
     <widget class="QLineEdit" name="descripcionProd">
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>180</y>
+       <x>570</x>
+       <y>240</y>
        <width>291</width>
        <height>35</height>
       </rect>
@@ -207,8 +255,8 @@
     <widget class="QLineEdit" name="precioProd">
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>250</y>
+       <x>570</x>
+       <y>310</y>
        <width>291</width>
        <height>35</height>
       </rect>
@@ -220,8 +268,8 @@
     <widget class="QPushButton" name="btnRegistrarProd">
      <property name="geometry">
       <rect>
-       <x>170</x>
-       <y>380</y>
+       <x>650</x>
+       <y>440</y>
        <width>131</width>
        <height>35</height>
       </rect>
@@ -233,8 +281,8 @@
     <widget class="QPushButton" name="btnAtrasAddProd">
      <property name="geometry">
       <rect>
-       <x>50</x>
-       <y>600</y>
+       <x>570</x>
+       <y>620</y>
        <width>83</width>
        <height>35</height>
       </rect>
@@ -246,8 +294,8 @@
     <widget class="QSpinBox" name="cantidad">
      <property name="geometry">
       <rect>
-       <x>258</x>
-       <y>310</y>
+       <x>710</x>
+       <y>380</y>
        <width>121</width>
        <height>35</height>
       </rect>
@@ -259,22 +307,63 @@
     <widget class="QLabel" name="label_3">
      <property name="geometry">
       <rect>
-       <x>100</x>
-       <y>320</y>
+       <x>600</x>
+       <y>390</y>
        <width>121</width>
        <height>21</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">font: 75 14pt &quot;Quicksand&quot;;</string>
+      <string notr="true">font: 75 14pt &quot;Quicksand&quot;;
+background: #00ffffff;
+color: #ffffff;
+</string>
      </property>
      <property name="text">
       <string>Cantidad</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>901</width>
+       <height>681</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/resources/imagenes/addProductoFondo.png</pixmap>
+     </property>
+    </widget>
+    <zorder>label_4</zorder>
+    <zorder>nombreProd</zorder>
+    <zorder>descripcionProd</zorder>
+    <zorder>precioProd</zorder>
+    <zorder>btnRegistrarProd</zorder>
+    <zorder>btnAtrasAddProd</zorder>
+    <zorder>cantidad</zorder>
+    <zorder>label_3</zorder>
    </widget>
   </widget>
  </widget>
- <resources/>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>btnAddProducto</tabstop>
+  <tabstop>descripcionMetodo</tabstop>
+  <tabstop>btnAddMetPago</tabstop>
+  <tabstop>nombreProd</tabstop>
+  <tabstop>descripcionProd</tabstop>
+  <tabstop>precioProd</tabstop>
+  <tabstop>cantidad</tabstop>
+  <tabstop>btnRegistrarProd</tabstop>
+  <tabstop>btnAtrasAddProd</tabstop>
+ </tabstops>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

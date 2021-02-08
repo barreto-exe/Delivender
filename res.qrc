@@ -5,5 +5,6 @@
         <file>imagenes/seleccionFondo.png</file>
         <file>imagenes/transpFondo.png</file>
         <file>imagenes/principalFondo.png</file>
+        <file>imagenes/addProductoFondo.png</file>
     </qresource>
 </RCC>
