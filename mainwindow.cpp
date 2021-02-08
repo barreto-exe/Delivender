@@ -6,6 +6,7 @@
 #include "persona.h"
 #include "global.h"
 #include <QScreen>
+#include <pthread.h>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -37,6 +38,26 @@ MainWindow::~MainWindow()
     delete Global::db.getConnection();
 }
 
+// Estructura con argumentos de la función para iniciar sesión
+struct argInicioSesion
+{
+    const char *correo;
+    const char *password;
+    int resul;
+};
+
+// Función del hilo para iniciar sesión
+void *hiloIniciar(void *args)
+{
+    argInicioSesion *argumentos = (argInicioSesion *) args;
+    const char *correo = argumentos->correo;
+    const char *password = argumentos->password;
+
+    argumentos->resul = Global::db.iniciarSesion(correo, password);
+
+    pthread_exit(NULL);
+}
+
 void MainWindow::on_btnInicioSesion_clicked() //cambia a pantalla del menu principal e inicia sesión
 {
     // Convierte a string los input y borra los espacios
@@ -54,7 +75,20 @@ void MainWindow::on_btnInicioSesion_clicked() //cambia a pantalla del menu princ
     }
 
     // Intenta iniciar sesión
-    int inicioSesion = Global::db.iniciarSesion(correo.c_str(), password.c_str());
+
+    // Prepara los argumentos
+    argInicioSesion *args = new argInicioSesion;
+    args->correo = correo.c_str();
+    args->password = password.c_str();
+
+    // Crea un nuevo hilo para el manejo del inicio de sesión
+    pthread_t hilo;
+    pthread_create(&hilo, NULL, hiloIniciar, args);
+    pthread_join(hilo, NULL);
+
+    // Resultado del inicio de sesión
+    int inicioSesion = args->resul;
+    delete args;
 
     if (inicioSesion == 1) // Si lo logró
     {
