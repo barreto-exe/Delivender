@@ -935,6 +935,32 @@ int MySQLConnection::modificarEstatusEntrega(const int id_entrega, const char *e
     return 0;
 }
 
+// Actualiza e la BDD la fecha en la que fue realizada una entrega
+int MySQLConnection::actualizarFechaEntrega(const int id_entrega, QDate fecha)
+{
+    sql::PreparedStatement *pstmt;
+
+    try
+    {
+        pstmt = con->prepareStatement("UPDATE entregas SET fecha_de_entrega = ? WHERE id_entrega = ?");
+        pstmt->setString(1, fecha.toString("dd/MM/yyyy").toStdString());
+        pstmt->setInt(2, id_entrega);
+        pstmt->execute();
+
+        delete pstmt;
+        return 1;
+    }
+    catch (sql::SQLException &e)
+    {
+        // Error de conexión
+        qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+        qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+    }
+
+    delete pstmt;
+    return 0;
+}
+
 // Actualizar cantidad de un producto dentro del almacen
 int MySQLConnection::actualizarCantidadProducto(const int id_producto, const int cantidad)
 {
@@ -1628,6 +1654,7 @@ int MySQLConnection::realizarEntrega(Solicitud solicitud)
             if (verificarEntrega(res->getString("placa_vehiculo").c_str()))
                 if (modificarEstatusEntrega(res->getInt("id_entrega"), "entregado"))
                 {
+                    actualizarFechaEntrega(res->getInt("id_entrega"), QDate::currentDate());
                     delete res;
                     delete pstmt;
                     return 1;

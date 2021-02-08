@@ -58,6 +58,7 @@ class MySQLConnection
         // Actualización de datos
         int modificarEstatusSolicitud(const int id_solicitud, const char *estatus);
         int modificarEstatusEntrega(const int id_entrega, const char *estatus);
+        int actualizarFechaEntrega(const int id_entrega, QDate fecha);
         int actualizarCantidadProducto(const int id_producto, const int cantidad);
         int actualizarAlmacen(vector <producto_cantidad> pedido, const int signo);
         // Verificación de puntero global
