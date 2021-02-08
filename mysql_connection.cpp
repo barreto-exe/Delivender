@@ -1572,15 +1572,23 @@ vector <Solicitud> MySQLConnection::listarEntregas()
     try
     {
         Transportista *transportista = reinterpret_cast<Transportista*>(Global::usuario);
+        int flag = 0;
 
         for (std::size_t i = 0; i < transportista->getVehiculos().size(); i++)
         {
             pstmt = con->prepareStatement("SELECT * FROM entregas WHERE placa_transportista = ?");
             pstmt->setString(1, transportista->getVehiculos()[i].getPLaca().c_str());
             res = pstmt->executeQuery();
+            flag = 1;
 
             while (res->next())
                 lista.push_back(*instanciarSolicitud(res->getInt("id_solicitud")));
+        }
+
+        if (flag)
+        {
+            delete res;
+            delete pstmt;
         }
     }
     catch (sql::SQLException &e)
@@ -1590,8 +1598,6 @@ vector <Solicitud> MySQLConnection::listarEntregas()
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
     }
 
-    delete res;
-    delete pstmt;
     return lista;
 }
 
