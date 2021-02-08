@@ -246,7 +246,7 @@ int MySQLConnection::registrarPedido(const char *correo_proveedor, vector<produc
         }
         delete pstmt;
     }
-    return actualizarAlmacen(pedido);
+    return actualizarAlmacen(pedido, -1);
 }
 
 // Registro de un nuevo producto
@@ -310,7 +310,7 @@ int MySQLConnection::registrarTipoDePago(const char *correo_proveedor, const cha
 }
 
 // Registro de nueva entrega
-int MySQLConnection::registrarEntrega(const int id_solicitud, Vehiculo vehiculo)
+int MySQLConnection::registrarEntrega(const int id_solicitud, const char *placa_vehiculo)
 {
     //Verificar si la solicitud fue entregada o no
 
@@ -321,14 +321,14 @@ int MySQLConnection::registrarEntrega(const int id_solicitud, Vehiculo vehiculo)
 
         char fecha[2] = "-";
         char estatus[13] = "por entregar";
-        pstmt->setString(1, vehiculo.getPLaca().c_str());
+        pstmt->setString(1, placa_vehiculo);
         pstmt->setInt(2, id_solicitud);
         pstmt->setString(3, fecha);
         pstmt->setString(4, estatus);
         pstmt->execute();
         qDebug() << "Se registró la entrega";
         delete pstmt;
-        return 1;
+        return modificarEstatusSolicitud(id_solicitud, "aprobada");
     }
     catch (sql::SQLException &e)
     {
@@ -962,7 +962,7 @@ int MySQLConnection::actualizarCantidadProducto(const int id_producto, const int
 }
 
 // Actualiza el almacén dado un pedido
-int MySQLConnection::actualizarAlmacen(vector<producto_cantidad> pedido)
+int MySQLConnection::actualizarAlmacen(vector<producto_cantidad> pedido, const int signo)
 {
     sql::PreparedStatement *pstmt;
     sql::ResultSet *res;
@@ -979,7 +979,7 @@ int MySQLConnection::actualizarAlmacen(vector<producto_cantidad> pedido)
 
             if (res->next())
             {
-                int cantidad = res->getUInt("cantidad") - pedido[i].cantidad;
+                int cantidad = res->getUInt("cantidad") + (pedido[i].cantidad * signo);
                 if (cantidad >= 0)
                 {
                     cantidades.push_back(cantidad);
@@ -1441,25 +1441,24 @@ int MySQLConnection::agregarTipoDePago(const char *descripcion)
 }
 
 // Aprobar una solicitud de compra
-int MySQLConnection::aprobarSolicitud(const int id_solicitud)
+int MySQLConnection::aprobarSolicitud(Solicitud solicitud, const char *placa_vehiculo)
 {
     if (!vistaProveedor())
         return 0;
 
-    // Verificar primero si existe la cantidad de productos suficientes
-
-    // Registrar entrega
-
-    return modificarEstatusSolicitud(id_solicitud, "aprobada");
+    return registrarEntrega(solicitud.getId(), placa_vehiculo);;
 }
 
 // Rechazar una solicitud de compra
-int MySQLConnection::rechazarSolicitud(const int id_solicitud)
+int MySQLConnection::rechazarSolicitud(Solicitud solicitud)
 {
     if (!vistaProveedor())
         return 0;
 
-    return Global::db.modificarEstatusSolicitud(id_solicitud, "rechazada");
+    if (!actualizarAlmacen(solicitud.getPedido(), 1))
+        return 0;
+
+    return Global::db.modificarEstatusSolicitud(solicitud.getId(), "rechazada");
 }
 
 // Lista a todos los transportistas registrados en la BDD con su respectivo vehículo
