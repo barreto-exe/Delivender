@@ -32,19 +32,28 @@ solicitudWidget::~solicitudWidget()
 
 void solicitudWidget::on_btnAceptar_clicked()
 {
+    QMessageBox msgBox;
     if(ui->comboBoxTransp->currentIndex()!=0){
-        //Global::db.aprobarSolicitud(solicitud.getId());
-        ui->btnAceptar->setEnabled(false);
-        ui->btnRechazar->setEnabled(false);
+        if(Global::db.aprobarSolicitud(solicitud.getId())!=0){
+            ui->btnAceptar->setEnabled(false);
+            ui->btnRechazar->setEnabled(false);
+            msgBox.setText("Solicitud aprobada con éxito");
+        } else {
+            msgBox.setText("No se pudo aprobar la solicitud, intentelo nuevamente");
+        }
     } else {
-        QMessageBox msgBox;
-        msgBox.setText("Seleccione un transportista");
-        msgBox.exec();
+        msgBox.setText("Seleccione un transportista"); 
     }
+    msgBox.exec();
 }
 
 void solicitudWidget::on_btnRechazar_clicked()
 {
-    //Global::db.rechazarSolicitud(solicitud.getId());
-    this->deleteLater();
+    QMessageBox msgBox;
+    if(Global::db.rechazarSolicitud(solicitud.getId()!=0)){
+        msgBox.setText("Solicitud rechazada con éxito");
+        this->deleteLater();
+    } else {
+        msgBox.setText("No se pudo rechazar la solicitud, intentelo nuevamente");
+    }
 }

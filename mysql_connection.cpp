@@ -1425,7 +1425,7 @@ vector <vehiculo_transportista> MySQLConnection::listarTransportistas()
 
         while (res->next())
         {
-            Vehiculo vehiculo = Vehiculo(res->getString("modelo").c_str(), res->getString("placa").c_str(), res->getString("tipo").c_str());
+            Vehiculo vehiculo = Vehiculo(res->getString("modelo").c_str(), res->getString("placa").c_str(), res->getString("tipo_de_vehiculo").c_str());
             lista.push_back(structVehiculoTransportista(vehiculo, *instanciarTransportista(res->getString("correo_transportista").c_str())));
         }
 

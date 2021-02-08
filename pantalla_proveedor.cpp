@@ -4,6 +4,7 @@
 #include <QSize>
 #include <solicitudwidget.h>
 #include <QMessageBox>
+#include <QInputDialog>
 #include "global.h"
 #include "persona.h"
 
@@ -54,6 +55,24 @@ void pantalla_proveedor::cargarInfoProveedor(){
     }
 }
 void pantalla_proveedor::mostrarInfoProd(){
+    QPushButton *boton = qobject_cast<QPushButton*>(sender()); //obtiene la info del boton del producto presionado
+    Proveedor *proveedor= reinterpret_cast<Proveedor*>(Global::usuario);
+    QMessageBox msgBox;
+    for(auto p: proveedor->getAlmacen()){
+        if (boton->text() == QString::fromStdString(p.producto.getNombre())){
+            //si son iguales muestra la ventana del input
+            int cantidad = 0;
+            cantidad = QInputDialog::getInt(this,"Modificar","Actualizar cantidad:");
+            if (cantidad!=0){ //si la cantidad a comprar es distinta de 0
+                //Global::db.
+
+                msgBox.setText("Cantidad del producto actualizada!");
+            } else {
+                msgBox.setText("Ingrese un valor valido");
+            }
+            msgBox.exec();
+        }
+    }
 
 }
 
