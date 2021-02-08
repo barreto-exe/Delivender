@@ -26,7 +26,7 @@
     <string notr="true">background: white;</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="seleccion_usuario">
     <widget class="QLabel" name="cliente_foto">
@@ -363,6 +363,9 @@ background-color: rgb(255, 255, 255);</string>
           <height>35</height>
          </size>
         </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Normal</enum>
+        </property>
         <property name="placeholderText">
          <string>Correo</string>
         </property>
@@ -376,6 +379,9 @@ background-color: rgb(255, 255, 255);</string>
           <height>35</height>
          </size>
         </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
         <property name="placeholderText">
          <string>Contraseña</string>
         </property>
@@ -388,6 +394,9 @@ background-color: rgb(255, 255, 255);</string>
           <width>16777215</width>
           <height>35</height>
          </size>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
         </property>
         <property name="placeholderText">
          <string>Repetir Contraseña</string>
@@ -585,6 +594,9 @@ background-color: rgb(255, 255, 255);</string>
           <height>35</height>
          </size>
         </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
         <property name="placeholderText">
          <string>Contraseña</string>
         </property>
@@ -597,6 +609,9 @@ background-color: rgb(255, 255, 255);</string>
           <width>16777215</width>
           <height>35</height>
          </size>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
         </property>
         <property name="placeholderText">
          <string>Repetir Contraseña</string>
