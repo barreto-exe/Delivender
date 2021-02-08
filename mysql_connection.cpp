@@ -246,7 +246,7 @@ int MySQLConnection::registrarPedido(const char *correo_proveedor, vector<produc
         }
         delete pstmt;
     }
-    return 1;
+    return actualizarAlmacen(pedido);
 }
 
 // Registro de un nuevo producto
@@ -935,17 +935,16 @@ int MySQLConnection::modificarEstatusEntrega(const int id_entrega, const char *e
     return 0;
 }
 
-// Actualizar cantidad de productos dentro del almacen
-int MySQLConnection::actualizarAlmacen(const char *correo_proveedor, const int id_producto, const int cantidad)
+// Actualizar cantidad de un producto dentro del almacen
+int MySQLConnection::actualizarCantidadProducto(const int id_producto, const int cantidad)
 {
     sql::PreparedStatement *pstmt;
 
     try
     {
-        pstmt = con->prepareStatement("UPDATE productos SET cantidad = ? WHERE correo_proveedor = ? AND id_producto = ?");
+        pstmt = con->prepareStatement("UPDATE productos SET cantidad = ? WHERE id_producto = ?");
         pstmt->setInt(1, cantidad);
-        pstmt->setString(2, correo_proveedor);
-        pstmt->setInt(3, id_producto);
+        pstmt->setInt(2, id_producto);
         pstmt->execute();
 
         delete pstmt;
@@ -960,6 +959,58 @@ int MySQLConnection::actualizarAlmacen(const char *correo_proveedor, const int i
 
     delete pstmt;
     return 0;
+}
+
+// Actualiza el almacén dado un pedido
+int MySQLConnection::actualizarAlmacen(vector<producto_cantidad> pedido)
+{
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *res;
+    vector<int> cantidades = vector <int>();
+
+    for (std::size_t i = 0; i < pedido.size(); i++)
+    {
+        try
+        {
+
+            pstmt = con->prepareStatement("SELECT * FROM productos WHERE id_producto = ?");
+            pstmt->setInt(1, pedido[i].producto.getId());
+            res = pstmt->executeQuery();
+
+            if (res->next())
+            {
+                int cantidad = res->getUInt("cantidad") - pedido[i].cantidad;
+                if (cantidad >= 0)
+                {
+                    cantidades.push_back(cantidad);
+                }
+                else
+                {
+                    delete res;
+                    delete pstmt;
+                    return 0;
+                }
+            }
+            else
+            {
+                delete res;
+                delete pstmt;
+                return 0;
+            }
+
+        }
+        catch (sql::SQLException &e)
+        {
+            // Error de conexión
+            qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
+            qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
+        }
+
+        delete res;
+        delete pstmt;
+    }
+
+    return 1;
 }
 
 /*********************************************************** VISTAS GLOBALES ************************************************************/
@@ -1274,6 +1325,7 @@ int MySQLConnection::registrarSolicitud(Solicitud solicitud)
         pstmt->setString(7, solicitud.getFechaEntrega().toString("dd/MM/yyyy").toStdString().c_str());
         pstmt->setString(8, "en espera");
         pstmt->execute();
+
         qDebug() << "La solicitud fue registrada con éxito uwu";
         delete pstmt;
 
