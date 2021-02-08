@@ -67,6 +67,7 @@ class Solicitud
         Solicitud &eliminarProducto(Producto producto);
         Solicitud &calcularMonto();
         QString toString();
+        Solicitud &clear();
 };
 
 #endif // SOLICITUD_H

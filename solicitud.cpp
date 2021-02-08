@@ -213,6 +213,20 @@ int Solicitud::verificarProducto(Producto producto)
     return -1;
 }
 
+Solicitud &Solicitud::clear()
+{
+    proveedor = Proveedor();
+    cliente = Persona();
+    tipoPago = "";
+    monto = 0;
+    fechaPedido = QDate();
+    fechaEntrega = QDate();
+    direccion = "";
+    pedido = vector <producto_cantidad>();
+    id = 0;
+    return *this;
+}
+
 QString Solicitud::toString()
 {
     string resumen = "Solicitud # 00" + std::to_string(id) + " -- " + proveedor.getNombre() + " -- $" + std::to_string(monto) + " -- ";
