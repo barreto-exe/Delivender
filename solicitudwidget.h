@@ -13,8 +13,11 @@ class solicitudWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit solicitudWidget(QWidget *parent = nullptr, Solicitud *s = nullptr);
+    explicit solicitudWidget(QWidget *parent = nullptr, Solicitud *s = nullptr, bool realizada = false);
     ~solicitudWidget();
+
+signals:
+    void aprobada(solicitudWidget *widget);
 
 private slots:
     void on_btnAceptar_clicked();

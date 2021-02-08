@@ -2,6 +2,7 @@
 #define PANTALLA_PROVEEDOR_H
 
 #include <QWidget>
+#include <solicitudwidget.h>
 
 namespace Ui {
 class pantalla_proveedor;
@@ -16,6 +17,7 @@ public:
     ~pantalla_proveedor();
 public slots:
     void cargarInfoProveedor();
+    void cambiarLayout(solicitudWidget *widget);
 
 private slots:
     void on_btnAddProducto_clicked();

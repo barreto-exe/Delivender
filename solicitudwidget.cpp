@@ -3,16 +3,25 @@
 #include "global.h"
 #include "transportista.h"
 #include <QMessageBox>
+#include <QDebug>
 
-solicitudWidget::solicitudWidget(QWidget *parent, Solicitud *s) :
+solicitudWidget::solicitudWidget(QWidget *parent, Solicitud *s, bool realizada) :
     QWidget(parent),
     ui(new Ui::solicitudWidget)
 {
     ui->setupUi(this);
     this->solicitud = *s;
+    if(realizada){
+        ui->btnAceptar->setEnabled(false);
+        ui->btnAceptar->hide();
+        ui->btnRechazar->setEnabled(false);
+        ui->btnRechazar->hide();
+        ui->comboBoxTransp->hide();
+    }
     //Mostrando toda la info de la solicitud en el widget
     ui->nombreCliente->setText("Cliente: "+ QString::fromStdString(solicitud.getCliente().getNombre()) +
                                " " + QString::fromStdString(solicitud.getCliente().getApellido()));
+    qDebug() << "label: "+ui->nombreCliente->text();
     ui->direccion->setText("Direccion: "+QString::fromStdString(solicitud.getDireccion()));
     ui->estatus->setText("Estatus: "+QString::fromStdString(solicitud.getEstatus()));
     ui->monto->setText("Monto: "+QString::number(solicitud.getMonto()));
@@ -36,12 +45,14 @@ void solicitudWidget::on_btnAceptar_clicked()
     QMessageBox msgBox;
     if(ui->comboBoxTransp->currentIndex()!=0){
         if(Global::db.aprobarSolicitud(solicitud.getId())!=0){
-
+            emit aprobada(this);
             ui->btnAceptar->setEnabled(false);
             ui->btnAceptar->hide();
             ui->btnRechazar->setEnabled(false);
             ui->btnRechazar->hide();
+            ui->comboBoxTransp->hide();
             ui->estatus->setText("Estatus: aprobada");
+
             msgBox.setText("Solicitud aprobada con éxito");
         } else {
             msgBox.setText("No se pudo aprobar la solicitud, intentelo nuevamente");

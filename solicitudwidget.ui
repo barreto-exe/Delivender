@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>470</width>
+    <width>425</width>
     <height>90</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
   <widget class="QPushButton" name="btnRechazar">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>240</x>
      <y>60</y>
      <width>83</width>
      <height>25</height>
@@ -36,7 +36,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QPushButton" name="btnAceptar">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>330</x>
      <y>60</y>
      <width>83</width>
      <height>25</height>
@@ -53,15 +53,16 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="nombreCliente">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>6</x>
      <y>0</y>
-     <width>421</width>
+     <width>231</width>
      <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">font: 75 12pt &quot;Quicksand Medium&quot;;
-color: rgb(255, 255, 255);</string>
+color: rgb(255, 255, 255);
+background-color: rgb(215, 180, 254);</string>
    </property>
    <property name="text">
     <string>Nombre del cliente</string>
@@ -70,14 +71,15 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="direccion">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>6</x>
      <y>22</y>
-     <width>261</width>
+     <width>221</width>
      <height>16</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(215, 180, 254);</string>
    </property>
    <property name="text">
     <string>Direccion</string>
@@ -92,7 +94,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QComboBox" name="comboBoxTransp">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>0</x>
      <y>60</y>
      <width>231</width>
      <height>25</height>
@@ -111,7 +113,7 @@ background-color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="estatus">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>240</x>
      <y>10</y>
      <width>171</width>
      <height>31</height>
@@ -121,6 +123,7 @@ background-color: rgb(255, 255, 255);</string>
     <string notr="true">font: 75 12pt &quot;Quicksand Medium&quot;;
 border: 2px solid white;
 border-radius: 5px;
+background-color: rgb(215, 180, 254);
 color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
@@ -136,14 +139,15 @@ color: rgb(255, 255, 255);</string>
   <widget class="QLabel" name="monto">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>6</x>
      <y>40</y>
      <width>91</width>
      <height>17</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(215, 180, 254);</string>
    </property>
    <property name="text">
     <string>Monto</string>
@@ -154,8 +158,8 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>470</width>
-     <height>100</height>
+     <width>425</width>
+     <height>90</height>
     </rect>
    </property>
    <property name="styleSheet">

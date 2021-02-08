@@ -12,11 +12,13 @@ entregaWidget::entregaWidget(QWidget *parent, Solicitud *s, bool realizada) :
     this->solicitud = *s;
     if(realizada){
         ui->btnAceptar->setEnabled(false);
+        ui->btnAceptar->hide();
     }
-    ui->nombreCliente->setText(QString::fromStdString(solicitud.getCliente().getNombre()));
-    ui->direccion->setText(QString::fromStdString(solicitud.getDireccion()));
-    ui->estatus->setText(QString::fromStdString(solicitud.getEstatus()));
-    ui->monto->setText(QString::number(solicitud.getMonto()));
+    ui->nombreCliente->setText("Cliente: "+ QString::fromStdString(solicitud.getCliente().getNombre()) +
+                               " " + QString::fromStdString(solicitud.getCliente().getApellido()));
+    ui->direccion->setText("Direccion: "+QString::fromStdString(solicitud.getDireccion()));
+    ui->estatus->setText("Estatus: "+QString::fromStdString(solicitud.getEstatus()));
+    ui->monto->setText("Monto: "+QString::number(solicitud.getMonto()));
 }
 
 entregaWidget::~entregaWidget()

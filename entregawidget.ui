@@ -7,39 +7,42 @@
     <x>0</x>
     <y>0</y>
     <width>470</width>
-    <height>120</height>
+    <height>90</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(215, 180, 254);</string>
+   <string notr="true"/>
   </property>
   <widget class="QLabel" name="monto">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>50</y>
+     <x>10</x>
+     <y>60</y>
      <width>91</width>
      <height>17</height>
     </rect>
    </property>
    <property name="text">
-    <string>$$$</string>
+    <string>Monto</string>
    </property>
   </widget>
   <widget class="QLabel" name="estatus">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>300</x>
      <y>10</y>
-     <width>121</width>
-     <height>21</height>
+     <width>141</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 75 12pt &quot;Quicksand Medium&quot;;</string>
+    <string notr="true">font: 75 12pt &quot;Quicksand Medium&quot;;
+border: 2px solid white;
+border-radius: 5px;
+color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Estado</string>
@@ -55,9 +58,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>50</y>
+     <y>40</y>
      <width>251</width>
-     <height>31</height>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
@@ -70,24 +73,11 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>50</y>
-     <width>64</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Monto:</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="btnAceptar">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>80</y>
+     <x>330</x>
+     <y>50</y>
      <width>83</width>
      <height>25</height>
     </rect>
@@ -97,7 +87,7 @@
 color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>Aceptar</string>
+    <string>Entregar</string>
    </property>
   </widget>
   <widget class="QLabel" name="nombreCliente">
@@ -116,6 +106,28 @@ color: rgb(255, 255, 255);</string>
     <string>Nombre del cliente</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>471</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(215, 180, 254);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>label</zorder>
+  <zorder>monto</zorder>
+  <zorder>estatus</zorder>
+  <zorder>direccion</zorder>
+  <zorder>btnAceptar</zorder>
+  <zorder>nombreCliente</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -45,7 +45,13 @@ void pantalla_proveedor::cargarInfoProveedor(){
     /*Muestra las solicitudes del proveeedor*/
     vector <Solicitud> lista = Global::db.listarSolicitudes();
     for (auto s : lista){
-        ui->solicLayout->addWidget(new solicitudWidget(this, &s));
+        if(!strcmp(s.getEstatus().c_str(),"en espera")){
+            solicitudWidget *widget = new solicitudWidget(this, &s,false);
+            connect(widget, SIGNAL(aprobada(solicitudWidget*)), this, SLOT(cambiarLayout(solicitudWidget*)));
+            ui->solicLayout->addWidget(widget);
+        } else {
+            ui->aprobadasLayout->addWidget(new solicitudWidget(this, &s,true));
+        }
     }
 
     /*Muestra los metodos de pago*/
@@ -53,6 +59,10 @@ void pantalla_proveedor::cargarInfoProveedor(){
     for (auto p : metPagoLista){
         ui->listaPago->addItem(QString::fromStdString(p));
     }
+}
+void pantalla_proveedor::cambiarLayout(solicitudWidget *widget){
+    ui->aprobadasLayout->addWidget(widget);
+    ui->solicLayout->removeWidget(widget);
 }
 void pantalla_proveedor::mostrarInfoProd(){
     QPushButton *boton = qobject_cast<QPushButton*>(sender()); //obtiene la info del boton del producto presionado
@@ -64,7 +74,7 @@ void pantalla_proveedor::mostrarInfoProd(){
             int cantidad = 0;
             cantidad = QInputDialog::getInt(this,"Modificar","Actualizar cantidad:");
             if (cantidad!=0){ //si la cantidad a comprar es distinta de 0
-                //Global::db.
+
 
                 msgBox.setText("Cantidad del producto actualizada!");
             } else {

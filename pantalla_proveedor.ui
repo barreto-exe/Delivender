@@ -48,7 +48,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="almacen">
       <attribute name="title">
@@ -224,13 +224,58 @@
       <widget class="QWidget" name="verticalLayoutWidget">
        <property name="geometry">
         <rect>
-         <x>60</x>
-         <y>30</y>
-         <width>771</width>
-         <height>541</height>
+         <x>0</x>
+         <y>50</y>
+         <width>451</width>
+         <height>561</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="solicLayout"/>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>50</y>
+         <width>441</width>
+         <height>561</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="aprobadasLayout"/>
+      </widget>
+      <widget class="QLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>251</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 18pt &quot;Quicksand Medium&quot;;
+color: rgb(255, 114, 98);</string>
+       </property>
+       <property name="text">
+        <string>Solicitudes en espera</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_6">
+       <property name="geometry">
+        <rect>
+         <x>560</x>
+         <y>10</y>
+         <width>251</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 18pt &quot;Quicksand Medium&quot;;
+color: rgb(255, 114, 98);</string>
+       </property>
+       <property name="text">
+        <string>Solicitudes aprobadas</string>
+       </property>
       </widget>
      </widget>
     </widget>
@@ -346,7 +391,7 @@ color: #ffffff;
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>:/resources/imagenes/addProductoFondo.png</pixmap>
+      <pixmap resource="res.qrc">:/resources/imagenes/addProductoFondo.png</pixmap>
      </property>
     </widget>
     <zorder>label_4</zorder>
@@ -372,6 +417,8 @@ color: #ffffff;
   <tabstop>btnRegistrarProd</tabstop>
   <tabstop>btnAtrasAddProd</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>
