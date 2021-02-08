@@ -26,19 +26,6 @@ MainWindow::MainWindow(QWidget *parent)
     //Signal para volver al inicio de sesion desde el registro
     connect(&registro, SIGNAL(inicioSignal()),this,SLOT(IrAInicio()));
     connect(this, SIGNAL(usuarioInicio()),&menuProveedor,SLOT(cargarInfoProveedor()));
-    /*char correo[30] = "karenale@gmail.com", password[16] = "test";
-    char nombre[20] = "karen", apellido[20] = "moran", cedula[10] = "28161658", telefono[15] = "04121924525", direccion[20] = "Curagua";
-    time_t *fecha = new time_t();
-
-    Persona *transportista = new Persona(nombre, apellido, cedula, telefono, direccion, fecha);
-
-    char placa[10] = "karen19", modelo[15] = "Corolla", tipo[10] = "carro";
-
-    Vehiculo *vehiculo = new Vehiculo(modelo,placa,tipo);
-
-    Global::db.registrarTransportista(*transportista, *vehiculo, correo, password);*/
-
-    //vector <Proveedor> lista = Global::db.listarProveedores();
 
 }
 
