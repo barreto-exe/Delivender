@@ -1220,7 +1220,7 @@ int MySQLConnection::registrarTransportista(Persona transportista, Vehiculo vehi
     char tipo[15] = "transportista";
     registrarUsuario(correo, password, tipo);
     registrarPersona(transportista);
-    registrarVehiculo(vehiculo, transportista.getCedula().c_str());
+    registrarVehiculo(vehiculo, correo);
     return 1;
 }
 
