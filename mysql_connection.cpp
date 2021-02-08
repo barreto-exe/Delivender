@@ -729,7 +729,7 @@ vector <Vehiculo> MySQLConnection::instanciarVehiculos(const char *correo_transp
 
         while (res->next())
         {
-            Vehiculo vehiculo = Vehiculo(res->getString("modelo").c_str(), res->getString("placa").c_str(), res->getString("tipo").c_str());
+            Vehiculo vehiculo = Vehiculo(res->getString("modelo").c_str(), res->getString("placa").c_str(), res->getString("tipo_de_vehiculo").c_str());
             lista.push_back(vehiculo);
         }
 
@@ -1438,6 +1438,7 @@ int MySQLConnection::agregarProductoAlmacen(Producto producto, int cantidad)
         return 0;
 
     const char *correo = Global::usuario->getCorreo().c_str();
+    qDebug() << correo;
     producto_cantidad pxq = structProductoCantidad(producto,cantidad);
 
 
@@ -1571,15 +1572,23 @@ vector <Solicitud> MySQLConnection::listarEntregas()
     try
     {
         Transportista *transportista = reinterpret_cast<Transportista*>(Global::usuario);
+        int flag = 0;
 
         for (std::size_t i = 0; i < transportista->getVehiculos().size(); i++)
         {
             pstmt = con->prepareStatement("SELECT * FROM entregas WHERE placa_transportista = ?");
             pstmt->setString(1, transportista->getVehiculos()[i].getPLaca().c_str());
             res = pstmt->executeQuery();
+            flag = 1;
 
             while (res->next())
                 lista.push_back(*instanciarSolicitud(res->getInt("id_solicitud")));
+        }
+
+        if (flag)
+        {
+            delete res;
+            delete pstmt;
         }
     }
     catch (sql::SQLException &e)
@@ -1589,8 +1598,6 @@ vector <Solicitud> MySQLConnection::listarEntregas()
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
     }
 
-    delete res;
-    delete pstmt;
     return lista;
 }
 
@@ -1608,6 +1615,7 @@ vector <Solicitud> MySQLConnection::listarEntregasPendientes()
     try
     {
         Transportista *transportista = reinterpret_cast<Transportista*>(Global::usuario);
+        int flag = 0;
 
         for (std::size_t i = 0; i < transportista->getVehiculos().size(); i++)
         {
@@ -1616,10 +1624,18 @@ vector <Solicitud> MySQLConnection::listarEntregasPendientes()
             pstmt->setString(2, "pendiente");
 
             res = pstmt->executeQuery();
+            flag = 1;
 
             while (res->next())
                 lista.push_back(*instanciarSolicitud(res->getInt("id_solicitud")));
         }
+
+        if (flag)
+        {
+            delete res;
+            delete pstmt;
+        }
+
     }
     catch (sql::SQLException &e)
     {
@@ -1628,8 +1644,6 @@ vector <Solicitud> MySQLConnection::listarEntregasPendientes()
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
     }
 
-    delete res;
-    delete pstmt;
     return lista;
 }
 
