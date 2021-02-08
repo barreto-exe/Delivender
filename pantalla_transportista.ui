@@ -35,7 +35,7 @@
     <widget class="QWidget" name="verticalLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>120</x>
        <y>80</y>
        <width>661</width>
        <height>521</height>
@@ -46,18 +46,18 @@
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>671</width>
+       <x>120</x>
+       <y>20</y>
+       <width>661</width>
        <height>31</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 114, 98);
-font: 75 18pt &quot;Quicksand Medium&quot;;</string>
+font: 75 20pt &quot;Quicksand Medium&quot;;</string>
      </property>
      <property name="text">
-      <string>Estas son las entregas pendientes para hoy...</string>
+      <string>¡Hola! Estas son las entregas pendientes para hoy...</string>
      </property>
     </widget>
    </widget>
@@ -68,7 +68,7 @@ font: 75 18pt &quot;Quicksand Medium&quot;;</string>
     <widget class="QWidget" name="verticalLayoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>120</x>
        <y>80</y>
        <width>661</width>
        <height>521</height>
@@ -79,15 +79,15 @@ font: 75 18pt &quot;Quicksand Medium&quot;;</string>
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>651</width>
+       <x>250</x>
+       <y>20</y>
+       <width>411</width>
        <height>31</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 114, 98);
-font: 75 18pt &quot;Quicksand Medium&quot;;</string>
+font: 75 20pt &quot;Quicksand Medium&quot;;</string>
      </property>
      <property name="text">
       <string>Historial de entregas realizadas</string>

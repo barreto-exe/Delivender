@@ -27,7 +27,8 @@ solicitudWidget::solicitudWidget(QWidget *parent, Solicitud *s, bool realizada) 
     ui->monto->setText("Monto: "+QString::number(solicitud.getMonto()));
     vector<vehiculo_transportista> transportistas = Global::db.listarTransportistas();
     for (auto t : transportistas){
-        ui->comboBoxTransp->addItem(QString::fromStdString(t.transportista.getNombre()) +
+        ui->comboBoxTransp->addItem(QString::fromStdString(t.vehiculo.getPLaca())+
+                                    " -" + QString::fromStdString(t.transportista.getNombre()) +
                                     " " + QString::fromStdString(t.transportista.getApellido())
                                     + " - " + QString::fromStdString(t.vehiculo.getTipo()));
         /*TODO: ver como verificar los transportistas despues porque aja*/
@@ -44,7 +45,9 @@ void solicitudWidget::on_btnAceptar_clicked()
 {
     QMessageBox msgBox;
     if(ui->comboBoxTransp->currentIndex()!=0){
-        if(Global::db.aprobarSolicitud(solicitud.getId())!=0){
+        string transp = ui->comboBoxTransp->currentText().toStdString().c_str();
+        string placa = transp.substr(0,transp.find(" "));
+        if(Global::db.aprobarSolicitud(solicitud,placa.c_str())){
             emit aprobada(this);
             ui->btnAceptar->setEnabled(false);
             ui->btnAceptar->hide();
@@ -69,7 +72,7 @@ void solicitudWidget::on_btnRechazar_clicked()
     QMessageBox::StandardButton confirmar;
     confirmar = QMessageBox::question(this,"Confirmar","¿Esta seguro que desea rechazar esta solicitud?");
     if (confirmar == QMessageBox::Yes){
-        if(Global::db.rechazarSolicitud(solicitud.getId()!=0)){
+        if(Global::db.rechazarSolicitud(solicitud)){
             msgBox.setText("Solicitud rechazada con éxito");
             this->deleteLater();
         } else {

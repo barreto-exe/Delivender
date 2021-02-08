@@ -15,6 +15,7 @@ pantalla_proveedor::pantalla_proveedor(QWidget *parent) :
     ui(new Ui::pantalla_proveedor)
 {
     ui->setupUi(this);
+    ui->tabWidget->setCurrentIndex(0);
     ui->stackedWidget->setCurrentIndex(0);
 
 }
@@ -74,8 +75,8 @@ void pantalla_proveedor::mostrarInfoProd(){
             int cantidad = 0;
             cantidad = QInputDialog::getInt(this,"Modificar","Actualizar cantidad:");
             if (cantidad!=0){ //si la cantidad a comprar es distinta de 0
-
-
+                p.cantidad = cantidad;
+                Global::db.actualizarInfoProducto(p);
                 msgBox.setText("Cantidad del producto actualizada!");
             } else {
                 msgBox.setText("Ingrese un valor valido");
