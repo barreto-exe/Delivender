@@ -90,7 +90,7 @@ void pantalla_principal::popupCantidad(){
             if (boton->text() == QString::fromStdString(p.producto.getNombre())){
                 //si son iguales muestra la ventana del input
                 int cant = 0;
-                cant = QInputDialog::getInt(this,"Cantidad de productos a ordenar", "Nombre del Producto: " + boton->text() + "\nPrecio: " + QString::number(p.producto.getPrecio()) + "$\nDescripcion: " + QString::fromStdString(p.producto.getDescripcion()));
+                cant = QInputDialog::getInt(this,"Cantidad de productos a ordenar", "Nombre del Producto: " + boton->text() + "\nPrecio: " + QString::number(p.producto.getPrecio()) + "$\nDescripcion: " + QString::fromStdString(p.producto.getDescripcion()) + "\nCantidad disponible: " + QString::number(p.cantidad), 0, 0, p.cantidad);
                 if (cant!=0){ //si la cantidad a comprar es distinta de 0
                     p.cantidad = cant;
                     Global::pedido.push_back(p); //el producto se añade al pedido
@@ -159,15 +159,15 @@ void pantalla_principal::on_btnProcesarSolic_clicked()
     confirmar = QMessageBox::question(this,"Confirmar","¿Esta seguro que desea continuar? No podrá editar su solicitud luego");
     if (confirmar == QMessageBox::Yes){
         if (!ui->direccion->text().isEmpty() && ui->comboBoxPago->currentIndex()!=0){
-            QTableWidgetItem *total = ui->reciboTable->item(ui->reciboTable->rowCount()-1,ui->reciboTable->columnCount()-1);
-            float monto = total->text().toFloat();
+            //QTableWidgetItem *total = ui->reciboTable->item(ui->reciboTable->rowCount()-1,ui->reciboTable->columnCount()-1);
+            //float monto = total->text().toFloat();
             string direccion = ui->direccion->text().toStdString();
             string tipoPago = ui->comboBoxPago->currentText().toStdString();
             QDate fechaPedido = QDate::currentDate();
             QDate fechaEntrega = ui->fechaEntrega->date();
             string estatus = "En espera";
 
-            Solicitud *solicitud = new Solicitud(Global::proveedorSeleccionado,tipoPago,monto,fechaPedido,fechaEntrega,direccion,Global::pedido);
+            Solicitud *solicitud = new Solicitud(Global::proveedorSeleccionado,tipoPago,fechaPedido,fechaEntrega,direccion,Global::pedido);
             if(Global::db.registrarSolicitud(*solicitud)!=0){
                 msgBox.setText("¡Solicitud procesada con éxito!");
                 msgBox.exec();
