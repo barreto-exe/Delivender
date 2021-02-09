@@ -26,7 +26,7 @@
     <string notr="true">background: white;</string>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="menu">
     <widget class="QLabel" name="fondoPrincipal">
@@ -143,14 +143,25 @@ color: rgb(255,255	,255);
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>30</y>
+       <y>20</y>
        <width>541</width>
-       <height>31</height>
+       <height>41</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>DejaVu Sans Mono</family>
+       <pointsize>20</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
      <property name="styleSheet">
-      <string notr="true">font: 75 italic 17pt &quot;DejaVu Sans&quot;;
-color: rgb(0, 0, 0);</string>
+      <string notr="true">color: rgb(255,255,255);
+background-color: #00ffffff;
+
+</string>
      </property>
      <property name="text">
       <string>Nombre del Proveedor</string>
@@ -176,7 +187,7 @@ color: rgb(0, 0, 0);</string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>80</y>
+       <y>90</y>
        <width>531</width>
        <height>51</height>
       </rect>
@@ -225,15 +236,55 @@ color: rgb(0, 0, 0);</string>
       <string>Productos disponibles:</string>
      </property>
     </widget>
+    <widget class="QLabel" name="fondo">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>0</y>
+       <width>761</width>
+       <height>681</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/resources/imagenes/addProveedorFondo.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>901</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 114, 98);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <zorder>fondo</zorder>
+    <zorder>gridLayoutWidget_2</zorder>
+    <zorder>btnAtras</zorder>
+    <zorder>provDescripcion</zorder>
+    <zorder>btnSiguiente</zorder>
+    <zorder>label</zorder>
+    <zorder>label_7</zorder>
+    <zorder>provNombre</zorder>
    </widget>
    <widget class="QWidget" name="solicitud">
     <widget class="QTableWidget" name="reciboTable">
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>81</y>
+       <y>100</y>
        <width>471</width>
-       <height>311</height>
+       <height>301</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -280,13 +331,22 @@ color: rgb(0, 0, 0);</string>
       <rect>
        <x>50</x>
        <y>30</y>
-       <width>291</width>
+       <width>381</width>
        <height>31</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>DejaVu Sans Mono</family>
+       <pointsize>20</pointsize>
+       <weight>9</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
      <property name="styleSheet">
-      <string notr="true">font: 75 18pt &quot;Quicksand&quot;;
-color: rgb(255, 114, 98);</string>
+      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgba(255, 255, 255, 0);</string>
      </property>
      <property name="text">
       <string>Información del pedido:</string>
@@ -359,12 +419,13 @@ color: '#FFFFFF';</string>
       <rect>
        <x>50</x>
        <y>516</y>
-       <width>231</width>
+       <width>251</width>
        <height>21</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">font: 75 11pt &quot;Quicksand Medium&quot;;</string>
+      <string notr="true">font: 75 11pt &quot;Quicksand Medium&quot;;
+background-color: rgba(255, 255, 255, 0);</string>
      </property>
      <property name="text">
       <string>Seleccione la Fecha de Entrega:</string>
@@ -387,17 +448,27 @@ color: '#FFFFFF';</string>
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>415</y>
-       <width>471</width>
+       <y>430</y>
+       <width>551</width>
        <height>31</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Quicksand</family>
+       <pointsize>13</pointsize>
+       <weight>9</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
      <property name="styleSheet">
       <string notr="true">font: 75 13pt &quot;Quicksand&quot;;
-color: rgb(0, 0, 0);</string>
+color: rgb(0, 0, 0);
+background-color: rgba(255, 255, 255, 0);</string>
      </property>
      <property name="text">
-      <string>Para completar su solicitud, ingrese los siguientes datos</string>
+      <string>Para completar su solicitud, ingrese los siguientes datos:</string>
      </property>
     </widget>
     <widget class="QPushButton" name="btnAtrasSolic">
@@ -416,15 +487,58 @@ color: rgb(0, 0, 0);</string>
       <string>Atras</string>
      </property>
     </widget>
+    <widget class="QLabel" name="fondo_2">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>0</y>
+       <width>611</width>
+       <height>681</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/resources/imagenes/addProveedorFondo.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>901</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 114, 98);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <zorder>fondo_2</zorder>
+    <zorder>label_8</zorder>
+    <zorder>reciboTable</zorder>
+    <zorder>label_3</zorder>
+    <zorder>btnProcesarSolic</zorder>
+    <zorder>comboBoxPago</zorder>
+    <zorder>fechaEntrega</zorder>
+    <zorder>label_2</zorder>
+    <zorder>direccion</zorder>
+    <zorder>label_4</zorder>
+    <zorder>btnAtrasSolic</zorder>
    </widget>
    <widget class="QWidget" name="solicitudesCliente">
     <widget class="QTableWidget" name="solicitudesTable">
      <property name="geometry">
       <rect>
        <x>70</x>
-       <y>180</y>
+       <y>160</y>
        <width>751</width>
-       <height>401</height>
+       <height>271</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -479,15 +593,21 @@ color: rgb(0, 0, 0);</string>
     <widget class="QLabel" name="label_5">
      <property name="geometry">
       <rect>
-       <x>330</x>
-       <y>70</y>
-       <width>251</width>
+       <x>70</x>
+       <y>20</y>
+       <width>291</width>
        <height>41</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>DejaVu Sans Mono</family>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
      <property name="styleSheet">
-      <string notr="true">font: 75 26pt &quot;Quicksand Medium&quot;;
-color: rgb(255, 114, 98);</string>
+      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgba(255, 255, 255, 0);</string>
      </property>
      <property name="text">
       <string>Mis Solicitudes</string>
@@ -496,8 +616,8 @@ color: rgb(255, 114, 98);</string>
     <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
-       <x>150</x>
-       <y>130</y>
+       <x>70</x>
+       <y>120</y>
        <width>601</width>
        <height>21</height>
       </rect>
@@ -509,6 +629,44 @@ color: rgb(255, 114, 98);</string>
       <string>Aqui prodrás visualizar todas las solicitudes que has hecho en Delivender</string>
      </property>
     </widget>
+    <widget class="QLabel" name="fondo_3">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>0</y>
+       <width>611</width>
+       <height>681</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/resources/imagenes/addProveedorFondo.png</pixmap>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>901</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 114, 98);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <zorder>fondo_3</zorder>
+    <zorder>label_9</zorder>
+    <zorder>solicitudesTable</zorder>
+    <zorder>btnAtrasMisSolic</zorder>
+    <zorder>label_5</zorder>
+    <zorder>label_6</zorder>
    </widget>
   </widget>
  </widget>
