@@ -26,9 +26,10 @@ class MySQLConnection
         sql::Connection *con;
 
         // Estatus
-        const char *POR_ENTREGAR;
+        const char *APROBADA_POR_ENTREGAR;
+        const char *EN_ESPERA;
         const char *CANCELADA;
-        const char *RECHAZAR;
+        const char *RECHAZADA;
         const char *ENTREGADO;
         const char *RETIRADO_DEL_PROVEEDOR;
 
@@ -67,7 +68,7 @@ class MySQLConnection
         int modificarEstatusEntrega(const int id_entrega, const char *estatus);
         int actualizarFechaEntrega(const int id_entrega, QDate fecha);
         int actualizarCantidadProducto(const int id_producto, const int cantidad);
-        int actualizarAlmacen(vector <producto_cantidad> pedido, const int signo);   //****
+        int actualizarAlmacen(vector <producto_cantidad> pedido, const int signo);
         // Verificación de puntero global
         int validarPtrUsuario();
         int vistaProveedor();
@@ -97,7 +98,7 @@ class MySQLConnection
         //Funciones para PROVEEDORES
         vector <string> listarTiposDePago();
         int agregarProductoAlmacen(Producto producto, int cantidad);
-        int agregarTipoDePago(const char *descripcion);   //****
+        int agregarTipoDePago(const char *descripcion);
         int aprobarSolicitud(Solicitud solicitud, const char *placa_vehiculo);
         int rechazarSolicitud(Solicitud solicitud);
         vector <vehiculo_transportista> listarTransportistas();

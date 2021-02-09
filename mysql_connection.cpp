@@ -7,7 +7,12 @@ using namespace std;
 // Constructor
 MySQLConnection::MySQLConnection()
 {
-    POR_ENTREGAR = "Pendiente por entregar";
+    APROBADA_POR_ENTREGAR = "Pendiente por entregar";
+    EN_ESPERA = "En espera por confirmación";
+    CANCELADA = "Cancelada";
+    RECHAZADA = "Rechazada";
+    ENTREGADO = "Entregado";
+    RETIRADO_DEL_PROVEEDOR = "Retirado en el proveedor";
     try
     {
         sql::ConnectOptionsMap connection_properties;
@@ -328,10 +333,10 @@ int MySQLConnection::registrarEntrega(const int id_solicitud, const char *placa_
         pstmt->setString(1, placa_vehiculo);
         pstmt->setInt(2, id_solicitud);
         pstmt->setString(3, "-");
-        pstmt->setString(4, POR_ENTREGAR);
+        pstmt->setString(4, APROBADA_POR_ENTREGAR);
         pstmt->execute();
         delete pstmt;
-        return modificarEstatusSolicitud(id_solicitud, POR_ENTREGAR);
+        return modificarEstatusSolicitud(id_solicitud, APROBADA_POR_ENTREGAR);
     }
     catch (sql::SQLException &e)
     {
@@ -1263,50 +1268,55 @@ int MySQLConnection::iniciarSesion(const char *correo, const char *password)
 
 /********************************************************* REGISTRO DE USUARIOS *********************************************************/
 
-// Registro de nuevo cliente
+/* Registro de nuevo cliente
+*  Retorna 1: cuando los datos son válidos y se registró todo correctamente
+*  Retorna 0: cuando el correo ya está registrado
+*  Retorna -1: cuando la cédula ya está registrada
+*  Retorna -2: cuando el conector no existe
+*/
 int MySQLConnection::registrarCliente(Persona cliente, const char *correo, const char *password)
 {
+    // Verifica si el conector existe
     if (con == 0)
-        return 0;
+        return -2;
 
+    // Verifica si el correo ya fue registrado previamente en la BDD
     if (verificarCorreo(correo))
-    {
-        qDebug() << "Este correo ya fue registrado";
         return 0;
-    }
 
+    // Verifica si la cédula ya fue registrada previamente en la BDD
     if (verificarCedula(cliente.getCedula().c_str()))
-    {
-        qDebug() << "Esta cédula ya fue registrada";
-        return 0;
-    }
+        return -1;
 
-    char tipo[8] = "cliente";
-    registrarUsuario(correo, password, tipo);
+    // Registra al usuario y a la persona en la BDD como cliente
+    registrarUsuario(correo, password, "cliente");
     registrarPersona(cliente);
     return 1;
 }
 
-// Registro de nuevo proveedor
+/* Registro de nuevo proveedor
+*  Retorna 1: cuando los datos son válidos y se registró todo correctamente
+*  Retorna 0: cuando el correo ya está registrado
+*  Retorna -2: cuando el conector no existe o se produjo un error de SQL
+*/
 int MySQLConnection::registrarProveedor(Proveedor proveedor, const char *correo, const char *password)
 {
+    // Verifica si el conector existe
     if (con == 0)
-        return 0;
+        return -2;
 
+    // Verifica si el correo ya fue registrado previamente en la BDD
     if (verificarCorreo(correo))
-    {
-        qDebug() << "Este correo ya fue registrado";
         return 0;
-    }
 
-    char tipo[10] = "proveedor";
-    registrarUsuario(correo, password, tipo);
+    // Registra al usuario en la BDD como proveedor
+    registrarUsuario(correo, password, "proveedor");
 
     sql::PreparedStatement *pstmt;
 
-    // Registro los datos de la empresa en la tabla proovedores
     try
     {
+        // Inserta los datos de la empresa en la tabla proovedores
         pstmt = con->prepareStatement("INSERT INTO proveedores(correo,nombre,descripcion,tipo_de_proveedor,telefono,direccion) VALUES (?, ?, ?, ?, ?, ?)");
         pstmt->setString(1, correo);
         pstmt->setString(2, proveedor.getNombre().c_str());
@@ -1316,7 +1326,6 @@ int MySQLConnection::registrarProveedor(Proveedor proveedor, const char *correo,
         pstmt->setString(6, proveedor.getDireccion().c_str());
         pstmt->executeQuery();
         delete pstmt;
-        qDebug() << "El proveedor se registró con éxito uwu";
         return 1;
 
     }
@@ -1326,52 +1335,58 @@ int MySQLConnection::registrarProveedor(Proveedor proveedor, const char *correo,
         qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
     }
-    return 0;
+    delete pstmt;
+    return -2;
 }
 
-// Registro de nuevo transportista
+/* Registro de nuevo transportista
+*  Retorna 1: cuando los datos son válidos y se registró todo correctamente
+*  Retorna 0: cuando el correo ya está registrado
+*  Retorna -1: cuando la cédula ya está registrada
+*  Retorna 2: cuando la placa del vehículo ya está registrada
+*  Retorna -2: cuando el conector no existe
+*/
 int MySQLConnection::registrarTransportista(Persona transportista, Vehiculo vehiculo, const char *correo,  const char *password)
 {
+    // Verifica si el conector existe
     if (con == 0)
-        return 0;
+        return -2;
 
+    // Verifica si el correo ya fue registrado previamente en la BDD
     if (verificarCorreo(correo))
-    {
-        qDebug() << "Este correo ya fue registrado";
         return 0;
-    }
 
+    // Verifica si la cédula ya fue registrada previamente en la BDD
     if (verificarCedula(transportista.getCedula().c_str()))
-    {
-        qDebug() << "Esta cédula ya fue registrada";
-        return 0;
-    }
+        return -1;
 
+    // Verifica si la placa del vehículo ya fue registrada previamente en la BDD
     if (verificarPlaca(vehiculo.getPLaca().c_str()))
-    {
-        qDebug() << "Esta placa ya fue registrada";
-        return 0;
-    }
+        return 2;
 
-
-    char tipo[15] = "transportista";
-    registrarUsuario(correo, password, tipo);
+    // Registra al usuario,a la persona y al vehículo en la BDD como transportista
+    registrarUsuario(correo, password, "transportista");
     registrarPersona(transportista);
     registrarVehiculo(vehiculo, correo);
     return 1;
 }
 
-// Registro de un nuevo vehículo
+/* Registro de nuevo vehículo
+*  Retorna 1: cuando los datos son válidos y se registró todo correctamente
+*  Retorna 0: cuando se produce un error en la búsqueda
+*  Retorna -2: cuando el conector no existe
+*/
 int MySQLConnection::registrarVehiculo(Vehiculo vehiculo, const char *correo_transportista)
 {
+    // Verifica si el conector existe
     if (con == 0)
-        return 0;
+        return -2;
 
     sql::PreparedStatement *pstmt;
 
-    // Registro los datos del vehiculo en la tabla vehiculos
     try
     {
+        // Registro los datos del vehiculo en la tabla vehiculos
         pstmt = con->prepareStatement("INSERT INTO vehiculos(placa,correo_transportista,modelo,tipo_de_vehiculo) VALUES (?, ?, ?, ?)");
         pstmt->setString(1, vehiculo.getPLaca().c_str());
         pstmt->setString(2, correo_transportista);
@@ -1379,7 +1394,6 @@ int MySQLConnection::registrarVehiculo(Vehiculo vehiculo, const char *correo_tra
         pstmt->setString(4, vehiculo.getTipo().c_str());
         pstmt->executeQuery();
         delete pstmt;
-        qDebug() << "El vehiculo se registró con éxito uwu";
         return 1;
 
     }
@@ -1389,25 +1403,29 @@ int MySQLConnection::registrarVehiculo(Vehiculo vehiculo, const char *correo_tra
         qDebug() << "# ERR: SQLException in " << __FILE__ << "(" << __FUNCTION__ << ") on line " << __LINE__;
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
     }
+    delete pstmt;
     return 0;
 }
 
 /******************************************************** FUNCIONES PARA CLIENTES ********************************************************/
 
-// Registro de nueva solicitud
+/* Registro de nueva solicitud
+*  Retorna 1: cuando los datos son válidos y se registró todo correctamente
+*  Retorna 0: cuando se produce un error en el registro
+*  Retorna -2: cuando el puntero global no corresponde a un cliente
+*/
 int MySQLConnection::registrarSolicitud(Solicitud solicitud)
 {
+    // Verifica si el usuario global es un cliente
     if (!vistaCliente())
-    {
-        qDebug() << "El puntero global no corresponde a un cliente";
-        return 0;
-    }
+        return -2;
 
     sql::PreparedStatement *pstmt;
     try
     {
         Cliente *cliente = reinterpret_cast<Cliente *>(Global::usuario);
         solicitud.setCliente(*cliente);
+        // Se insertan los datos de la solicitud en la tabla solicitudes
         pstmt = con->prepareStatement("INSERT INTO solicitudes(correo_cliente,correo_proveedor,monto,id_tipo_de_pago,direccion,fecha_de_creacion,fecha_de_entrega,estatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         pstmt->setString(1, solicitud.getCliente().getCorreo().c_str());
         pstmt->setString(2, solicitud.getProveedor().getCorreo().c_str());
@@ -1416,12 +1434,11 @@ int MySQLConnection::registrarSolicitud(Solicitud solicitud)
         pstmt->setString(5, solicitud.getDireccion().c_str());
         pstmt->setString(6, solicitud.getFechaPedido().toString("dd/MM/yyyy").toStdString().c_str());
         pstmt->setString(7, solicitud.getFechaEntrega().toString("dd/MM/yyyy").toStdString().c_str());
-        pstmt->setString(8, "en espera");
+        pstmt->setString(8, EN_ESPERA);
         pstmt->execute();
-
-        qDebug() << "La solicitud fue registrada con éxito uwu";
         delete pstmt;
 
+        // Se guarda el id de la solicitud y se registra el detalle del pedido
         int id = obtenerIdSolicitud(solicitud);
         solicitud.setId(id);
         return registrarPedido(solicitud.getProveedor().getCorreo().c_str(), solicitud.getPedido(), id);
@@ -1440,16 +1457,23 @@ int MySQLConnection::registrarSolicitud(Solicitud solicitud)
 vector <string> MySQLConnection::listarTiposDePago(Proveedor proveedor)
 {
     vector <string> lista;
+
+    // Verifica si el usuario global es un cliente
+    if (!vistaCliente())
+        return lista;
+
     sql::PreparedStatement *pstmt;
     sql::ResultSet *res;
 
     try
     {
+        // Busca todos los métodos de pago registrados por el proveedor recibido por parámetro
         pstmt = con->prepareStatement("SELECT * FROM tipos_de_pago WHERE correo_proveedor = ?");
         pstmt->setString(1, proveedor.getCorreo().c_str());
         res = pstmt->executeQuery();
 
         while (res->next())
+            // Se agrega ada tipo de pago a la lista
             lista.push_back(res->getString("descripcion"));
     }
     catch (sql::SQLException &e)
@@ -1461,6 +1485,7 @@ vector <string> MySQLConnection::listarTiposDePago(Proveedor proveedor)
 
     delete res;
     delete pstmt;
+    // Retorna lista con los tipos de pago obtenidos
     return lista;
 }
 
@@ -1471,6 +1496,7 @@ vector <string> MySQLConnection::listarTiposDePago()
 {
     vector <string> lista;
 
+    // Verifica si el usuario global es un proveedor
     if (!vistaProveedor())
         return lista;
 
@@ -1479,11 +1505,13 @@ vector <string> MySQLConnection::listarTiposDePago()
 
     try
     {
+        // Busca todos los métodos de pago registrados por el proveedor global
         pstmt = con->prepareStatement("SELECT * FROM tipos_de_pago WHERE correo_proveedor = ?");
         pstmt->setString(1, Global::usuario->getCorreo().c_str());
         res = pstmt->executeQuery();
 
         while (res->next())
+            // Se agrega ada tipo de pago a la lista
             lista.push_back(res->getString("descripcion"));
     }
     catch (sql::SQLException &e)
@@ -1495,23 +1523,28 @@ vector <string> MySQLConnection::listarTiposDePago()
 
     delete res;
     delete pstmt;
+    // Retorna lista con los tipos de pago obtenidos
     return lista;
 }
 
-// Agregar producto al almacén
+/* Agregar producto al almacén
+*  Retorna 1: cuando los datos son válidos y se registró todo correctamente
+*  Retorna -1: cuando el producto ya existe
+*  Retorna 0: cuando se produce un error en el registro
+*  Retorna -2: cuando el puntero global no corresponde a un proveedor
+*/
 int MySQLConnection::agregarProductoAlmacen(Producto producto, int cantidad)
 {
+    // Verifica si el usuario global es un proveedor
     if (!vistaProveedor())
-        return 0;
+        return -2;
 
     producto_cantidad pxq = structProductoCantidad(producto,cantidad);
 
 
+    // Verifica si el producto ya existe en la BDD y le pertenece al proveedor en cuestión
     if (obtenerIdProducto(Global::usuario->getCorreo().c_str(), pxq.producto))
-    {
-        qDebug() << "Ya existe este producto";
         return 0;
-    }
 
     if (registrarProducto(Global::usuario->getCorreo().c_str(), pxq))
     {
@@ -1523,42 +1556,56 @@ int MySQLConnection::agregarProductoAlmacen(Producto producto, int cantidad)
     return 0;
 }
 
-// Agregar un tipo de pago
-// Retorna 1 si se hizo el registro
-// Retorna -1 si el tipo de pago existe para ese proveedor
-// Retorna 0 por errores de SQL o de puntero
+/* Agregar un tipo de pago
+*  Retorna 1: cuando los datos son válidos y se registró todo correctamente
+*  Retorna -1: cuando el tipo de pago existe para ese proveedor
+*  Retorna 0: cuando se produce un error en el registro
+*  Retorna -2: cuando el puntero global no corresponde a un proveedor
+*/
 int MySQLConnection::agregarTipoDePago(const char *descripcion)
 {
+    // Verifica si el usuario global es un proveedor
     if (!vistaProveedor())
-        // El puntero global no corresponde a un proveedor
-        return 0;
+        return -2;
 
+    // SVerifica si el tipo de pago ya existe en la BDD y le pertenece al proveedor en cuestión
     if (obtenerIdTipoDePago(Global::usuario->getCorreo().c_str(), descripcion))
-        // Si obtiene el Id del tipo de pago recibido por parámetro, entonces ese tipo ya existe y no se ejecuta el registro
         return -1;
 
     return registrarTipoDePago(Global::usuario->getCorreo().c_str(), descripcion);
 }
 
-// Aprobar una solicitud de compra
+/* Aprobar una solicitud de compra
+*  Retorna 1: cuando los datos son válidos y se registró todo correctamente
+*  Retorna 0: cuando se produce un error en la actualización
+*  Retorna -2: cuando el puntero global no corresponde a un proveedor
+*/
 int MySQLConnection::aprobarSolicitud(Solicitud solicitud, const char *placa_vehiculo)
 {
+    // Verifica si el usuario global es un proveedor
     if (!vistaProveedor())
-        return 0;
+        return -2;
 
-    return registrarEntrega(solicitud.getId(), placa_vehiculo);;
+    return registrarEntrega(solicitud.getId(), placa_vehiculo);
 }
 
-// Rechazar una solicitud de compra
+/* Rechazar una solicitud de compra
+*  Retorna 1: cuando los datos son válidos y se registró todo correctamente
+*  Retorna 0: cuando se produce un error en la actualización
+*  Retorna -2: cuando el puntero global no corresponde a un proveedor
+*/
 int MySQLConnection::rechazarSolicitud(Solicitud solicitud)
 {
+    // Verifica si el usuario global es un proveedor
     if (!vistaProveedor())
-        return 0;
+        return -2;
 
+    // Verifica si se puede actualizar el almacén
     if (!actualizarAlmacen(solicitud.getPedido(), 1))
         return 0;
 
-    return Global::db.modificarEstatusSolicitud(solicitud.getId(), "rechazada");
+    // Actualiza el estatus de la solicitud
+    return modificarEstatusSolicitud(solicitud.getId(), RECHAZADA);
 }
 
 // Lista a todos los transportistas registrados en la BDD con su respectivo vehículo
@@ -1566,6 +1613,7 @@ vector <vehiculo_transportista> MySQLConnection::listarTransportistas()
 {
     vector <vehiculo_transportista> lista = vector <vehiculo_transportista>();
 
+    // Verifica si el usuario global es un proveedor
     if (!vistaProveedor())
         return lista;
 
@@ -1574,11 +1622,13 @@ vector <vehiculo_transportista> MySQLConnection::listarTransportistas()
 
     try
     {
+        // Busca todos los transportistas registrados en la tabla vehiculos
         stmt = con->createStatement();
         res = stmt->executeQuery("SELECT * FROM vehiculos");
 
         while (res->next())
         {
+            // Instancia los vehículos y los agrega a la lista
             Vehiculo vehiculo = Vehiculo(res->getString("modelo").c_str(), res->getString("placa").c_str(), res->getString("tipo_de_vehiculo").c_str());
             lista.push_back(structVehiculoTransportista(vehiculo, *instanciarTransportista(res->getString("correo_transportista").c_str())));
         }
@@ -1593,19 +1643,27 @@ vector <vehiculo_transportista> MySQLConnection::listarTransportistas()
 
     delete res;
     delete stmt;
+    // Retorna la lista de transportistas
     return lista;
 }
 
+/* Actualiza la información de un producto en la bBDD
+*  Retorna 1: cuando los datos son válidos y se actualizó todo correctamente
+*  Retorna 0: cuando se produce un error en la actualización
+*  Retorna -2: cuando el puntero global no corresponde a un proveedor
+*/
 int MySQLConnection::actualizarInfoProducto(producto_cantidad pxq)
 {
+    // Verifica si el usuario global es un proveedor
     if (!vistaProveedor())
-        return 0;
+        return -2;
 
 
     sql::PreparedStatement *pstmt;
 
     try
     {
+        // Actualiza el registro que corresponde al producto recibido por parámetro
         pstmt = con->prepareStatement("UPDATE productos SET nombre = ? AND descripcion = ? AND precio = ? AND cantidad = ? WHERE id_producto = ? AND correo_proveedor = ?");
         pstmt->setString(1, pxq.producto.getNombre());
         pstmt->setString(2, pxq.producto.getDescripcion());
@@ -1631,11 +1689,12 @@ int MySQLConnection::actualizarInfoProducto(producto_cantidad pxq)
 
 /**************************************************** FUNCIONES PARA TRANSPORTISTAS ****************************************************/
 
-// Listar entregas
+// Listar entregas realizadas
 vector <Solicitud> MySQLConnection::listarEntregasRealizadas()
 {
     vector <Solicitud> lista = vector <Solicitud>();
 
+    // Verifica si el usuario global es un transportista
     if (!vistaTransportista())
         return lista;
 
@@ -1647,15 +1706,19 @@ vector <Solicitud> MySQLConnection::listarEntregasRealizadas()
         Transportista *transportista = reinterpret_cast<Transportista*>(Global::usuario);
         int flag = 0;
 
+        // Recorre todos los vehículos que posee el transportista global
         for (std::size_t i = 0; i < transportista->getVehiculos().size(); i++)
         {
+            // Busca todos los registros de la tabla entregas correspondientes a la placa de un vehículo
+            // Cuyo estatus dede ser entregado
             pstmt = con->prepareStatement("SELECT * FROM entregas WHERE placa_vehiculo = ? AND estatus = ?");
             pstmt->setString(1, transportista->getVehiculos()[i].getPLaca().c_str());
-            pstmt->setString(2, "entregado");
+            pstmt->setString(2, ENTREGADO);
             res = pstmt->executeQuery();
             flag = 1;
 
             while (res->next())
+                // Se instancian las solicitudes obtenidas se agregan a la lista de entregas
                 lista.push_back(*instanciarSolicitud(res->getInt("id_solicitud")));
         }
 
@@ -1672,6 +1735,7 @@ vector <Solicitud> MySQLConnection::listarEntregasRealizadas()
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
     }
 
+    // Retorna la lista con las entregas obtenidas
     return lista;
 }
 
@@ -1680,6 +1744,7 @@ vector <Solicitud> MySQLConnection::listarEntregasPendientes()
 {
     vector <Solicitud> lista = vector <Solicitud>();
 
+    // Verifica si el usuario global es un transportista
     if (!vistaTransportista())
         return lista;
 
@@ -1691,16 +1756,20 @@ vector <Solicitud> MySQLConnection::listarEntregasPendientes()
         Transportista *transportista = reinterpret_cast<Transportista*>(Global::usuario);
         int flag = 0;
 
+        // Recorre todos los vehículos que posee el transportista global
         for (std::size_t i = 0; i < transportista->getVehiculos().size(); i++)
         {
+            // Busca todos los registros de la tabla entregas correspondientes a la placa de un vehículo
+            // Cuyo estatus dede ser por entregar
             pstmt = con->prepareStatement("SELECT * FROM entregas WHERE placa_vehiculo = ? AND estatus = ?");
             pstmt->setString(1, transportista->getVehiculos()[i].getPLaca().c_str());
-            pstmt->setString(2, "por entregar");
+            pstmt->setString(2, APROBADA_POR_ENTREGAR);
 
             res = pstmt->executeQuery();
             flag = 1;
 
             while (res->next())
+                // Se instancian las solicitudes obtenidas se agregan a la lista de entregas
                 lista.push_back(*instanciarSolicitud(res->getInt("id_solicitud")));
         }
 
@@ -1718,11 +1787,14 @@ vector <Solicitud> MySQLConnection::listarEntregasPendientes()
         qDebug() << "# ERR: " << e.what() << " ( MySQL error code: " << e.getErrorCode() << ")";
     }
 
+    // Retorna la lista con las entregas obtenidas
     return lista;
 }
 
+// Establece una solicitud como entregada
 int MySQLConnection::realizarEntrega(Solicitud solicitud)
 {
+    // Verifica si el usuario global es un transportista
     if (!vistaTransportista())
         return 0;
 
@@ -1731,17 +1803,21 @@ int MySQLConnection::realizarEntrega(Solicitud solicitud)
 
     try
     {
-
+        // Busca el registro en la tabla de entregas que corresponda al id de la solicitud recibida por parámetro
+        // Cuyo estatus dede ser por entregar
         pstmt = con->prepareStatement("SELECT * FROM entregas WHERE id_solicitud = ? AND estatus = ?");
         pstmt->setInt(1, solicitud.getId());
-        pstmt->setString(2, "por entregar");
+        pstmt->setString(2, APROBADA_POR_ENTREGAR);
 
         res = pstmt->executeQuery();
 
         if (res->next())
+            // Verifica que la entrega corresponda a un vehiculo del transportista global
             if (verificarEntrega(res->getString("placa_vehiculo").c_str()))
-                if (modificarEstatusEntrega(res->getInt("id_entrega"), "entregado"))
+                // Actualiza el estatus y registra la fecha de entrega
+                if (modificarEstatusEntrega(res->getInt("id_entrega"), ENTREGADO))
                 {
+                    modificarEstatusSolicitud(solicitud.getId(), ENTREGADO);
                     actualizarFechaEntrega(res->getInt("id_entrega"), QDate::currentDate());
                     delete res;
                     delete pstmt;
@@ -1773,10 +1849,12 @@ vector <Proveedor> MySQLConnection::listarProveedores()
 
     try
     {
+        // Busca a todos los proveedores registrados
         stmt = con->createStatement();
         res = stmt->executeQuery("SELECT * FROM proveedores");
 
         while (res->next())
+            // Instancia todos los proveedores obtenidos y los agrega en la lista
             lista.push_back(*instanciarProveedor(res->getString("correo").c_str()));
 
     }
@@ -1789,6 +1867,7 @@ vector <Proveedor> MySQLConnection::listarProveedores()
 
     delete res;
     delete stmt;
+    // Retorna la lista con los proveedores obtenidos
     return lista;
 }
 
@@ -1804,26 +1883,31 @@ vector <Solicitud> MySQLConnection::listarSolicitudes()
     {
         if (vistaCliente())
         {
+            // Busca los registros en la tabla de solicitudes que correspondan al cliente global
             Cliente *cliente = reinterpret_cast<Cliente*>(Global::usuario);
             pstmt = con->prepareStatement("SELECT * FROM solicitudes WHERE correo_cliente = ?");
             pstmt->setString(1, cliente->getCorreo().c_str());
             res = pstmt->executeQuery();
 
             while (res->next())
+                // Instancia todas las solicitudes obtenidas y las agrega a la lista
                 lista.push_back(*instanciarSolicitud(*cliente,res->getInt("id_solicitud")));
         }
         else if (vistaProveedor())
         {
+            // Busca los registros en la tabla de solicitudes que correspondan al proveedor global
             Proveedor *proveedor = reinterpret_cast<Proveedor*>(Global::usuario);
             pstmt = con->prepareStatement("SELECT * FROM solicitudes WHERE correo_proveedor = ?");
             pstmt->setString(1, proveedor->getCorreo().c_str());
             res = pstmt->executeQuery();
 
             while (res->next())
+                // Instancia todas las solicitudes obtenidas y las agrega a la lista
                 lista.push_back(*instanciarSolicitud(*proveedor,res->getInt("id_solicitud")));
         }
         else
         {
+            // Los transportistas no tienen solicitudes, por lo que retorna una lista vacía
             return lista;
         }
 
@@ -1837,5 +1921,6 @@ vector <Solicitud> MySQLConnection::listarSolicitudes()
 
     delete res;
     delete pstmt;
+    // Retorna la lista con las solicitudes obtenidas
     return lista;
 }
