@@ -1341,8 +1341,9 @@ int MySQLConnection::registrarSolicitud(Solicitud solicitud)
     try
     {
         Cliente *cliente = reinterpret_cast<Cliente *>(Global::usuario);
+        solicitud.setCliente(*cliente);
         pstmt = con->prepareStatement("INSERT INTO solicitudes(correo_cliente,correo_proveedor,monto,id_tipo_de_pago,direccion,fecha_de_creacion,fecha_de_entrega,estatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        pstmt->setString(1, cliente->getCorreo().c_str());
+        pstmt->setString(1, solicitud.getCliente().getCorreo().c_str());
         pstmt->setString(2, solicitud.getProveedor().getCorreo().c_str());
         pstmt->setDouble(3, solicitud.getMonto());
         pstmt->setInt(4, obtenerIdTipoDePago(solicitud.getProveedor().getCorreo().c_str(), solicitud.getTipoPago().c_str()));
