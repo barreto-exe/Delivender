@@ -164,9 +164,8 @@ void pantalla_principal::on_btnProcesarSolic_clicked()
             Global::solicitud.setEstatus("en espera");
             Global::solicitud.setProveedor(Global::proveedorSeleccionado);
 
-            if(Global::db.registrarSolicitud(Global::solicitud)!=0){
+            if(Global::db.registrarSolicitud(Global::solicitud)==0){
                 msgBox.setText("¡Solicitud procesada con éxito!");
-                msgBox.exec();
 
                 ui->stackedWidget->setCurrentIndex(0);
 
@@ -175,11 +174,13 @@ void pantalla_principal::on_btnProcesarSolic_clicked()
                 ui->direccion->setText("");
                 ui->comboBoxPago->setCurrentIndex(0);
                 ui->fechaEntrega->setDate(QDate::currentDate());
+            } else {
+                msgBox.setText("No se pudo procesar la solicitud, intentelo nuevamente");
             }
         } else {
             msgBox.setText("Por favor, complete todos los datos para continuar");
-            msgBox.exec();
         }
+        msgBox.exec();
     }
 
 }

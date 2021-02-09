@@ -82,8 +82,9 @@ void pantalla_registro::on_btnAceptarPersona_clicked() //Boton aceptar al introd
 
                 if (reg==1){
                     msgBox.setText("Se ha registrado con éxito!");
-                    msgBox.exec();
                     emit inicioSignal();
+                } else {
+                    msgBox.setText("Chequee sus datos del registro por favor");
                 }
             } else {
                 //Si es un transportista, pasa a la ventana con los dados adicionales
@@ -92,13 +93,12 @@ void pantalla_registro::on_btnAceptarPersona_clicked() //Boton aceptar al introd
         } else {
             //Si hay algun campo vacio
             msgBox.setText("Por favor rellene todos los campos");
-            msgBox.exec();
         }
      } else {
         //Si las contraseñas son distintas
         msgBox.setText("Las contraseñas no coinciden, intentelo nuevamente");
-        msgBox.exec();
     }
+    msgBox.exec();
 }
 
 
@@ -185,13 +185,14 @@ void pantalla_registro::on_btnAceptarTransp_clicked()
 
         if (reg==1){
             msgBox.setText("Se ha registrado con éxito!");
-            msgBox.exec();
             emit inicioSignal();
+        } else {
+            msgBox.setText("Chequee sus datos del registro por favor");
         }
     } else {
         msgBox.setText("Por favor rellene todos los campos");
-        msgBox.exec();
     }
+    msgBox.exec();
 }
 
 void pantalla_registro::on_atrasSeleccion_clicked()
@@ -253,17 +254,18 @@ void pantalla_registro::on_btnAceptarProv_clicked()
 
             if (reg==1){
                 msgBox.setText("Se ha registrado con éxito!");
-                msgBox.exec();
                 emit inicioSignal();
+            } else {
+                msgBox.setText("Chequee sus datos del registro por favor");
             }
         } else {
             //Existe algun campo vacio
-            msgBox.setText("Por favor rellene todos los campos");
-            msgBox.exec();
+            msgBox.setText("Por favor rellene todos los campos");   
         }
     } else {
         //Si las contraseñas son distintas
         msgBox.setText("Las contraseñas no coinciden, intentelo nuevamente");
-        msgBox.exec();
+
     }
+    msgBox.exec();
 }

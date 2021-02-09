@@ -107,7 +107,7 @@ void pantalla_proveedor::on_btnAddMetPago_clicked()
         msgBox.setText("Metodo de pago agregado con éxito");
         ui->descripcionMetodo->setText("");       
     } else {
-        msgBox.setText("Intentelo nuevamente");
+        msgBox.setText("No se pudo agregar el metodo de pago, intentelo nuevamente");
     }
     msgBox.exec();
 }
