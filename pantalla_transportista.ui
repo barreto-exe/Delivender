@@ -28,6 +28,9 @@
    <property name="styleSheet">
     <string notr="true">background-color: rgb(255, 255, 255);</string>
    </property>
+   <property name="currentIndex">
+    <number>1</number>
+   </property>
    <widget class="QWidget" name="pendientes">
     <attribute name="title">
      <string>Entregas Pendientes</string>
@@ -35,9 +38,9 @@
     <widget class="QWidget" name="verticalLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>120</x>
+       <x>50</x>
        <y>80</y>
-       <width>661</width>
+       <width>401</width>
        <height>521</height>
       </rect>
      </property>
@@ -46,9 +49,9 @@
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>120</x>
-       <y>20</y>
-       <width>661</width>
+       <x>50</x>
+       <y>30</y>
+       <width>721</width>
        <height>31</height>
       </rect>
      </property>
@@ -60,6 +63,25 @@ font: 75 20pt &quot;Quicksand Medium&quot;;</string>
       <string>¡Hola! Estas son las entregas pendientes para hoy...</string>
      </property>
     </widget>
+    <widget class="QLabel" name="fondo">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>-50</y>
+       <width>451</width>
+       <height>681</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/resources/imagenes/addProveedorFondo.png</pixmap>
+     </property>
+    </widget>
+    <zorder>fondo</zorder>
+    <zorder>verticalLayoutWidget</zorder>
+    <zorder>label</zorder>
    </widget>
    <widget class="QWidget" name="realizadas">
     <attribute name="title">
@@ -68,9 +90,9 @@ font: 75 20pt &quot;Quicksand Medium&quot;;</string>
     <widget class="QWidget" name="verticalLayoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>120</x>
+       <x>50</x>
        <y>80</y>
-       <width>661</width>
+       <width>401</width>
        <height>521</height>
       </rect>
      </property>
@@ -79,9 +101,9 @@ font: 75 20pt &quot;Quicksand Medium&quot;;</string>
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>250</x>
-       <y>20</y>
-       <width>411</width>
+       <x>50</x>
+       <y>30</y>
+       <width>481</width>
        <height>31</height>
       </rect>
      </property>
@@ -93,9 +115,30 @@ font: 75 20pt &quot;Quicksand Medium&quot;;</string>
       <string>Historial de entregas realizadas</string>
      </property>
     </widget>
+    <widget class="QLabel" name="fondo_2">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>-50</y>
+       <width>451</width>
+       <height>681</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/resources/imagenes/addProveedorFondo.png</pixmap>
+     </property>
+    </widget>
+    <zorder>fondo_2</zorder>
+    <zorder>verticalLayoutWidget_2</zorder>
+    <zorder>label_2</zorder>
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>
