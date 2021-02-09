@@ -46,12 +46,13 @@ void pantalla_proveedor::cargarInfoProveedor(){
     /*Muestra las solicitudes del proveeedor*/
     vector <Solicitud> lista = Global::db.listarSolicitudes();
     for (auto s : lista){
-        if(!strcmp(s.getEstatus().c_str(),"en espera")){
+        if(!strcmp(s.getEstatus().c_str(),"Pendiente por entregar")){
+            ui->aprobadasLayout->addWidget(new solicitudWidget(this, &s,true));
+        } else {
+
             solicitudWidget *widget = new solicitudWidget(this, &s,false);
             connect(widget, SIGNAL(aprobada(solicitudWidget*)), this, SLOT(cambiarLayout(solicitudWidget*)));
             ui->solicLayout->addWidget(widget);
-        } else {
-            ui->aprobadasLayout->addWidget(new solicitudWidget(this, &s,true));
         }
     }
 
