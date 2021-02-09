@@ -105,47 +105,53 @@ void pantalla_principal::popupCantidad(){
 
 void pantalla_principal::on_btnAtras_clicked()
 {
+    Global::solicitud.getPedido().clear();
     ui->stackedWidget->setCurrentIndex(0);
 }
 
 void pantalla_principal::on_btnSiguiente_clicked()
 {
+    if (Global::solicitud.getPedido().empty()){
+        QMessageBox msgBox;
+        msgBox.setText("Añada un producto para continuar");
+        msgBox.exec();
+    } else {
+        int i=0;
+        float monto=0; //donde se guarda el total del pedido
 
-    int i=0;
-    float monto=0; //donde se guarda el total del pedido
+        //Limpiando tabla
+        ui->reciboTable->clearContents();
+        ui->reciboTable->setRowCount(0);
 
-    //Limpiando tabla
-    ui->reciboTable->clearContents();
-    ui->reciboTable->setRowCount(0);
+        //Filas y columnas de la tabla
+        ui->reciboTable->setRowCount(Global::solicitud.getPedido().size()+2);
+        ui->reciboTable->setColumnCount(4);
 
-    //Filas y columnas de la tabla
-    ui->reciboTable->setRowCount(Global::solicitud.getPedido().size()+2);
-    ui->reciboTable->setColumnCount(4);
+        for (auto p : Global::solicitud.getPedido()){ //por cada producto en el pedido
+            //Los añade a la tabla
+            ui->reciboTable->setItem(i,0,new QTableWidgetItem(QString::fromStdString(p.producto.getNombre())));
+            ui->reciboTable->setItem(i,1,new QTableWidgetItem(QString::number(p.cantidad)));
+            ui->reciboTable->setItem(i,2,new QTableWidgetItem(QString::number(p.producto.getPrecio())));
+            ui->reciboTable->setItem(i,3,new QTableWidgetItem(QString::number(p.cantidad*p.producto.getPrecio()) + "$"));
+            i++;
+            monto += p.cantidad*p.producto.getPrecio(); //va sumando los precios
+        }
+        //Ajustes de la tabla
+        ui->reciboTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        ui->reciboTable->verticalHeader()->setVisible(false);
+        //Muestra el total en la esquina de la tabla
+        ui->reciboTable->setItem(i+1,0,new QTableWidgetItem("TOTAL"));
+        ui->reciboTable->setItem(i+1,3,new QTableWidgetItem(QString::number(monto) + "$"));
 
-    for (auto p : Global::solicitud.getPedido()){ //por cada producto en el pedido
-        //Los añade a la tabla
-        ui->reciboTable->setItem(i,0,new QTableWidgetItem(QString::fromStdString(p.producto.getNombre())));
-        ui->reciboTable->setItem(i,1,new QTableWidgetItem(QString::number(p.cantidad)));
-        ui->reciboTable->setItem(i,2,new QTableWidgetItem(QString::number(p.producto.getPrecio())));
-        ui->reciboTable->setItem(i,3,new QTableWidgetItem(QString::number(p.cantidad*p.producto.getPrecio()) + "$"));
-        i++;
-        monto += p.cantidad*p.producto.getPrecio(); //va sumando los precios
+        //Llena el combobox de tipos de pago
+        ui->comboBoxPago->clear();
+        ui->comboBoxPago->addItem("Seleccione un Método de Pago");
+        vector<string> tiposPago = Global::db.listarTiposDePago(Global::proveedorSeleccionado);
+        for (auto s : tiposPago){
+            ui->comboBoxPago->addItem(QString::fromStdString(s));
+        }
+        ui->stackedWidget->setCurrentIndex(2);
     }
-    //Ajustes de la tabla
-    ui->reciboTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->reciboTable->verticalHeader()->setVisible(false);
-    //Muestra el total en la esquina de la tabla
-    ui->reciboTable->setItem(i+1,0,new QTableWidgetItem("TOTAL"));
-    ui->reciboTable->setItem(i+1,3,new QTableWidgetItem(QString::number(monto) + "$"));
-
-    //Llena el combobox de tipos de pago
-    ui->comboBoxPago->clear();
-    ui->comboBoxPago->addItem("Seleccione un Método de Pago");
-    vector<string> tiposPago = Global::db.listarTiposDePago(Global::proveedorSeleccionado);
-    for (auto s : tiposPago){
-        ui->comboBoxPago->addItem(QString::fromStdString(s));
-    }
-    ui->stackedWidget->setCurrentIndex(2);
 
 }
 

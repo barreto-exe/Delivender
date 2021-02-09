@@ -21,7 +21,6 @@ solicitudWidget::solicitudWidget(QWidget *parent, Solicitud *s, bool realizada) 
     //Mostrando toda la info de la solicitud en el widget
     ui->nombreCliente->setText("Cliente: "+ QString::fromStdString(solicitud.getCliente().getNombre()) +
                                " " + QString::fromStdString(solicitud.getCliente().getApellido()));
-    qDebug() << "label: "+ui->nombreCliente->text();
     ui->direccion->setText("Direccion: "+QString::fromStdString(solicitud.getDireccion()));
     ui->estatus->setText("Estatus: "+QString::fromStdString(solicitud.getEstatus()));
     ui->monto->setText("Monto: "+QString::number(solicitud.getMonto()));
