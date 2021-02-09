@@ -26,7 +26,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="inicio">
     <property name="styleSheet">
@@ -206,6 +206,23 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
+      <widget class="QLabel" name="fondo">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>901</width>
+         <height>621</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="res.qrc">:/resources/imagenes/addProveedorFondo.png</pixmap>
+       </property>
+      </widget>
+      <zorder>fondo</zorder>
       <zorder>gridLayoutWidget</zorder>
       <zorder>btnAddProducto</zorder>
       <zorder>btnAddMetPago</zorder>
@@ -226,8 +243,8 @@
         <rect>
          <x>0</x>
          <y>50</y>
-         <width>451</width>
-         <height>561</height>
+         <width>902</width>
+         <height>682</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="solicLayout"/>
@@ -277,6 +294,27 @@ color: rgb(255, 114, 98);</string>
         <string>Solicitudes aprobadas</string>
        </property>
       </widget>
+      <widget class="QLabel" name="fondo_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>901</width>
+         <height>621</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="res.qrc">:/resources/imagenes/addProveedorFondo.png</pixmap>
+       </property>
+      </widget>
+      <zorder>fondo_2</zorder>
+      <zorder>verticalLayoutWidget</zorder>
+      <zorder>verticalLayoutWidget_2</zorder>
+      <zorder>label_5</zorder>
+      <zorder>label_6</zorder>
      </widget>
     </widget>
    </widget>
