@@ -170,7 +170,7 @@ void pantalla_principal::on_btnProcesarSolic_clicked()
             Global::solicitud.setEstatus("en espera");
             Global::solicitud.setProveedor(Global::proveedorSeleccionado);
 
-            if(Global::db.registrarSolicitud(Global::solicitud)==0){
+            if(Global::db.registrarSolicitud(Global::solicitud)==1){
                 msgBox.setText("¡Solicitud procesada con éxito!");
 
                 ui->stackedWidget->setCurrentIndex(0);
