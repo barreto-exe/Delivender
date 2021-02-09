@@ -29,7 +29,7 @@
     <string notr="true">background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="pendientes">
     <attribute name="title">
@@ -38,9 +38,9 @@
     <widget class="QWidget" name="verticalLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>50</x>
+       <x>20</x>
        <y>80</y>
-       <width>401</width>
+       <width>451</width>
        <height>521</height>
       </rect>
      </property>
@@ -49,7 +49,7 @@
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>50</x>
+       <x>30</x>
        <y>30</y>
        <width>721</width>
        <height>31</height>
@@ -66,7 +66,7 @@ font: 75 20pt &quot;Quicksand Medium&quot;;</string>
     <widget class="QLabel" name="fondo">
      <property name="geometry">
       <rect>
-       <x>450</x>
+       <x>480</x>
        <y>-50</y>
        <width>451</width>
        <height>681</height>
@@ -90,9 +90,9 @@ font: 75 20pt &quot;Quicksand Medium&quot;;</string>
     <widget class="QWidget" name="verticalLayoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>50</x>
+       <x>20</x>
        <y>80</y>
-       <width>401</width>
+       <width>451</width>
        <height>521</height>
       </rect>
      </property>
@@ -101,7 +101,7 @@ font: 75 20pt &quot;Quicksand Medium&quot;;</string>
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>50</x>
+       <x>40</x>
        <y>30</y>
        <width>481</width>
        <height>31</height>
@@ -118,7 +118,7 @@ font: 75 20pt &quot;Quicksand Medium&quot;;</string>
     <widget class="QLabel" name="fondo_2">
      <property name="geometry">
       <rect>
-       <x>450</x>
+       <x>480</x>
        <y>-50</y>
        <width>451</width>
        <height>681</height>

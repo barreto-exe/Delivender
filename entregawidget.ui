@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>470</width>
+    <width>440</width>
     <height>90</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">background-color: rgb(162, 171, 253)</string>
   </property>
   <widget class="QLabel" name="monto">
    <property name="geometry">
@@ -25,6 +25,10 @@
      <height>17</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(162, 171, 253);</string>
+   </property>
    <property name="text">
     <string>Monto</string>
    </property>
@@ -32,9 +36,9 @@
   <widget class="QLabel" name="estatus">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>240</x>
      <y>10</y>
-     <width>141</width>
+     <width>181</width>
      <height>31</height>
     </rect>
    </property>
@@ -63,6 +67,10 @@ color: rgb(255, 255, 255);</string>
      <height>16</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(162, 171, 253);</string>
+   </property>
    <property name="text">
     <string>Direccion</string>
    </property>
@@ -76,7 +84,7 @@ color: rgb(255, 255, 255);</string>
   <widget class="QPushButton" name="btnAceptar">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>290</x>
      <y>50</y>
      <width>83</width>
      <height>25</height>
@@ -100,7 +108,9 @@ color: rgb(255, 255, 255);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 75 14pt &quot;Quicksand Medium&quot;;</string>
+    <string notr="true">font: 75 14pt &quot;Quicksand Medium&quot;;
+color: rgb(255, 255, 255);
+background-color: rgb(162, 171, 253);</string>
    </property>
    <property name="text">
     <string>Nombre del cliente</string>
@@ -116,7 +126,7 @@ color: rgb(255, 255, 255);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(215, 180, 254);</string>
+    <string notr="true">background-color: rgb(162, 171, 253);</string>
    </property>
    <property name="text">
     <string/>
@@ -124,10 +134,10 @@ color: rgb(255, 255, 255);</string>
   </widget>
   <zorder>label</zorder>
   <zorder>monto</zorder>
-  <zorder>estatus</zorder>
   <zorder>direccion</zorder>
   <zorder>btnAceptar</zorder>
   <zorder>nombreCliente</zorder>
+  <zorder>estatus</zorder>
  </widget>
  <resources/>
  <connections/>

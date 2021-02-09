@@ -62,7 +62,7 @@ color: rgb(255, 255, 255);</string>
    <property name="styleSheet">
     <string notr="true">font: 75 12pt &quot;Quicksand Medium&quot;;
 color: rgb(255, 255, 255);
-background-color: rgb(215, 180, 254);</string>
+background-color: rgb(162, 171, 253);</string>
    </property>
    <property name="text">
     <string>Nombre del cliente</string>
@@ -79,7 +79,7 @@ background-color: rgb(215, 180, 254);</string>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(215, 180, 254);</string>
+background-color: rgb(162, 171, 253);</string>
    </property>
    <property name="text">
     <string>Direccion</string>
@@ -123,8 +123,8 @@ background-color: rgb(255, 255, 255);</string>
     <string notr="true">font: 75 12pt &quot;Quicksand Medium&quot;;
 border: 2px solid white;
 border-radius: 5px;
-background-color: rgb(215, 180, 254);
-color: rgb(255, 255, 255);</string>
+color: rgb(255, 255, 255);
+background-color: rgb(162, 171, 253);</string>
    </property>
    <property name="text">
     <string>Estado</string>
@@ -147,7 +147,7 @@ color: rgb(255, 255, 255);</string>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(215, 180, 254);</string>
+background-color: rgb(162, 171, 253);</string>
    </property>
    <property name="text">
     <string>Monto</string>
@@ -163,7 +163,7 @@ background-color: rgb(215, 180, 254);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(215, 180, 254);</string>
+    <string notr="true">background-color: rgb(162, 171, 253);</string>
    </property>
    <property name="text">
     <string/>
