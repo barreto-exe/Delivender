@@ -64,7 +64,7 @@ void pantalla_principal::mostrarTienda(){
         QPushButton *boton = new QPushButton(this);
         boton->setFixedSize(btnSize);
         boton->setText(QString::fromStdString(p.producto.getNombre()));
-        boton->setStyleSheet("border: none; background-color: rgb(226, 226, 226); color: rgb(200, 162, 200); text-align: center; text-decoration: none; font-size:14px; font: 75 13pt \"Quicksand Bold\";");
+        boton->setStyleSheet("border: none; background-color: rgb(162, 171, 253); color: rgb(226, 226, 226); text-align: center; text-decoration: none; font-size:14px; font: 75 13pt \"Quicksand Bold\";");
         connect(boton, SIGNAL(clicked(bool)), this, SLOT(popupCantidad())); //conecta la señal cuando se presiona el boton a popupCantidad
         ui->productLayout->addWidget(boton,j,k,1,1);
         k++;

@@ -179,6 +179,9 @@ background-color: #00ffffff;
        <height>35</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 114, 98);</string>
+     </property>
      <property name="text">
       <string>Atras</string>
      </property>
@@ -214,6 +217,10 @@ color: rgb(0, 0, 0);</string>
        <width>83</width>
        <height>35</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 114, 98);
+color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
       <string>Siguiente</string>
@@ -339,7 +346,7 @@ color: rgb(0, 0, 0);</string>
       <font>
        <family>DejaVu Sans Mono</family>
        <pointsize>20</pointsize>
-       <weight>9</weight>
+       <weight>50</weight>
        <italic>false</italic>
        <bold>false</bold>
       </font>
@@ -584,7 +591,8 @@ background-color: rgba(255, 255, 255, 0);</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 114, 98);</string>
+      <string notr="true">background-color: rgb(255, 114, 98);
+color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
       <string>Atras</string>

@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: '#FFF';</string>
+   <string notr="true"/>
   </property>
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
@@ -30,7 +30,7 @@
    </property>
    <widget class="QWidget" name="inicio">
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 114, 98)</string>
+     <string notr="true"/>
     </property>
     <widget class="QTabWidget" name="tabWidget">
      <property name="geometry">
@@ -74,6 +74,10 @@
          <height>35</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 114, 98);
+color: rgb(255, 255, 255);</string>
+       </property>
        <property name="text">
         <string>Añadir Producto</string>
        </property>
@@ -86,6 +90,10 @@
          <width>121</width>
          <height>35</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(255, 114, 98);</string>
        </property>
        <property name="text">
         <string>Guardar</string>
@@ -114,7 +122,8 @@
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">font: 75 12pt &quot;Quicksand Medium&quot;;</string>
+        <string notr="true">font: 75 12pt &quot;Quicksand Medium&quot;;
+color: rgb(255, 114, 98);</string>
        </property>
        <property name="text">
         <string>Agregar nuevo metodo de pago</string>
@@ -135,6 +144,9 @@
          <height>35</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
        <property name="placeholderText">
         <string>Descripcion</string>
        </property>
@@ -144,12 +156,13 @@
         <rect>
          <x>30</x>
          <y>20</y>
-         <width>331</width>
+         <width>521</width>
          <height>31</height>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">font: 75 14pt &quot;Quicksand Medium&quot;;</string>
+        <string notr="true">font: 75 16pt &quot;Quicksand Medium&quot;;
+color: rgb(162, 171, 253);</string>
        </property>
        <property name="text">
         <string>Productos disponibles en almacen</string>
@@ -170,6 +183,9 @@
          <height>151</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
       </widget>
       <widget class="QLabel" name="label_4">
        <property name="geometry">
@@ -181,7 +197,8 @@
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">font: 75 14pt &quot;Quicksand Medium&quot;;</string>
+        <string notr="true">font: 75 14pt &quot;Quicksand Medium&quot;;
+color: rgb(255, 114, 98);</string>
        </property>
        <property name="text">
         <string>Metodos de pago</string>
@@ -235,6 +252,9 @@
       <zorder>label</zorder>
      </widget>
      <widget class="QWidget" name="solicitudes">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <attribute name="title">
        <string>Solicitudes</string>
       </attribute>
@@ -255,7 +275,7 @@
          <x>460</x>
          <y>50</y>
          <width>441</width>
-         <height>561</height>
+         <height>571</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="aprobadasLayout"/>
@@ -317,6 +337,24 @@ color: rgb(255, 114, 98);</string>
       <zorder>label_6</zorder>
      </widget>
     </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>900</width>
+       <height>680</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 114, 98);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <zorder>label_7</zorder>
+    <zorder>tabWidget</zorder>
    </widget>
    <widget class="QWidget" name="addProducto">
     <widget class="QLineEdit" name="nombreProd">
