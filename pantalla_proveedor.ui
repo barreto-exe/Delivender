@@ -48,7 +48,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="almacen">
       <attribute name="title">
@@ -264,9 +264,9 @@
        <property name="geometry">
         <rect>
          <x>90</x>
-         <y>10</y>
-         <width>251</width>
-         <height>21</height>
+         <y>0</y>
+         <width>261</width>
+         <height>41</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -280,10 +280,10 @@ color: rgb(255, 114, 98);</string>
       <widget class="QLabel" name="label_6">
        <property name="geometry">
         <rect>
-         <x>560</x>
-         <y>10</y>
-         <width>251</width>
-         <height>21</height>
+         <x>540</x>
+         <y>0</y>
+         <width>271</width>
+         <height>41</height>
         </rect>
        </property>
        <property name="styleSheet">
