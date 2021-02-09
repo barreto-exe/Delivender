@@ -27,7 +27,7 @@ void pantalla_transportista::cargarInfoTransp(){
         connect(widget,SIGNAL(entregada(solicitudWidget*)), this, SLOT(cambiarLayout(solicitudWidget*)));
     }
 
-    vector<Solicitud> realizadas = Global::db.listarEntregas();
+    vector<Solicitud> realizadas = Global::db.listarEntregasRealizadas();
     for(auto e : realizadas){
         ui->realizadasLayout->addWidget(new entregaWidget(this,&e,true));
     }

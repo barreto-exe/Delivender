@@ -96,7 +96,7 @@ class MySQLConnection
         vector <vehiculo_transportista> listarTransportistas();
         int actualizarInfoProducto(producto_cantidad producto);
         // Funciones para TRANSPORTISTAS
-        vector <Solicitud> listarEntregas();
+        vector <Solicitud> listarEntregasRealizadas();
         vector <Solicitud> listarEntregasPendientes();
         int realizarEntrega(Solicitud solicitud);
         // Funciones GENÉRICAS

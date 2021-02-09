@@ -715,9 +715,6 @@ vector <Vehiculo> MySQLConnection::instanciarVehiculos(const char *correo_transp
 {
     vector <Vehiculo> lista = vector <Vehiculo>();
 
-    if (!vistaProveedor())
-        return lista;
-
     sql::PreparedStatement *pstmt;
     sql::ResultSet *res;
 
@@ -1558,7 +1555,7 @@ int MySQLConnection::actualizarInfoProducto(producto_cantidad pxq)
 /**************************************************** FUNCIONES PARA TRANSPORTISTAS ****************************************************/
 
 // Listar entregas
-vector <Solicitud> MySQLConnection::listarEntregas()
+vector <Solicitud> MySQLConnection::listarEntregasRealizadas()
 {
     vector <Solicitud> lista = vector <Solicitud>();
 
@@ -1575,8 +1572,9 @@ vector <Solicitud> MySQLConnection::listarEntregas()
 
         for (std::size_t i = 0; i < transportista->getVehiculos().size(); i++)
         {
-            pstmt = con->prepareStatement("SELECT * FROM entregas WHERE placa_transportista = ?");
+            pstmt = con->prepareStatement("SELECT * FROM entregas WHERE placa_vehiculo = ? AND estatus = ?");
             pstmt->setString(1, transportista->getVehiculos()[i].getPLaca().c_str());
+            pstmt->setString(2, "entregado");
             res = pstmt->executeQuery();
             flag = 1;
 
@@ -1618,9 +1616,9 @@ vector <Solicitud> MySQLConnection::listarEntregasPendientes()
 
         for (std::size_t i = 0; i < transportista->getVehiculos().size(); i++)
         {
-            pstmt = con->prepareStatement("SELECT * FROM entregas WHERE placa_transportista = ? AND estatus = ?");
+            pstmt = con->prepareStatement("SELECT * FROM entregas WHERE placa_vehiculo = ? AND estatus = ?");
             pstmt->setString(1, transportista->getVehiculos()[i].getPLaca().c_str());
-            pstmt->setString(2, "pendiente");
+            pstmt->setString(2, "por entregar");
 
             res = pstmt->executeQuery();
             flag = 1;
@@ -1659,7 +1657,7 @@ int MySQLConnection::realizarEntrega(Solicitud solicitud)
 
         pstmt = con->prepareStatement("SELECT * FROM entregas WHERE id_solicitud = ? AND estatus = ?");
         pstmt->setInt(1, solicitud.getId());
-        pstmt->setString(2, "pendiente");
+        pstmt->setString(2, "por entregar");
 
         res = pstmt->executeQuery();
 
