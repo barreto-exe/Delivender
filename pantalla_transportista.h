@@ -2,6 +2,7 @@
 #define PANTALLA_TRANSPORTISTA_H
 
 #include <QWidget>
+#include <entregawidget.h>
 
 namespace Ui {
 class pantalla_transportista;
@@ -16,6 +17,7 @@ public:
     ~pantalla_transportista();
 public slots:
     void cargarInfoTransp();
+    void cambiarLayout(entregaWidget *widget);
 private:
     Ui::pantalla_transportista *ui;
 };

@@ -61,10 +61,12 @@ void pantalla_proveedor::cargarInfoProveedor(){
         ui->listaPago->addItem(QString::fromStdString(p));
     }
 }
+
 void pantalla_proveedor::cambiarLayout(solicitudWidget *widget){
     ui->aprobadasLayout->addWidget(widget);
     ui->solicLayout->removeWidget(widget);
 }
+
 void pantalla_proveedor::mostrarInfoProd(){
     QPushButton *boton = qobject_cast<QPushButton*>(sender()); //obtiene la info del boton del producto presionado
     Proveedor *proveedor= reinterpret_cast<Proveedor*>(Global::usuario);

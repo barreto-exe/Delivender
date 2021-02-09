@@ -19,6 +19,9 @@ public:
 private slots:
     void on_btnAceptar_clicked();
 
+signals:
+    void entregada(entregaWidget *widget);
+
 private:
     Ui::entregaWidget *ui;
     Solicitud solicitud;

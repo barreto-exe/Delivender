@@ -31,7 +31,7 @@ void entregaWidget::on_btnAceptar_clicked()
     QMessageBox msgBox;
     if(Global::db.realizarEntrega(solicitud)!=0){
         msgBox.setText("Se ha realizado la entrega!");
-        this->deleteLater();
+        emit entregada(this);
     } else {
         msgBox.setText("Intentelo nuevamente");
     }
